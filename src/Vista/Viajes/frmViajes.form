@@ -925,7 +925,7 @@
         <Component class="javax.swing.JButton" name="btnExcel">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Tahoma" size="11" style="1"/>
+              <Font name="Tahoma" size="10" style="1"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Excel Viajes"/>
           </Properties>
@@ -989,7 +989,7 @@
         <Component class="javax.swing.JButton" name="btnFacturaCancelada">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Tahoma" size="11" style="1"/>
+              <Font name="Tahoma" size="10" style="1"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Factura Cancelada"/>
           </Properties>
@@ -1005,7 +1005,7 @@
         <Component class="javax.swing.JButton" name="btnModificarOperador">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Tahoma" size="11" style="1"/>
+              <Font name="Tahoma" size="10" style="1"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Modificar Operadores"/>
           </Properties>

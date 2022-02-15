@@ -177,7 +177,8 @@ public class frmLiberacionFactura extends javax.swing.JInternalFrame {
         String numeroGuia = lblNumeroGuia.getText();
 
         if (lblEstatusFactura.getText().equalsIgnoreCase("facturado")) {
-            aux.mensaje("NO se puede canceladar una carta porte si ya tiene factura", "error");
+            aux.mensaje("No se puede canceladar una carta porte si ya tiene factura", "error");
+            return;
         }
 
         if (cboEstatusCartaPorte.getSelectedItem().equals("Confirmado")) {

@@ -622,7 +622,7 @@ public class frmViajes extends javax.swing.JInternalFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel2.add(lbltotalRegistros, gridBagConstraints);
 
-        btnExcel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnExcel.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         btnExcel.setText("Excel Viajes");
         btnExcel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -658,7 +658,7 @@ public class frmViajes extends javax.swing.JInternalFrame {
         });
         jPanel2.add(btnCancelacionViaje, new java.awt.GridBagConstraints());
 
-        btnFacturaCancelada.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnFacturaCancelada.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         btnFacturaCancelada.setText("Factura Cancelada");
         btnFacturaCancelada.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -667,7 +667,7 @@ public class frmViajes extends javax.swing.JInternalFrame {
         });
         jPanel2.add(btnFacturaCancelada, new java.awt.GridBagConstraints());
 
-        btnModificarOperador.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnModificarOperador.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         btnModificarOperador.setText("Modificar Operadores");
         btnModificarOperador.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1083,7 +1083,8 @@ public class frmViajes extends javax.swing.JInternalFrame {
         Principal.escritorio.add(liberacion);
         help.centrarPantalla(Principal.escritorio, liberacion);
         liberacion.show();
-        help.mensajeLateral("Se abrio el formulario completamente", "Pruebas", "aceptado");
+
+        
     }//GEN-LAST:event_btnLiberarActionPerformed
 
     private void btnCancelacionViajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelacionViajeActionPerformed
