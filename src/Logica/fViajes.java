@@ -117,9 +117,9 @@ public class fViajes extends crud {
             "No de viaje", "Codigo Area", "Unidad", "Fecha Cita",
             "Remolque 1", "Remolque 2", "Dolly", "id Asignacion", "Nombre Ruta", "Origen", "Destino", "EstadoOrigen", "EstadoDestino",
             "Sucursal", "Km", "Folio", "Numero de guia",
-            "Tarifa","Venta Total", "Tipo de Expedicion", "Nombre del operador", "Total viaticos", "Fecha de confirmacion viaticos",
+            "Tarifa", "Venta Total", "Tipo de Expedicion", "Nombre del operador", "Total viaticos", "Fecha de confirmacion viaticos",
             "Concepto de dispersion", "Condicional Pepsi", "Direccion", "Fecha de creacion",
-            "Numero de guia", "FolioComplemento", "Operacion", "Estatus", "Usuario Alta", "Venta Real", "Tipo cobro", "Factura", "Estatus de la factura","Horas Transcurridas",
+            "Numero de guia", "FolioComplemento", "Operacion", "Estatus", "Usuario Alta", "Venta Real", "Tipo cobro", "Factura", "Estatus de la factura", "Horas Transcurridas",
             "Estatus Carta Porte"
         };
 
@@ -177,7 +177,6 @@ public class fViajes extends crud {
                 registros[35] = rs.getString("EstatusFactura");
                 registros[36] = rs.getString("HorasTranscurridas");
                 registros[37] = rs.getString("EstatusCartaPorte");
-                
 
                 totalRegistros = totalRegistros + 1;
 
@@ -411,15 +410,14 @@ public class fViajes extends crud {
 
                 for (int i = 0; i < numCol; i++) {
                     Cell celda = filaDatos.createCell(i);
-                        
+
                     if (i == 0 || i == 1 || i == 18 || i == 19 || i == 22 || i == 23 || i == 43 || i == 32 || i == 23) {
-                        celda.setCellValue(rs.getInt(i+1));
-                    }else if(i == 3 || i == 4 || i == 33 || i == 37){
-                        celda.setCellValue(rs.getDate(i+1));
-                    }else{
-                        celda.setCellValue(rs.getString(i+1));
+                        celda.setCellValue(rs.getInt(i + 1));
+                    } else if (i == 3 || i == 4 || i == 33 || i == 37) {
+                        celda.setCellValue(rs.getDate(i + 1));
+                    } else {
+                        celda.setCellValue(rs.getString(i + 1));
                     }
-       
 
                 }
 
@@ -432,14 +430,13 @@ public class fViajes extends crud {
             archivo.close();
             File objetoFila = new File(nombreArchivo);
             Desktop.getDesktop().open(objetoFila);
-            
+
             try {
                 Thread.sleep(1000);
                 help.mensaje("Excel descagado saticfactoriamente !!! ", "Success");
             } catch (InterruptedException ex) {
                 Logger.getLogger(fViajes.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
 
         } catch (IOException e) {
             help.mensaje("error ", "Error");
@@ -475,61 +472,57 @@ public class fViajes extends crud {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    
-    public boolean liberacionCartaPorte(String numeroGuia,String estatusGuia, String prestamo){
-        
+    public boolean liberacionCartaPorte(String numeroGuia, String estatusGuia, String prestamo) {
+
         try {
-            
+
             CallableStatement cst = con.prepareCall("{call sp_ZEMOG_liberar_carta_porte(?,?,?)}");
             cst.setString(1, numeroGuia);
             cst.setString(2, estatusGuia);
-            cst.setString(3, prestamo); 
-            
+            cst.setString(3, prestamo);
+
             int nEjecucion = cst.executeUpdate();
-            
+
             if (nEjecucion != 0) {
                 return true;
-            }else{
+            } else {
                 return false;
             }
-            
-            
-            
+
         } catch (Exception e) {
 
-              help.mensajeLateral("Ocurrio un error al intentar actualizar el estatus de " + e.getMessage(), "Validacion denegada", "fallo");
-              return false;
+            help.mensajeLateral("Ocurrio un error al intentar actualizar el estatus de " + e.getMessage(), "Validacion denegada", "fallo");
+            return false;
         }
-        
-       
+
     }
-    
-    
-        public boolean cancelacion_Carta_Porte(int codigoArea,int numeroViaje, String estatusGuia,String prestamo,String comentarios,String estatusAnticipo,int estatusPedido,int estatusAsignacion){
-        
+
+    public boolean cancelacion_Carta_Porte(int codigoArea, int numeroViaje, String estatusGuia, String prestamo, String comentarios, String estatusAnticipo, int estatusPedido, int estatusAsignacion) {
+
         try {
-            
+
             CallableStatement cst = con.prepareCall("{call sp_ZEMOG_Cancelar_Carta_Porte(?,?,?,?,?,?,?,?)}");
             cst.setInt(1, codigoArea);
             cst.setInt(2, numeroViaje);
-            cst.setString(3, estatusGuia); 
-            cst.setString(4, prestamo); 
-            cst.setString(5, comentarios); 
-            cst.setString(6, estatusAnticipo); 
-            cst.setInt(7, estatusPedido); 
-            cst.setInt(8, estatusAsignacion); 
-            
+            cst.setString(3, estatusGuia);
+            cst.setString(4, prestamo);
+            cst.setString(5, comentarios);
+            cst.setString(6, estatusAnticipo);
+            cst.setInt(7, estatusPedido);
+            cst.setInt(8, estatusAsignacion);
+
             cst.executeUpdate();
 
             return true;
-            
+
         } catch (SQLException e) {
 
-              help.mensajeLateral("Ocurrio un error al intentar actualizar el estatus de " + e.getMessage(), "Validacion denegada", "fallo");
-              return false;
+            help.mensajeLateral("Ocurrio un error al intentar actualizar el estatus de " + e.getMessage(), "Validacion denegada", "fallo");
+            return false;
         }
-        
-       
+
     }
+
+    
     
 }

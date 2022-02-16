@@ -295,6 +295,7 @@ public class frmViajes extends javax.swing.JInternalFrame {
         btnModificarOperador = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         ListaDatos = new javax.swing.JTable();
+        btnInsertarPendientes = new javax.swing.JButton();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -716,6 +717,15 @@ public class frmViajes extends javax.swing.JInternalFrame {
         gridBagConstraints.weighty = 0.5;
         jPanel2.add(jScrollPane1, gridBagConstraints);
 
+        btnInsertarPendientes.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        btnInsertarPendientes.setText("Insertar viajes pendientes");
+        btnInsertarPendientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInsertarPendientesActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnInsertarPendientes, new java.awt.GridBagConstraints());
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -1084,7 +1094,7 @@ public class frmViajes extends javax.swing.JInternalFrame {
         help.centrarPantalla(Principal.escritorio, liberacion);
         liberacion.show();
 
-        
+
     }//GEN-LAST:event_btnLiberarActionPerformed
 
     private void btnCancelacionViajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelacionViajeActionPerformed
@@ -1116,30 +1126,34 @@ public class frmViajes extends javax.swing.JInternalFrame {
         unidades.setId_unidad(txtUnidad.getText());
         unidades.setCodigoArea(Integer.parseInt(txtCodigoRuta.getText()));
         unidades.setNumeroViaje(Integer.parseInt(txtNumeroViaje.getText()));
-        
+
         if (help.mensajeConfirmacion("Deseas actualizar el registros " + txtUnidad.getText()) != 1) {
-            
+
             help.mensajeLateral("Datos", "Unidad " + unidades.getId_unidad() + " Codigo Area " + unidades.getCodigoArea() + " Numero de viaje " + unidades.getNumeroViaje(), "pregunta");
 
-        if (uni.actualizarUnidad(unidades)) {
-            help.mensajeLateral("Actualizado", "Se actualizado correctamente el registro", "aceptado");
-            mostrar(txtBuscar.getText());
-        } else {
-            help.mensajeLateral("Error", "No se puedo actualizar el registro correctamente", "fallo");
-        }
-        
-        }
-        
+            if (uni.actualizarUnidad(unidades)) {
+                help.mensajeLateral("Actualizado", "Se actualizado correctamente el registro", "aceptado");
+                mostrar(txtBuscar.getText());
+            } else {
+                help.mensajeLateral("Error", "No se puedo actualizar el registro correctamente", "fallo");
+            }
 
+        }
 
 
     }//GEN-LAST:event_btnActualizarUnidadActionPerformed
 
     private void btnModificarOperadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarOperadorActionPerformed
-       
         
-        
+
     }//GEN-LAST:event_btnModificarOperadorActionPerformed
+
+    private void btnInsertarPendientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertarPendientesActionPerformed
+        frmViajesPendientes esc = new frmViajesPendientes();
+        Principal.escritorio.add(esc);
+        help.centrarPantalla(Principal.escritorio, esc);
+        esc.show();
+    }//GEN-LAST:event_btnInsertarPendientesActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1149,6 +1163,7 @@ public class frmViajes extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnConsultar;
     private javax.swing.JButton btnExcel;
     private javax.swing.JButton btnFacturaCancelada;
+    private javax.swing.JButton btnInsertarPendientes;
     private javax.swing.JButton btnLiberar;
     private javax.swing.JButton btnModificarOperador;
     private javax.swing.JButton btnUnidades;
