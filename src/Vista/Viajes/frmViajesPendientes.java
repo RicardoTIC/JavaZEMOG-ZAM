@@ -206,7 +206,7 @@ public class frmViajesPendientes extends javax.swing.JInternalFrame {
         
         if (cboMotivoError.getSelectedIndex() == 0) {
             auxiliar.mensajeLateral("Selecciona un dato", "Selecciona un motivo de error ", "error");
-
+            
             return;
         }
         if (cboEstatusPendientes.getSelectedIndex() == 0) {
@@ -221,6 +221,7 @@ public class frmViajesPendientes extends javax.swing.JInternalFrame {
         obj.setEstatusViajePendiente(cboEstatusPendientes.getSelectedItem().toString());
         obj.setNumeroViaje(numeroViaje);
         obj.setCodigoArea(codigoArea);
+        obj.setMotivoError(cboMotivoError.getSelectedItem().toString());
         obj.setComentarioError(txtComentarios.getText());
         obj.setAccion("1");
         

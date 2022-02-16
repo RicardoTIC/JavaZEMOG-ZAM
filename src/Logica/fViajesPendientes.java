@@ -87,7 +87,13 @@ public class fViajesPendientes {
 
             int n = cst.executeUpdate();
             
-            return true;
+            if (n>0) {
+                return true;
+            }else{
+                return false;
+            }
+            
+            
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
