@@ -8,6 +8,9 @@ package Vista.Viajes;
 import Helpers.Ayudas;
 import Logica.fViajesPendientes;
 import Modelo.ViajesPendientes;
+import java.awt.BorderLayout;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 /**
  *
@@ -23,9 +26,9 @@ public class frmViajesPendientes extends javax.swing.JInternalFrame {
         initComponents();
         mostrar("");
     }
-    
-    void mostrar(String buscar){
-       ListaViajesPendientes.setModel(func.showdata(buscar));  
+
+    void mostrar(String buscar) {
+        ListaViajesPendientes.setModel(func.showdata(buscar));
     }
 
     @SuppressWarnings("unchecked")
@@ -48,6 +51,7 @@ public class frmViajesPendientes extends javax.swing.JInternalFrame {
         ListaViajesPendientes = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         txtBuscar = new javax.swing.JTextField();
+        lblNumeroViaje = new javax.swing.JLabel();
 
         setTitle("Estatus Pendiente");
 
@@ -78,6 +82,11 @@ public class frmViajesPendientes extends javax.swing.JInternalFrame {
 
         btnActualizar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnActualizar.setText("Actualizar");
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnEliminar.setText("Eliminar");
@@ -108,6 +117,15 @@ public class frmViajesPendientes extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        ListaViajesPendientes.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+        JScrollPane pane = new JScrollPane(ListaViajesPendientes);
+        add(pane, BorderLayout.CENTER);
+        ListaViajesPendientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ListaViajesPendientesMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(ListaViajesPendientes);
 
         jLabel4.setText("Buscar :");
@@ -139,25 +157,31 @@ public class frmViajesPendientes extends javax.swing.JInternalFrame {
                                 .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(28, 28, 28)
                                 .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 531, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(21, 21, 21))
+                        .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 227, Short.MAX_VALUE)
+                        .addComponent(lblNumeroViaje, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(181, 181, 181))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane2)
+                        .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(cboEstatusPendientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4)
-                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblNumeroViaje, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2)
+                        .addComponent(cboEstatusPendientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel4)
+                        .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(16, 16, 16)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -196,17 +220,13 @@ public class frmViajesPendientes extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        
-        
+
         int numeroViaje = Integer.parseInt(frmViajes.txtNumeroViaje.getText());
         int codigoArea = Integer.parseInt(frmViajes.txtCodigoRuta.getText());
-        
-        
-        
-        
+
         if (cboMotivoError.getSelectedIndex() == 0) {
             auxiliar.mensajeLateral("Selecciona un dato", "Selecciona un motivo de error ", "error");
-            
+
             return;
         }
         if (cboEstatusPendientes.getSelectedIndex() == 0) {
@@ -217,44 +237,85 @@ public class frmViajesPendientes extends javax.swing.JInternalFrame {
             auxiliar.mensajeLateral("Comentarios", "Debes de ingresar un comentario", "error");
             return;
         }
-        
+
         obj.setEstatusViajePendiente(cboEstatusPendientes.getSelectedItem().toString());
         obj.setNumeroViaje(numeroViaje);
         obj.setCodigoArea(codigoArea);
         obj.setMotivoError(cboMotivoError.getSelectedItem().toString());
         obj.setComentarioError(txtComentarios.getText());
         obj.setAccion("1");
-        
+
         if (func.matenimiento(obj)) {
-            auxiliar.mensajeLateral("Registro Ingresado","Se inserto correctamente el registro " + obj.getNumeroViaje(),"aceptado");
+            auxiliar.mensajeLateral("Registro Ingresado", "Se inserto correctamente el registro " + obj.getNumeroViaje(), "aceptado");
             mostrar("");
-        }else{
+        } else {
             auxiliar.mensajeLateral("No se ingreso ningun registro", "Error no se ingreso ningun registro ", "error");
         }
-        
-       
-        
+
+
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        
+
         int numeroViaje = Integer.parseInt(frmViajes.txtNumeroViaje.getText());
         int codigoArea = Integer.parseInt(frmViajes.txtCodigoRuta.getText());
-        
+
         obj.setEstatusViajePendiente(cboEstatusPendientes.getSelectedItem().toString());
         obj.setNumeroViaje(numeroViaje);
         obj.setCodigoArea(codigoArea);
         obj.setComentarioError(txtComentarios.getText());
         obj.setAccion("3");
-        
+
         if (func.matenimiento(obj)) {
-            auxiliar.mensajeLateral("Registro Ingresado","Se inserto correctamente el registro " + obj.getNumeroViaje(),"aceptado");
+            auxiliar.mensajeLateral("Registro Ingresado", "Se inserto correctamente el registro " + obj.getNumeroViaje(), "aceptado");
             mostrar("");
-        }else{
+        } else {
             auxiliar.mensajeLateral("No se ingreso ningun registro", "Error no se ingreso ningun registro ", "error");
         }
-        
+
     }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        int numeroViaje = Integer.parseInt(frmViajes.txtNumeroViaje.getText());
+        int codigoArea = Integer.parseInt(frmViajes.txtCodigoRuta.getText());
+
+        
+        
+        obj.setEstatusViajePendiente(cboEstatusPendientes.getSelectedItem().toString());
+        obj.setNumeroViaje(numeroViaje);
+        obj.setSucursal(frmViajes.txtNombreCorto.getText());
+        obj.setCodigoArea(codigoArea);
+        obj.setComentarioError(txtComentarios.getText());
+        obj.setAccion("2");
+        
+        if (lblNumeroViaje.getText().length()> 0) {
+              auxiliar.mensaje("Actualizacion por seleccion", "informativo");
+        }
+        
+
+        if (func.matenimiento(obj)) {
+            auxiliar.mensajeLateral("Actualizado", "Se actualizo correctamente el registro " + obj.getNumeroViaje() + " : " + obj.getSucursal(), "aceptado");
+            mostrar("");
+        } else {
+            auxiliar.mensajeLateral("No se ingreso ningun registro", "Error no se ingreso ningun registro ", "error");
+        }
+    }//GEN-LAST:event_btnActualizarActionPerformed
+
+    private void ListaViajesPendientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ListaViajesPendientesMouseClicked
+        int fila  = ListaViajesPendientes.rowAtPoint(evt.getPoint());
+        
+        try {
+            
+            lblNumeroViaje.setText(ListaViajesPendientes.getValueAt(fila, 1).toString());
+            
+            txtComentarios.setText(ListaViajesPendientes.getValueAt(fila, 11).toString());
+            
+            
+        } catch (Exception e) {
+              auxiliar.mensaje("Error al seleccionar el datos", "error");
+        }
+        
+    }//GEN-LAST:event_ListaViajesPendientesMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -272,6 +333,7 @@ public class frmViajesPendientes extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblNumeroViaje;
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextArea txtComentarios;
     // End of variables declaration//GEN-END:variables
