@@ -8,6 +8,8 @@ package Vista;
 import Vista.Viajes.frmViajes;
 import Helpers.Ayudas;
 import Logica.fRutas;
+import Vista.Viajes.frmCambioRuta;
+import static Vista.Viajes.frmViajes.validacionformulario;
 import java.awt.BorderLayout;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -17,7 +19,7 @@ import javax.swing.JTable;
  * @author Ricardo Herrera
  */
 public class frmRutas extends javax.swing.JInternalFrame {
-
+    
     Helpers.Ayudas help = new Ayudas();
     fRutas ruta = new fRutas();
     
@@ -26,30 +28,28 @@ public class frmRutas extends javax.swing.JInternalFrame {
         
         if (frmViajes.txtNombreCorto.getText().length() == 0 || frmViajes.txtNombreCorto.getText() == null) {
             mostrar("");
-        }else{
+        } else {
             txtBuscar.setText(frmViajes.txtNombreCorto.getText());
             mostrar(frmViajes.txtNombreCorto.getText());
         }
         
-        
-        
     }
-
+    
     void mostrar(String buscar) {
-
+        
         ListaRutas.setModel(new Logica.fRutas().showdata(buscar));
         lbltotalRegistros.setText("Total de registros " + String.valueOf(ruta.totalRegistros));
         tamano_columna();
     }
-
+    
     void tamano_columna() {
-
+        
         ListaRutas.getColumnModel().getColumn(2).setMaxWidth(250);
         ListaRutas.getColumnModel().getColumn(2).setMinWidth(250);
         ListaRutas.getColumnModel().getColumn(2).setPreferredWidth(250);
-
+        
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -77,6 +77,7 @@ public class frmRutas extends javax.swing.JInternalFrame {
         lbltotalRegistros = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         txtBuscar = new javax.swing.JTextField();
+        lblcodigoArea = new javax.swing.JLabel();
 
         jButton1.setText("jButton1");
 
@@ -215,6 +216,8 @@ public class frmRutas extends javax.swing.JInternalFrame {
             }
         });
 
+        lblcodigoArea.setText("----");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -222,17 +225,17 @@ public class frmRutas extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 673, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addContainerGap())
+                        .addComponent(lbltotalRegistros)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbltotalRegistros)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(10, 406, Short.MAX_VALUE))))
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblcodigoArea)))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -240,7 +243,8 @@ public class frmRutas extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblcodigoArea))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -269,11 +273,11 @@ public class frmRutas extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ListaRutasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ListaRutasMouseClicked
-
+        
         try {
-
+            
             int fila = ListaRutas.rowAtPoint(evt.getPoint());
-
+            
             txtId.setText(ListaRutas.getValueAt(fila, 0).toString());
             txtSucursal.setText(ListaRutas.getValueAt(fila, 1).toString());
             txtNombreRuta.setText(ListaRutas.getValueAt(fila, 2).toString());
@@ -281,11 +285,12 @@ public class frmRutas extends javax.swing.JInternalFrame {
             txtCodigoRuta.setText(ListaRutas.getValueAt(fila, 4).toString());
             txtVentaSencillo.setText(ListaRutas.getValueAt(fila, 5).toString());
             txtMontoFull.setText(ListaRutas.getValueAt(fila, 6).toString());
-
+            lblcodigoArea.setText(ListaRutas.getValueAt(fila, 7).toString());
+            
         } catch (Exception e) {
             help.mensaje("Error al seleccionar la fila", "Error");
         }
-
+        
 
     }//GEN-LAST:event_ListaRutasMouseClicked
 
@@ -295,27 +300,37 @@ public class frmRutas extends javax.swing.JInternalFrame {
 
     private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarActionPerformed
         
+        if (validacionformulario) {
+            System.out.println(txtNombreRuta.getText());
+            frmCambioRuta.txtNombreRutaActual.setText(txtNombreRuta.getText());
+            frmCambioRuta.lblId_actual.setText(txtId.getText());
+            frmCambioRuta.txtSucursal.setText(txtSucursal.getText());
+            frmCambioRuta.lblCodigoArea.setText(lblcodigoArea.getText());
+            this.dispose();
+           
+            return;
+        }
         
         if (!txtSucursal.getText().equalsIgnoreCase(frmViajes.txtNombreCorto.getText())) {
             
             help.mensaje("No puedes ingresar esta ruta debido a que no conside con la sucursal del viaje alta de ruta", "Error");
-            return ;
+            return;
             
-        }else
-        
-        frmViajes.idrutas.setText(txtId.getText());
-        
+        } else {
+            frmViajes.idrutas.setText(txtId.getText());
+        }
         
         frmViajes.txtNombreRuta.setText(txtNombreRuta.getText());
+        
         this.dispose();
         
     }//GEN-LAST:event_btnEnviarActionPerformed
 
     private void ListaRutasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ListaRutasKeyPressed
-                    try {
-
+        try {
+            
             int fila = ListaRutas.getSelectedRow();
-
+            
             txtId.setText(ListaRutas.getValueAt(fila, 0).toString());
             txtSucursal.setText(ListaRutas.getValueAt(fila, 1).toString());
             txtNombreRuta.setText(ListaRutas.getValueAt(fila, 2).toString());
@@ -323,7 +338,8 @@ public class frmRutas extends javax.swing.JInternalFrame {
             txtCodigoRuta.setText(ListaRutas.getValueAt(fila, 4).toString());
             txtVentaSencillo.setText(ListaRutas.getValueAt(fila, 5).toString());
             txtMontoFull.setText(ListaRutas.getValueAt(fila, 6).toString());
-
+            lblcodigoArea.setText(ListaRutas.getValueAt(fila, 7).toString());
+            
         } catch (Exception e) {
             help.mensaje("Error al seleccionar la fila", "Error");
         }
@@ -345,10 +361,11 @@ public class frmRutas extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblcodigoArea;
     private javax.swing.JLabel lbltotalRegistros;
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtCodigoRuta;
-    private javax.swing.JTextField txtId;
+    public static javax.swing.JTextField txtId;
     private javax.swing.JTextField txtKilometros;
     private javax.swing.JTextField txtMontoFull;
     public static javax.swing.JTextField txtNombreRuta;

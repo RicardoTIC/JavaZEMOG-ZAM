@@ -36,11 +36,16 @@ public class ResumenKilometros extends javax.swing.JInternalFrame {
     }
 
     void mostrarPorOperacion(String fechainicio, String fechafinal, String operacion) {
+        try {
+            ListaResumen.setModel(func.resumenIndicadorOperacion(fechainicio, fechafinal, operacion));
+            lblkmCMT.setText("Total km CMT " + String.valueOf(func.total_kilometros));
+            lbltotalregistros.setText("Total registros " + String.valueOf(func.totalRegistros));
 
-        ListaResumen.setModel(func.resumenIndicadorOperacion(fechainicio, fechafinal, operacion));
-        lblkmCMT.setText("Total km CMT " + String.valueOf(func.total_kilometros));
-        lbltotalregistros.setText("Total registros " + String.valueOf(func.totalRegistros));
-        
+        } catch (Exception e) {
+            
+            help.mensajeLateral("Error", "NO se puedo generar el excel Timeout " + e.getMessage() , "error");
+        }
+
     }
 
     @SuppressWarnings("unchecked")

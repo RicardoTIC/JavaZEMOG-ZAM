@@ -10,7 +10,9 @@ import Helpers.crud;
 import Modelo.Operador;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
 
@@ -18,35 +20,33 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Ricardo Herrera
  */
-public class fOperadores extends crud<Operador>{
+public class fOperadores extends crud<Operador> {
 
     public int totalRegistros;
-    private Conexion sqlServer  = new Conexion();
-    private Connection con = sqlServer.conectar() ;
+    private Conexion sqlServer = new Conexion();
+    private Connection con = sqlServer.conectar();
     Ayudas help = new Ayudas();
-    
-    
-    
-        public DefaultTableModel showdata(String buscar , String sucursal,String activo ) {
-        
+
+    public DefaultTableModel showdata(String buscar, String sucursal, String activo) {
+
         try {
-            
-            DefaultTableModel modelo ;
-            
-            String [] columnas = {"id","Nombre","Puesto","Sucursal","Telefono","Tipo empleado","Estado","Estado L"};
-            String [] filas = new String[columnas.length];
-            
+
+            DefaultTableModel modelo;
+
+            String[] columnas = {"id", "Nombre", "Puesto", "Sucursal", "Telefono", "Tipo empleado", "Estado", "Estado L"};
+            String[] filas = new String[columnas.length];
+
             modelo = new DefaultTableModel(null, columnas);
-            
+
             CallableStatement cst = con.prepareCall("{call sp_ZEMOG_mostrarOperadores(?,?,?)}");
             cst.setString(1, buscar);
             cst.setString(2, sucursal);
             cst.setString(3, activo);
-            
+
             ResultSet rs = cst.executeQuery();
-            
-            while (rs.next()) {                
-                
+
+            while (rs.next()) {
+
                 filas[0] = rs.getString(1);
                 filas[1] = rs.getString(2);
                 filas[2] = rs.getString(3);
@@ -54,44 +54,40 @@ public class fOperadores extends crud<Operador>{
                 filas[4] = rs.getString(5);
                 filas[5] = rs.getString(6);
                 filas[6] = rs.getString(7);
-                totalRegistros +=1;
+                totalRegistros += 1;
                 modelo.addRow(filas);
-                
+
             }
-            
-            
+
             return modelo;
-            
-            
+
         } catch (Exception e) {
             help.mensaje("Error en el medotodo showData fOperadores ", "Error");
             return null;
         }
-       
+
     }
 
-    
-    
     @Override
     public DefaultTableModel showdata(String buscar) {
-        
+
         try {
-            
-            DefaultTableModel modelo ;
-            
-            String [] columnas = {"id","Nombre","Puesto","Sucursal","Telefono","Tipo empleado","Estado","Estado L"};
-            String [] filas = new String[columnas.length];
-            
+
+            DefaultTableModel modelo;
+
+            String[] columnas = {"id", "Nombre", "Puesto", "Sucursal", "Telefono", "Tipo empleado", "Estado", "Estado L"};
+            String[] filas = new String[columnas.length];
+
             modelo = new DefaultTableModel(null, columnas);
-            
+
             CallableStatement cst = con.prepareCall("{call sp_ZEMOG_mostrarOperadores(?,?)}");
-            
+
             cst.setString(1, buscar);
-            
+
             ResultSet rs = cst.executeQuery();
-            
-            while (rs.next()) {                
-                
+
+            while (rs.next()) {
+
                 filas[0] = rs.getString(1);
                 filas[1] = rs.getString(2);
                 filas[2] = rs.getString(3);
@@ -100,25 +96,25 @@ public class fOperadores extends crud<Operador>{
                 filas[5] = rs.getString(6);
                 filas[6] = rs.getString(7);
                 filas[7] = rs.getString(8);
-                totalRegistros +=1;
+                totalRegistros += 1;
                 modelo.addRow(filas);
-                
+
             }
-            
-            
+
             return modelo;
-            
-            
+
         } catch (Exception e) {
             help.mensaje("Error en el medotodo showData fOperadores ", "Error");
             return null;
         }
-       
+
     }
 
     @Override
     public boolean insert(Operador obj) {
+
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
     }
 
     @Override
@@ -128,9 +124,45 @@ public class fOperadores extends crud<Operador>{
 
     @Override
     public boolean update(Operador Obj) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+
+            CallableStatement cst = con.prepareCall("{call sp_ZEMOG_modificar_operador(?,?,?)}");
+            
+            cst.setInt(1, Obj.getNo_viaje());
+            cst.setInt(2, Obj.getCodigo_area());
+            cst.setInt(3, Obj.getId_operador());
+            
+            cst.executeUpdate();
+            
+            return true;
+
+        } catch (SQLException e) {
+            help.mensaje("Error en el medotodo update fOperadores ", "Error");
+            return false;
+        }
     }
 
+    public boolean updateOperator(Operador obj){
+        
+        System.out.println("Estado " + obj.getEstado() + " Id Personal "+ obj.getId_operador());
+        
+        try {
+            CallableStatement cst = con.prepareCall("{call sp_ZEMOG_actualizar_operador(?,?)}");
+            cst.setString(1, obj.getEstado());
+            cst.setInt(2, obj.getId_operador());
+            
+            cst.executeUpdate();
+            
+            return true;
+            
+        } catch (SQLException e) {
+            return false;
+        }
+        
+        
+    }
+    
+    
     @Override
     public DefaultListModel showListData(String buscar) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -150,5 +182,5 @@ public class fOperadores extends crud<Operador>{
     public DefaultTableModel showdataFordate(String fechaInicio, String fechafinal, String buscar) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }

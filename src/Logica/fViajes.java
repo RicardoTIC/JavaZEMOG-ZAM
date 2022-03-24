@@ -7,6 +7,8 @@ package Logica;
 
 import Helpers.Ayudas;
 import Helpers.crud;
+import Modelo.Ruta;
+import Vista.Viajes.frmBarraProgreso;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -16,10 +18,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.DefaultListModel;
+
 import javax.swing.table.DefaultTableModel;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -31,7 +34,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  *
  * @author Ricardo Herrera
  */
-public class fViajes extends crud {
+public class fViajes {
 
     private Conexion sqlServer = new Conexion();
     private Connection con = sqlServer.conectar();
@@ -42,7 +45,9 @@ public class fViajes extends crud {
     private Ayudas help = new Ayudas();
     public int total_kilometros = 0;
 
-    @Override
+    Ruta ruta = new Ruta();
+    frmBarraProgreso progreso = new frmBarraProgreso();
+
     public DefaultTableModel showdata(String buscar) {
 
         DefaultTableModel modelo;
@@ -110,7 +115,7 @@ public class fViajes extends crud {
 
     }
 
-    public DefaultTableModel showdataFordate(String fechaInicio, String fechafinal, String buscar) {
+    public DefaultTableModel showdataFordate(String fechaInicio, String fechafinal, String[] buscar) {
         DefaultTableModel modelo;
 
         String[] columnas = {
@@ -120,7 +125,7 @@ public class fViajes extends crud {
             "Tarifa", "Venta Total", "Tipo de Expedicion", "Nombre del operador", "Total viaticos", "Fecha de confirmacion viaticos",
             "Concepto de dispersion", "Condicional Pepsi", "Direccion", "Fecha de creacion",
             "Numero de guia", "FolioComplemento", "Operacion", "Estatus", "Usuario Alta", "Venta Real", "Tipo cobro", "Factura", "Estatus de la factura", "Horas Transcurridas",
-            "Estatus Carta Porte"
+            "Estatus Carta Porte", "Numero de Pedido", "Carta cobro"
         };
 
         String[] registros = new String[columnas.length];
@@ -129,70 +134,73 @@ public class fViajes extends crud {
 
         try {
 
-            CallableStatement cst = con.prepareCall("{call sp_ZEMOG_mostrarviajesZemog(?,?,?) }");
-            cst.setString(1, fechaInicio);
-            cst.setString(2, fechafinal);
-            cst.setString(3, buscar);
+            for (int i = 0; i < buscar.length; i++) {
+                
+                CallableStatement cst = con.prepareCall("{call sp_ZEMOG_mostrarviajesZemog(?,?,?) }");
+                cst.setString(1, fechaInicio);
+                cst.setString(2, fechafinal);
+                cst.setString(3, buscar[i]);
+                ResultSet rs = cst.executeQuery();
 
-            ResultSet rs = cst.executeQuery();
+                while (rs.next()) {
 
-            while (rs.next()) {
+                    registros[0] = rs.getString("NoViaje");
+                    registros[1] = rs.getString("id_area");
+                    registros[2] = rs.getString("Unidad");
+                    registros[3] = rs.getString("CitaCarga");
+                    registros[4] = rs.getString("Remolque1");
+                    registros[5] = rs.getString("Remolque2");
+                    registros[6] = rs.getString("Dolly");
+                    registros[7] = rs.getString("id_asignacion");
+                    registros[8] = rs.getString("Ruta");
+                    registros[9] = rs.getString("Origen");
+                    registros[10] = rs.getString("Destino");
+                    registros[11] = rs.getString("EstadoOrigen");
+                    registros[12] = rs.getString("EstadoDestino");
+                    registros[13] = rs.getString("Sucursal");
+                    registros[14] = rs.getString("kms");
+                    registros[15] = rs.getString("Folio");
+                    registros[16] = rs.getString("num_guia");
+                    registros[17] = rs.getString("flete");
+                    registros[18] = rs.getString("TotalVenta");
+                    registros[19] = rs.getString("Expedicion");
+                    registros[20] = rs.getString("NombreOperador1");
+                    registros[21] = rs.getString("TotalViaticos");
+                    registros[22] = rs.getString("FechaConfirmacionDispersion");
+                    registros[23] = rs.getString("ConceptosDispersion");
+                    registros[24] = rs.getString("CondicionalPepsi");
+                    registros[25] = rs.getString("Trayecto");
+                    registros[26] = rs.getString("FechaCreacion");
+                    registros[27] = rs.getString("no_guia");
+                    registros[28] = rs.getString("FolioComplemento");
+                    registros[29] = rs.getString("nombreCortoOperacion");
+                    registros[30] = rs.getString("Estatus");
+                    registros[31] = rs.getString("usuarioAlta");
+                    registros[32] = rs.getString("VentaReal");
+                    registros[33] = rs.getString("Tipo_Cobro");
+                    registros[34] = rs.getString("Factura");
+                    registros[35] = rs.getString("EstatusFactura");
+                    registros[36] = rs.getString("HorasTranscurridas");
+                    registros[37] = rs.getString("EstatusCartaPorte");
+                    registros[38] = rs.getString("numeroPedido");
+                    registros[39] = rs.getString("CartaCobro");
+                    
+                    totalRegistros = totalRegistros + 1;
 
-                registros[0] = rs.getString("NoViaje");
-                registros[1] = rs.getString("id_area");
-                registros[2] = rs.getString("Unidad");
-                registros[3] = rs.getString("CitaCarga");
-                registros[4] = rs.getString("Remolque1");
-                registros[5] = rs.getString("Remolque2");
-                registros[6] = rs.getString("Dolly");
-                registros[7] = rs.getString("id_asignacion");
-                registros[8] = rs.getString("Ruta");
-                registros[9] = rs.getString("Origen");
-                registros[10] = rs.getString("Destino");
-                registros[11] = rs.getString("EstadoOrigen");
-                registros[12] = rs.getString("EstadoDestino");
+                    modelo.addRow(registros);
+                }
 
-                registros[13] = rs.getString("Sucursal");
-                registros[14] = rs.getString("kms");
-                registros[15] = rs.getString("Folio");
-                registros[16] = rs.getString("num_guia");
-                registros[17] = rs.getString("flete");
-                registros[18] = rs.getString("TotalVenta");
-                registros[19] = rs.getString("Expedicion");
-                registros[20] = rs.getString("NombreOperador1");
-                registros[21] = rs.getString("TotalViaticos");
-                registros[22] = rs.getString("FechaConfirmacionDispersion");
-                registros[23] = rs.getString("ConceptosDispersion");
-                registros[24] = rs.getString("CondicionalPepsi");
-                registros[25] = rs.getString("Trayecto");
-                registros[26] = rs.getString("FechaCreacion");
-                registros[27] = rs.getString("no_guia");
-                registros[28] = rs.getString("FolioComplemento");
-                registros[29] = rs.getString("nombreCortoOperacion");
-                registros[30] = rs.getString("Estatus");
-                registros[31] = rs.getString("usuarioAlta");
-                registros[32] = rs.getString("VentaReal");
-                registros[33] = rs.getString("Tipo_Cobro");
-                registros[34] = rs.getString("Factura");
-                registros[35] = rs.getString("EstatusFactura");
-                registros[36] = rs.getString("HorasTranscurridas");
-                registros[37] = rs.getString("EstatusCartaPorte");
-
-                totalRegistros = totalRegistros + 1;
-
-                modelo.addRow(registros);
             }
 
             return modelo;
 
         } catch (SQLException e) {
-            help.mensaje("Error en la consulta fviajes", "Error");
+            help.mensaje("Error en la consulta fviajes " +e.getMessage(), "Error");
             return null;
         }
 
     }
 
-    @Override
     public DefaultTableModel resumenIndicador(String fechaInicio, String fechafinal) {
         DefaultTableModel modelo;
 
@@ -412,7 +420,7 @@ public class fViajes extends crud {
                     Cell celda = filaDatos.createCell(i);
 
                     if (i == 0 || i == 1 || i == 18 || i == 19 || i == 22 || i == 23 || i == 43 || i == 32 || i == 23) {
-                        celda.setCellValue(rs.getInt(i + 1));
+                        celda.setCellValue(rs.getDouble(i + 1));
                     } else if (i == 3 || i == 4 || i == 33 || i == 37) {
                         celda.setCellValue(rs.getDate(i + 1));
                     } else {
@@ -447,31 +455,6 @@ public class fViajes extends crud {
 
     }
 
-    @Override
-    public boolean insert(Object obj) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean delete(Object obj) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean update(Object Obj) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public DefaultListModel showListData(String buscar) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public DefaultTableModel showdataFordate(String fechaInicio, String fechafinal) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     public boolean liberacionCartaPorte(String numeroGuia, String estatusGuia, String prestamo) {
 
         try {
@@ -489,7 +472,7 @@ public class fViajes extends crud {
                 return false;
             }
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
 
             help.mensajeLateral("Ocurrio un error al intentar actualizar el estatus de " + e.getMessage(), "Validacion denegada", "fallo");
             return false;
@@ -497,11 +480,11 @@ public class fViajes extends crud {
 
     }
 
-    public boolean cancelacion_Carta_Porte(int codigoArea, int numeroViaje, String estatusGuia, String prestamo, String comentarios, String estatusAnticipo, int estatusPedido, int estatusAsignacion) {
+    public boolean cancelacion_Carta_Porte(int codigoArea, int numeroViaje, String estatusGuia, String prestamo, String comentarios, String estatusAnticipo, int estatusPedido, int estatusAsignacion, String cartaPorte,String accion) {
 
         try {
-
-            CallableStatement cst = con.prepareCall("{call sp_ZEMOG_Cancelar_Carta_Porte(?,?,?,?,?,?,?,?)}");
+            
+            CallableStatement cst = con.prepareCall("{call sp_ZEMOG_Cancelar_Carta_Porte(?,?,?,?,?,?,?,?,?,?)}");
             cst.setInt(1, codigoArea);
             cst.setInt(2, numeroViaje);
             cst.setString(3, estatusGuia);
@@ -510,18 +493,150 @@ public class fViajes extends crud {
             cst.setString(6, estatusAnticipo);
             cst.setInt(7, estatusPedido);
             cst.setInt(8, estatusAsignacion);
-
+            cst.setString(9, cartaPorte);
+            cst.setString(10, accion);
+            
             cst.executeUpdate();
 
             return true;
 
         } catch (SQLException e) {
-
-            help.mensajeLateral("Ocurrio un error al intentar actualizar el estatus de " + e.getMessage(), "Validacion denegada", "fallo");
             return false;
         }
 
     }
+
+    public List<Ruta> rutas(Ruta rut) {
+
+        try {
+            List<Ruta> lista = new ArrayList<>();
+
+            PreparedStatement pst = con.prepareCall("select id_ruta ,desc_ruta, kms_ruta from dbo.trafico_ruta where desc_ruta like '%" + rut.getNombreRuta() + "%'");
+            //pst.setString(1, rut.getNombreRuta());
+
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+
+                rut.setId_ruta(rs.getInt(1));
+                rut.setNombreRuta(rs.getString(2));
+                rut.setKmRuta(rs.getInt(3));
+
+                lista.add(rut);
+
+            }
+
+            return lista;
+
+        } catch (SQLException e) {
+
+            return null;
+        }
+
+    }
+
+    public boolean update_numero_pedido(String numeroPedido, String numeroGuia) {
+
+        try {
+
+            PreparedStatement pst = con.prepareCall("update dbo.trafico_guia set campo1=? where num_guia=?");
+            pst.setString(1, numeroPedido);
+            pst.setString(2, numeroGuia);
+
+            pst.executeUpdate();
+
+            return true;
+
+        } catch (SQLException e) {
+            return false;
+        }
+
+    }
+
+    public DefaultTableModel showDataCancel(String fechaInicio, String fechafinal, String[] buscar) {
+        DefaultTableModel modelo;
+
+        String[] columnas = {"FechaCita", "Unidad", "NumeroViaje", "Sucursal",
+            "CodigoArea", "EstatusDelViaje", "NumeroGuia", "Factura",
+            "EstatusCartaPorte", "FechaCancelacion", "Comentarios",
+            "EstatusGuia", "Folio", "NombreRuta", "Kilometros",
+            "EstatusPedido",
+            "Usuario Modifico",
+            "Venta"
+        };
+
+        Object[] registros = new String[columnas.length];
+ 
+        modelo = new DefaultTableModel(null, columnas);
+
+        try {
+
+            for (int i = 0; i < buscar.length; i++) {
+                
+                CallableStatement cts = con.prepareCall("{call sp_ZEMOG_mostrar_viajes_cancelados(?,?,?)}");
+                
+                cts.setString(1, fechaInicio);
+                cts.setString(2, fechafinal);
+                cts.setString(3, buscar[i]);
+
+                ResultSet rs = cts.executeQuery();
+
+                while (rs.next()) {
+
+                    registros[0] = rs.getString(1);
+                    registros[1] = rs.getString(2);
+                    registros[2] = rs.getString(3);
+                    registros[3] = rs.getString(4);
+                    registros[4] = rs.getString(5);
+                    registros[5] = rs.getString(6);
+                    registros[6] = rs.getString(7);
+                    registros[7] = rs.getString(8);
+                    registros[8] = rs.getString(9);
+                    registros[9] = rs.getString(10);
+                    registros[10] = rs.getString(11);
+                    registros[11] = rs.getString(12);
+                    registros[12] = rs.getString(13);
+                    registros[13] = rs.getString(14);
+                    registros[14] = rs.getString(15);
+                    registros[15] = rs.getString(16);
+                    registros[16] = rs.getString(17);
+                    registros[17] = rs.getString(18);
+
+                    modelo.addRow(registros);
+
+                }
+            }
+
+            return modelo;
+
+        } catch (SQLException e) {
+            return null;
+        }
+
+    }
+    
+    public String update_trafico_viaje(String estado, int num_viaje , int codigo_area){
+        
+        try {
+            
+            PreparedStatement cst = con.prepareCall("update dbo.trafico_viaje set status_viaje=? where no_viaje=? and id_area =? ");
+            cst.setString(1, estado);
+            cst.setInt(2, num_viaje);
+            cst.setInt(3, codigo_area);
+            
+            cst.execute();
+            
+            return "success";
+            
+            
+        } catch (SQLException e) {
+        
+            return "Error  " + e.getMessage();
+        }
+        
+    }
+    
+    
 
     
     

@@ -18,11 +18,16 @@ public class Busqueda_De_Viajes extends Thread {
 
     private String fechainiciales;
     private String fechafinales;
-    private String buscar;
+    private String []buscar;
 
     @Override
     public void run() {
-        func.showdataFordate(fechainiciales, fechafinales, buscar);
+        try {
+            func.showdataFordate(fechainiciales, fechafinales, buscar);
+        } catch (Exception e) {
+            System.out.println(""+e.getMessage());
+        }
+        
     }
 
 }

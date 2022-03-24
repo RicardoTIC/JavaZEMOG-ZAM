@@ -303,7 +303,7 @@ public class frmUnidades extends javax.swing.JInternalFrame {
             
         }
 
-        frmPowerUnidades.txtUnidad.setText(txtUnidad.getText());
+        //frmPowerUnidades.txtUnidad.setText(txtUnidad.getText());
         
         this.dispose();
         

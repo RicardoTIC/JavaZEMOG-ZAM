@@ -32,7 +32,7 @@ public class fRutas extends crud<Ruta> {
     public DefaultTableModel showdata(String buscar) {
         DefaultTableModel modelo;
 
-        String[] columnas = {"Id","Sucursal","Nombre Ruta","Km","Codigo Ruta","Monto Sencillo","Monto Full"};
+        String[] columnas = {"Id","Sucursal","Nombre Ruta","Km","Codigo Ruta","Monto Sencillo","Monto Full","Codigo ruta"};
 
         String[] registros = new String[columnas.length];
 
@@ -54,6 +54,7 @@ public class fRutas extends crud<Ruta> {
                 registros[4] = rs.getString(5);
                 registros[5] = rs.getString(6);
                 registros[6] = rs.getString(7);
+                registros[7] = rs.getString(8);
 
                 totalRegistros = totalRegistros + 1;
                 modelo.addRow(registros);

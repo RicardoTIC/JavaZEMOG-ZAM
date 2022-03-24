@@ -143,6 +143,7 @@ public class frmViaticos extends javax.swing.JInternalFrame {
         jLabel7.setText("Nombre ruta :");
 
         txtRuta.setColumns(20);
+        txtRuta.setLineWrap(true);
         txtRuta.setRows(5);
         jScrollPane2.setViewportView(txtRuta);
 

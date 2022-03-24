@@ -36,7 +36,6 @@ public class Excel extends Thread {
     @Override
     public void run() {
         func.cargarDB_Excel(fechainiciales, fechafinales, buscar);
-        
     }
 
     public String getFechainiciales() {

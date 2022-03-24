@@ -111,6 +111,8 @@ public class frmFacturas extends javax.swing.JInternalFrame {
         ListaFacturas = new javax.swing.JTable();
         txtBuscar = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        txtuuid = new javax.swing.JTextField();
 
         setClosable(true);
         setIconifiable(true);
@@ -336,6 +338,9 @@ public class frmFacturas extends javax.swing.JInternalFrame {
 
         jLabel16.setText("Buscar :");
 
+        jLabel17.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel17.setText("uuid :");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -348,7 +353,10 @@ public class frmFacturas extends javax.swing.JInternalFrame {
                         .addComponent(jLabel16)
                         .addGap(9, 9, 9)
                         .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(39, 39, 39)
+                        .addComponent(jLabel17)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtuuid)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -357,7 +365,9 @@ public class frmFacturas extends javax.swing.JInternalFrame {
                 .addGap(23, 23, 23)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel16))
+                    .addComponent(jLabel16)
+                    .addComponent(jLabel17)
+                    .addComponent(txtuuid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -404,6 +414,7 @@ public class frmFacturas extends javax.swing.JInternalFrame {
             txtErrorDescReseptor.setText(ListaFacturas.getValueAt(fila, 18).toString());
             txtcomentariosCancelacion.setText(ListaFacturas.getValueAt(fila, 14).toString());
             lblFactura.setText(ListaFacturas.getValueAt(fila, 30).toString());
+            txtuuid.setText(ListaFacturas.getValueAt(fila, 32).toString());
 
         } catch (Exception e) {
             System.out.println("Error al seleccionar una registro null " + e.getMessage());
@@ -449,6 +460,7 @@ public class frmFacturas extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -479,5 +491,6 @@ public class frmFacturas extends javax.swing.JInternalFrame {
     private javax.swing.JTextArea txtcomentariosCancelacion;
     private javax.swing.JTextField txthoratranscurridas;
     private javax.swing.JTextField txtidarea;
+    private javax.swing.JTextField txtuuid;
     // End of variables declaration//GEN-END:variables
 }

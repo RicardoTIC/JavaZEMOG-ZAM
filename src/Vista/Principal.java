@@ -8,9 +8,12 @@ package Vista;
 import Vista.Viajes.frmViajes;
 import Vista.Indicadores.ResumenKilometros;
 import Helpers.Ayudas;
+import Reportes.ImagenesFondo;
 import java.beans.PropertyVetoException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JDesktopPane;
+import javax.swing.JInternalFrame;
 
 /**
  *
@@ -20,6 +23,7 @@ public class Principal extends javax.swing.JFrame {
     Helpers.Ayudas help = new Ayudas();
     public Principal() {
         initComponents();
+        escritorio.setBorder(new ImagenesFondo());
         this.setExtendedState(MAXIMIZED_BOTH);
         this.setTitle("Pantalla Principal");
     }
@@ -40,6 +44,7 @@ public class Principal extends javax.swing.JFrame {
         Rutas = new javax.swing.JMenuItem();
         PowerZAM = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
+        BonoOperadores = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         contentMenuItem = new javax.swing.JMenuItem();
         aboutMenuItem = new javax.swing.JMenuItem();
@@ -51,6 +56,7 @@ public class Principal extends javax.swing.JFrame {
         fileMenu.setMnemonic('f');
         fileMenu.setText("Menu Principal");
 
+        HistoricoDeViajes.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         HistoricoDeViajes.setMnemonic('o');
         HistoricoDeViajes.setText("Historico de viajes");
         HistoricoDeViajes.addActionListener(new java.awt.event.ActionListener() {
@@ -60,6 +66,7 @@ public class Principal extends javax.swing.JFrame {
         });
         fileMenu.add(HistoricoDeViajes);
 
+        ResumenDeKilometros.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         ResumenDeKilometros.setMnemonic('s');
         ResumenDeKilometros.setText("Resumen de kilometros");
         ResumenDeKilometros.addActionListener(new java.awt.event.ActionListener() {
@@ -69,6 +76,7 @@ public class Principal extends javax.swing.JFrame {
         });
         fileMenu.add(ResumenDeKilometros);
 
+        exitMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         exitMenuItem.setMnemonic('x');
         exitMenuItem.setText("Salir");
         exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -127,6 +135,14 @@ public class Principal extends javax.swing.JFrame {
         });
         Sucursal.add(jMenuItem1);
 
+        BonoOperadores.setText("Bono de operadores");
+        BonoOperadores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BonoOperadoresActionPerformed(evt);
+            }
+        });
+        Sucursal.add(BonoOperadores);
+
         menuBar.add(Sucursal);
 
         helpMenu.setMnemonic('h');
@@ -169,12 +185,12 @@ public class Principal extends javax.swing.JFrame {
         
         help.centrarPantalla(escritorio, viajes);
         
-        try {
-            viajes.setMaximum(true);
-            
-        } catch (PropertyVetoException ex) {
-            System.out.println("Error");
-        }
+//        try {
+//            viajes.setMaximum(true);
+//            
+//        } catch (PropertyVetoException ex) {
+//            System.out.println("Error");
+//        }
         viajes.show();
                 
         
@@ -182,7 +198,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void ResumenDeKilometrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ResumenDeKilometrosActionPerformed
         ResumenKilometros frm = new ResumenKilometros();
-        
+       
         escritorio.add(frm);
         help.centrarPantalla(escritorio, frm);
         frm.show();
@@ -232,6 +248,15 @@ public class Principal extends javax.swing.JFrame {
         formularioSucursal.show();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void BonoOperadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BonoOperadoresActionPerformed
+        frmBonosOperadores frmOperadores = new frmBonosOperadores();
+        escritorio.add(frmOperadores);
+        help.centrarPantalla(escritorio, frmOperadores);
+        frmOperadores.show();
+        
+               
+    }//GEN-LAST:event_BonoOperadoresActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -240,10 +265,11 @@ public class Principal extends javax.swing.JFrame {
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+        Nimbus
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -268,6 +294,7 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem BonoOperadores;
     private javax.swing.JMenuItem HistoricoDeViajes;
     private javax.swing.JMenuItem Operadores;
     private javax.swing.JMenuItem PowerZAM;

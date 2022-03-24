@@ -1,9 +1,12 @@
 package Vista;
 
+import Helpers.Ayudas;
 import Vista.Viajes.frmViajes;
 import Logica.fOperadores;
 import Logica.fPowerZamUnidades;
 import Logica.fUnidades;
+import Modelo.Operador;
+import com.sun.org.apache.xml.internal.security.utils.HelperNodeList;
 import java.awt.BorderLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JScrollPane;
@@ -14,10 +17,11 @@ public class frmOperadores extends javax.swing.JInternalFrame {
     fOperadores funcionesOperadores = new fOperadores();
     fPowerZamUnidades funcUnidades = new fPowerZamUnidades();
     DefaultComboBoxModel modeloSucursal = new DefaultComboBoxModel(funcUnidades.comboSucursal());
-    
+    Helpers.Ayudas hp = new Ayudas();
+
     public frmOperadores() {
         initComponents();
-        mostrar("","","");
+        mostrar("", "", "");
         cboSucursal.setModel(modeloSucursal);
     }
 
@@ -34,14 +38,19 @@ public class frmOperadores extends javax.swing.JInternalFrame {
 
     }
 
-    void mostrar(String buscar,String sucursal,String activo) {
+    void mostrar(String buscar, String sucursal, String activo) {
+        try {
+            ListaOperadores.setModel(funcionesOperadores.showdata(buscar, sucursal, activo));
+            lblTotalRegistros.setText(String.valueOf(funcionesOperadores.totalRegistros));
+            funcionesOperadores.totalRegistros = 0;
+            ocultar_columnas();
+        } catch (Exception e) {
+        }
 
-        ListaOperadores.setModel(funcionesOperadores.showdata(buscar,sucursal,activo));
-        lblTotalRegistros.setText(String.valueOf(funcionesOperadores.totalRegistros));
-        
-        ocultar_columnas();
     }
-    void mostrar(){}
+
+    void mostrar() {
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -73,6 +82,8 @@ public class frmOperadores extends javax.swing.JInternalFrame {
         cboSucursal = new javax.swing.JComboBox<>();
         btnBuscar = new javax.swing.JButton();
         JCheckActivos = new javax.swing.JCheckBox();
+        CheckBoxActivo = new javax.swing.JCheckBox();
+        btnActualizar = new javax.swing.JButton();
 
         setClosable(true);
         setTitle("Empleados");
@@ -165,7 +176,25 @@ public class frmOperadores extends javax.swing.JInternalFrame {
 
         JCheckActivos.setBackground(new java.awt.Color(255, 255, 255));
         JCheckActivos.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        JCheckActivos.setSelected(true);
         JCheckActivos.setText("Activos");
+
+        CheckBoxActivo.setBackground(new java.awt.Color(255, 255, 255));
+        CheckBoxActivo.setSelected(true);
+        CheckBoxActivo.setText("Activar");
+        CheckBoxActivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CheckBoxActivoActionPerformed(evt);
+            }
+        });
+
+        btnActualizar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnActualizar.setText("Actualizar");
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -194,6 +223,8 @@ public class frmOperadores extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnBuscar)
+                        .addGap(34, 34, 34)
+                        .addComponent(btnActualizar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -212,59 +243,67 @@ public class frmOperadores extends javax.swing.JInternalFrame {
                             .addComponent(cboSucursal, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(JCheckActivos)))))
+                                .addComponent(JCheckActivos))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(CheckBoxActivo, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addComponent(JCheckActivos)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addComponent(JCheckActivos)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel10)
+                            .addComponent(cboSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblTotalRegistros)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel9)
+                                .addComponent(jLabel8)
+                                .addComponent(txtEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(txtidEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(47, 47, 47)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(txtNombreEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(35, 35, 35)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(44, 44, 44)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(txtNombreSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(39, 39, 39)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(34, 34, 34)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(txtTipoEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10)
-                    .addComponent(cboSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(lblTotalRegistros)
-                    .addComponent(jLabel8)
-                    .addComponent(txtEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addComponent(CheckBoxActivo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(btnBuscar))
+                    .addComponent(btnBuscar)
+                    .addComponent(btnActualizar))
                 .addGap(23, 23, 23))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtidEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(47, 47, 47)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txtNombreEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(35, 35, 35)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(44, 44, 44)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(txtNombreSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(39, 39, 39)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(34, 34, 34)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(txtTipoEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -282,30 +321,29 @@ public class frmOperadores extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
-        
+
         funcionesOperadores.totalRegistros = 0;
-        
-        if (JCheckActivos.isSelected()) mostrar(txtBuscar.getText(),"","A");
-        else
-        mostrar(txtBuscar.getText(),"","");
-        
+
+        if (JCheckActivos.isSelected()) {
+            mostrar(txtBuscar.getText(), "", "A");
+        } else {
+            mostrar(txtBuscar.getText(), "", "");
+        }
+
     }//GEN-LAST:event_txtBuscarKeyReleased
 
     private void ListaOperadoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ListaOperadoresMouseClicked
-        
+
         int fila = ListaOperadores.rowAtPoint(evt.getPoint());
-        
+
         txtidEmpleado.setText(ListaOperadores.getValueAt(fila, 0).toString());
         txtNombreEmpleado.setText(ListaOperadores.getValueAt(fila, 1).toString());
         txtDescripcion.setText(ListaOperadores.getValueAt(fila, 2).toString());
         txtNombreSucursal.setText(ListaOperadores.getValueAt(fila, 3).toString());
         txtTelefono.setText(ListaOperadores.getValueAt(fila, 4).toString());
         txtTipoEmpleado.setText(ListaOperadores.getValueAt(fila, 5).toString());
-        txtEstado.setText(ListaOperadores.getValueAt(fila, 7).toString());
-        
-        
-        
-        
+
+
     }//GEN-LAST:event_ListaOperadoresMouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -315,30 +353,80 @@ public class frmOperadores extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-       
+
         if (cboSucursal.getSelectedIndex() == 0) {
-            mostrar("", "","");
-        }else{
-            
+            mostrar("", "", "");
+        } else {
+
             if (JCheckActivos.isSelected()) {
-                mostrar(txtBuscar.getText(), cboSucursal.getSelectedItem().toString(),"A");
-            }else{
-                mostrar(txtBuscar.getText(), cboSucursal.getSelectedItem().toString(),"B");
+                mostrar(txtBuscar.getText(), cboSucursal.getSelectedItem().toString(), "A");
+            } else {
+                mostrar(txtBuscar.getText(), cboSucursal.getSelectedItem().toString(), "B");
             }
-            
+
         }
-            
-        
+
+
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void cboSucursalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cboSucursalMouseClicked
-         
+
     }//GEN-LAST:event_cboSucursalMouseClicked
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+
+        Operador op = new Operador();
+
+        if (txtidEmpleado.getText().length() <= 0) {
+
+            hp.mensaje("Debes selecciona una id de operador", "Informativo");
+            return;
+        }
+
+        op.setId_operador(Integer.parseInt(txtidEmpleado.getText()));
+
+        if (CheckBoxActivo.isSelected()) {
+
+            op.setEstado("A");
+            if (op.getEstado().equals("A")) {
+                op.setEstatus("Activo");
+            }
+
+        } else {
+            op.setEstado("B");
+            if (op.getEstado().equals("B")) {
+                op.setEstatus("Baja");
+            }
+        }
+
+        if (hp.mensajeConfirmacion("Deseas activara al operador " + txtNombreEmpleado.getText()) == 0) {
+
+            if (funcionesOperadores.updateOperator(op)) {
+                hp.mensajeLateral("Se actualizo correctamente a el operador " + txtNombreEmpleado.getText() + " Al estado " + op.getEstatus(), "Actualizado", "aceptado");
+            } else {
+                hp.mensajeLateral("No se actualizo correctamente el estado del operador " + txtNombreEmpleado.getText() + " # Empleado " + txtidEmpleado.getText(), "No se actualizado ", "error");
+            }
+        }
+
+
+    }//GEN-LAST:event_btnActualizarActionPerformed
+
+    private void CheckBoxActivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckBoxActivoActionPerformed
+        if (CheckBoxActivo.isSelected()) {
+            hp.mensaje("Activaste al operador", "Informativo");
+            CheckBoxActivo.setText("Activo");
+        }else{
+            hp.mensaje("Desactivaste", "Informativo");
+            CheckBoxActivo.setText("Inactivo");
+        }
+    }//GEN-LAST:event_CheckBoxActivoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox CheckBoxActivo;
     private javax.swing.JCheckBox JCheckActivos;
     private javax.swing.JTable ListaOperadores;
+    private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JComboBox<String> cboSucursal;
     private javax.swing.JButton jButton1;

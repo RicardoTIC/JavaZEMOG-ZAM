@@ -54,7 +54,9 @@ public class fFacturas {
             "fecha_solicitud_cancelacion",
             "desc_estatus_cancelacion",
             "status_cancel",
-            "qr SAT"
+            "qr SAT",
+            "Comentarios",
+            "uuid"
 
         };
 
@@ -64,7 +66,7 @@ public class fFacturas {
 
         try {
 
-            CallableStatement cst = con.prepareCall("{call sp_ZEMOG_facturas_canceladas(?) }");
+            CallableStatement cst = con.prepareCall("{call sp_ZEMOG_facturas_canceladas(?)}");
             cst.setString(1, factura);
 
             ResultSet rs = cst.executeQuery();
@@ -102,6 +104,8 @@ public class fFacturas {
                 registros[28] = rs.getString("desc_estatus_cancelacion");
                 registros[29] = rs.getString("status_cancel");
                 registros[30] = rs.getString("valor_qr");
+                registros[31] = rs.getString("comentarios");
+                registros[32] = rs.getString("uuid");
 
                 totalRegistros = totalRegistros + 1;
 

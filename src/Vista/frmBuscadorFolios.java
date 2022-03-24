@@ -62,7 +62,7 @@ public class frmBuscadorFolios extends javax.swing.JInternalFrame {
                             .addComponent(jLabel1)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(138, 138, 138)
+                        .addGap(152, 152, 152)
                         .addComponent(btnBuscar)))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
