@@ -119,10 +119,17 @@ public class fUnidades extends crud<Unidad> {
 
         try {
 
-            CallableStatement cst = con.prepareCall("{call sp_ZEMOG_actualizarTractor(?,?,?)}");
+            CallableStatement cst = con.prepareCall("{call sp_ZEMOG_actualizarTractor(?,?,?,?,?,?)}");
             cst.setString(1, eco.getId_unidad());
-            cst.setInt(2, eco.getNumeroViaje());
-            cst.setInt(3, eco.getCodigoArea());
+            cst.setString(2, eco.getId_remolque1());
+            cst.setString(3, eco.getId_remolque2());
+            cst.setString(4, eco.getId_dolly());
+            cst.setInt(5, eco.getNumeroViaje());
+            cst.setInt(6, eco.getCodigoArea());
+
+            System.out.println("Economico " + eco.getId_unidad() + " Remolque1 " + eco.getId_remolque1()
+                    + "\nRemolque2 " + eco.getId_remolque2() + " Dolly " + eco.getId_dolly() + "\nNumero de viaje " + eco.getNumeroViaje()
+                    + " Codigo de Area " + eco.getCodigoArea());
 
             int n = cst.executeUpdate();
 

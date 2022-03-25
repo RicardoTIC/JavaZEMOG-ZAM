@@ -4,8 +4,11 @@ import Vista.Viajes.frmViajes;
 import Helpers.Ayudas;
 import Logica.fUnidades;
 import Vista.Indicadores.ResumenUnidades;
+import java.awt.BorderLayout;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 public class frmUnidades extends javax.swing.JInternalFrame {
 
@@ -22,7 +25,7 @@ public class frmUnidades extends javax.swing.JInternalFrame {
 
     void mostrar(String buscar) {
 
-       ListaUnidades.setModel(func.showdata(buscar));
+        ListaUnidades.setModel(func.showdata(buscar));
 
     }
 
@@ -32,7 +35,18 @@ public class frmUnidades extends javax.swing.JInternalFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        ListaUnidades = new javax.swing.JTable();
+        ListaUnidades = new javax.swing.JTable(){
+
+            @Override
+            public boolean isCellEditable(int fila , int columnas){
+                if(columnas == 1){
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+
+        };
         jLabel1 = new javax.swing.JLabel();
         txtBuscardo = new javax.swing.JTextField();
         btnEnviar = new javax.swing.JButton();
@@ -52,6 +66,9 @@ public class frmUnidades extends javax.swing.JInternalFrame {
         txtModelo = new javax.swing.JTextField();
         txtPlacas = new javax.swing.JTextField();
         txtTipoUnidad = new javax.swing.JTextField();
+        CheckRemolque1 = new javax.swing.JCheckBox();
+        CheckRemolque2 = new javax.swing.JCheckBox();
+        jLabel10 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setClosable(true);
@@ -71,6 +88,9 @@ public class frmUnidades extends javax.swing.JInternalFrame {
 
             }
         ));
+        ListaUnidades.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        JScrollPane pane = new JScrollPane(ListaUnidades);
+        add(pane,BorderLayout.CENTER);
         ListaUnidades.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 ListaUnidadesMouseClicked(evt);
@@ -108,11 +128,11 @@ public class frmUnidades extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 936, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 716, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtBuscardo, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtBuscardo, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel9))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -123,7 +143,7 @@ public class frmUnidades extends javax.swing.JInternalFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(12, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtBuscardo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -138,18 +158,25 @@ public class frmUnidades extends javax.swing.JInternalFrame {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Detalle de datos"));
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel2.setText("Unidad :");
 
-        jLabel3.setText("Sucursal");
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel3.setText("Sucursal :");
 
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel4.setText("Numero de serie :");
 
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel5.setText("Modelo :");
 
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel6.setText("Placas :");
 
-        jLabel7.setText("Tarjeta Circulacion");
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel7.setText("Tarjeta Circulacion :");
 
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel8.setText("Tipo de unidad :");
 
         txtUnidad.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -163,43 +190,53 @@ public class frmUnidades extends javax.swing.JInternalFrame {
             }
         });
 
+        CheckRemolque1.setBackground(new java.awt.Color(255, 255, 255));
+        CheckRemolque1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        CheckRemolque1.setText("Remolque 1");
+
+        CheckRemolque2.setBackground(new java.awt.Color(255, 255, 255));
+        CheckRemolque2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        CheckRemolque2.setText("Remolque 2");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel3))
-                                .addGap(49, 49, 49)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addGap(21, 21, 21)
-                                .addComponent(txtTarjetaIAVE, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(92, 92, 92)
+                        .addGap(17, 17, 17)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel6)
-                                .addComponent(jLabel5))
-                            .addComponent(jLabel8))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtModelo)
-                            .addComponent(txtPlacas)
-                            .addComponent(txtTipoUnidad, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(25, 25, 25)
+                                .addComponent(txtNumeroSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txtSucursal, javax.swing.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
+                                .addComponent(txtUnidad))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtNumeroSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(264, Short.MAX_VALUE))
+                        .addGap(6, 6, 6)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel2))
+                        .addGap(25, 25, 25)
+                        .addComponent(txtTarjetaIAVE, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(92, 92, 92)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel6)
+                        .addComponent(jLabel5))
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(CheckRemolque2)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(txtModelo)
+                        .addComponent(txtPlacas)
+                        .addComponent(txtTipoUnidad, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE))
+                    .addComponent(CheckRemolque1))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -222,12 +259,19 @@ public class frmUnidades extends javax.swing.JInternalFrame {
                     .addComponent(jLabel7)
                     .addComponent(txtTarjetaIAVE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtTipoUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(15, 15, 15)
+                .addGap(14, 14, 14)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(txtNumeroSerie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(37, Short.MAX_VALUE))
+                    .addComponent(txtNumeroSerie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(CheckRemolque1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(CheckRemolque2)
+                .addContainerGap(39, Short.MAX_VALUE))
         );
+
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel10.setText("Unidades");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -235,14 +279,20 @@ public class frmUnidades extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -261,7 +311,7 @@ public class frmUnidades extends javax.swing.JInternalFrame {
         txtModelo.setText(ListaUnidades.getValueAt(fila, 3).toString());
         txtPlacas.setText(ListaUnidades.getValueAt(fila, 4).toString());
         txtTarjetaIAVE.setText(ListaUnidades.getValueAt(fila, 5).toString());
-
+        txtTipoUnidad.setText(ListaUnidades.getValueAt(fila, 6).toString());
 
     }//GEN-LAST:event_ListaUnidadesMouseClicked
 
@@ -279,34 +329,55 @@ public class frmUnidades extends javax.swing.JInternalFrame {
 
     private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarActionPerformed
 
-        if (frmViajes.validacionEnvio == 1) {
-            frmViajes.txtUnidad.setText(txtUnidad.getText());
+        String tipo = txtTipoUnidad.getText();
 
+        if (tipo.equalsIgnoreCase("Tractor")) {
+
+            frmViajes.txtUnidad.setText(txtUnidad.getText());
             this.dispose();
         }
-        
-        if (frmViajes.validacionEnvio == 2) {
+
+        if (tipo.equalsIgnoreCase("Dolly")) {
+            frmViajes.txtDolly.setText(txtUnidad.getText());
+            this.dispose();
+        }
+
+
+        if (CheckRemolque1.isSelected() && tipo.equalsIgnoreCase("Remolque")) {
             frmViajes.txtRemolque1.setText(txtUnidad.getText());
             this.dispose();
-            
         }
-        
-        if (frmViajes.validacionEnvio == 3) {
-            
+
+        if (CheckRemolque2.isSelected() && tipo.equalsIgnoreCase("Remolque")) {
             frmViajes.txtRemolque2.setText(txtUnidad.getText());
             this.dispose();
         }
-        
-        if (frmViajes.validacionEnvio == 4) {
-            frmViajes.txtDolly.setText(txtUnidad.getText());
-            this.dispose();
-            
-        }
 
+//        if (frmViajes.validacionEnvio == 1) {
+//            frmViajes.txtUnidad.setText(txtUnidad.getText());
+//            
+//            this.dispose();
+//        }
+//        
+//        if (frmViajes.validacionEnvio == 2) {
+//            frmViajes.txtRemolque1.setText(txtUnidad.getText());
+//            this.dispose();
+//            
+//        }
+//        
+//        if (frmViajes.validacionEnvio == 3) {
+//            
+//            frmViajes.txtRemolque2.setText(txtUnidad.getText());
+//            this.dispose();
+//        }
+//        
+//        if (frmViajes.validacionEnvio == 4) {
+//            frmViajes.txtDolly.setText(txtUnidad.getText());
+//            this.dispose();
+//            
+//        }
         //frmPowerUnidades.txtUnidad.setText(txtUnidad.getText());
-        
-        this.dispose();
-        
+
     }//GEN-LAST:event_btnEnviarActionPerformed
 
     private void txtUnidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUnidadActionPerformed
@@ -326,9 +397,12 @@ public class frmUnidades extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox CheckRemolque1;
+    private javax.swing.JCheckBox CheckRemolque2;
     private javax.swing.JTable ListaUnidades;
     private javax.swing.JButton btnEnviar;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
