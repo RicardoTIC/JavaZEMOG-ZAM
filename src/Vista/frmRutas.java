@@ -19,37 +19,50 @@ import javax.swing.JTable;
  * @author Ricardo Herrera
  */
 public class frmRutas extends javax.swing.JInternalFrame {
-    
+
     Helpers.Ayudas help = new Ayudas();
     fRutas ruta = new fRutas();
-    
+
     public frmRutas() {
         initComponents();
-        
-        if (frmViajes.txtNombreCorto.getText().length() == 0 || frmViajes.txtNombreCorto.getText() == null) {
-            mostrar("");
-        } else {
-            txtBuscar.setText(frmViajes.txtNombreCorto.getText());
-            mostrar(frmViajes.txtNombreCorto.getText());
-        }
-        
+        mostrar_informacion_nueva();
+
     }
-    
+
+    void mostrar_informacion_nueva() {
+        //El metodo nos sirve para poder visualizar la informacion de ruta dependiendo si nuestro formulario de viajes esta abuerto o no 
+        frmViajes frm = new frmViajes();
+        try {
+
+            if (frm.isShowing()) {
+                txtBuscar.setText(frmViajes.txtNombreCorto.getText());
+                mostrar(frmViajes.txtNombreCorto.getText());
+            }else{
+                mostrar("");
+            }
+
+
+        } catch (Exception e) {
+            help.mensaje("La tabla de datos esta vacia " + e.getMessage(), "Error");
+        }
+
+    }
+
     void mostrar(String buscar) {
-        
+
         ListaRutas.setModel(new Logica.fRutas().showdata(buscar));
         lbltotalRegistros.setText("Total de registros " + String.valueOf(ruta.totalRegistros));
         tamano_columna();
     }
-    
+
     void tamano_columna() {
-        
+
         ListaRutas.getColumnModel().getColumn(2).setMaxWidth(250);
         ListaRutas.getColumnModel().getColumn(2).setMinWidth(250);
         ListaRutas.getColumnModel().getColumn(2).setPreferredWidth(250);
-        
+
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -266,11 +279,11 @@ public class frmRutas extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ListaRutasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ListaRutasMouseClicked
-        
+
         try {
-            
+
             int fila = ListaRutas.rowAtPoint(evt.getPoint());
-            
+
             txtId.setText(ListaRutas.getValueAt(fila, 0).toString());
             txtSucursal.setText(ListaRutas.getValueAt(fila, 1).toString());
             txtNombreRuta.setText(ListaRutas.getValueAt(fila, 2).toString());
@@ -279,11 +292,11 @@ public class frmRutas extends javax.swing.JInternalFrame {
             txtVentaSencillo.setText(ListaRutas.getValueAt(fila, 5).toString());
             txtMontoFull.setText(ListaRutas.getValueAt(fila, 6).toString());
             lblcodigoArea.setText(ListaRutas.getValueAt(fila, 7).toString());
-            
+
         } catch (Exception e) {
             help.mensaje("Error al seleccionar la fila", "Error");
         }
-        
+
 
     }//GEN-LAST:event_ListaRutasMouseClicked
 
@@ -292,7 +305,7 @@ public class frmRutas extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtBuscarKeyReleased
 
     private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarActionPerformed
-        
+
         if (validacionformulario) {
             System.out.println(txtNombreRuta.getText());
             frmCambioRuta.txtNombreRutaActual.setText(txtNombreRuta.getText());
@@ -300,30 +313,30 @@ public class frmRutas extends javax.swing.JInternalFrame {
             frmCambioRuta.txtSucursal.setText(txtSucursal.getText());
             frmCambioRuta.lblCodigoArea.setText(lblcodigoArea.getText());
             this.dispose();
-           
+
             return;
         }
-        
+
         if (!txtSucursal.getText().equalsIgnoreCase(frmViajes.txtNombreCorto.getText())) {
-            
+
             help.mensaje("No puedes ingresar esta ruta debido a que no conside con la sucursal del viaje alta de ruta", "Error");
             return;
-            
+
         } else {
             frmViajes.idrutas.setText(txtId.getText());
         }
-        
+
         frmViajes.txtNombreRuta.setText(txtNombreRuta.getText());
-        
+
         this.dispose();
-        
+
     }//GEN-LAST:event_btnEnviarActionPerformed
 
     private void ListaRutasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ListaRutasKeyPressed
         try {
-            
+
             int fila = ListaRutas.getSelectedRow();
-            
+
             txtId.setText(ListaRutas.getValueAt(fila, 0).toString());
             txtSucursal.setText(ListaRutas.getValueAt(fila, 1).toString());
             txtNombreRuta.setText(ListaRutas.getValueAt(fila, 2).toString());
@@ -332,7 +345,7 @@ public class frmRutas extends javax.swing.JInternalFrame {
             txtVentaSencillo.setText(ListaRutas.getValueAt(fila, 5).toString());
             txtMontoFull.setText(ListaRutas.getValueAt(fila, 6).toString());
             lblcodigoArea.setText(ListaRutas.getValueAt(fila, 7).toString());
-            
+
         } catch (Exception e) {
             help.mensaje("Error al seleccionar la fila", "Error");
         }
