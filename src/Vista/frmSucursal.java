@@ -19,26 +19,26 @@ import static Vista.Viajes.frmViajes.validacionformulario;
 public class frmSucursal extends javax.swing.JInternalFrame {
 
     Logica.fSucursal func = new fSucursal();
-    
+
     public frmSucursal() {
         initComponents();
         btnEnviarCambioRuta.setVisible(false);
         if (validacionformulario) {
             btnEnviarCambioRuta.setVisible(true);
-            
+
         }
-        
+
         this.maximizable = true;
         mostrar("");
     }
-    
-    void mostrar(String buscar){
-        
-       listaSucursales.setModel(func.showdata(buscar));
-       lblTotalUnidades.setText(String.valueOf(func.totalRegistros));
-       
+
+    void mostrar(String buscar) {
+        func.totalRegistros = 0;
+        listaSucursales.setModel(func.showdata(buscar));
+        lblTotalUnidades.setText(String.valueOf(func.totalRegistros));
+
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -62,24 +62,29 @@ public class frmSucursal extends javax.swing.JInternalFrame {
         lblTotalUnidades.setText("--------");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Codigos de Area Sucursales", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 24))); // NOI18N
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel1.setText("Buscar :");
 
         txtBuscardor.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtBuscardorKeyReleased(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtBuscardorKeyTyped(evt);
+            }
         });
 
         listaSucursales.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
         listaSucursales.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -106,7 +111,7 @@ public class frmSucursal extends javax.swing.JInternalFrame {
                 .addComponent(lblSucursal)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblCodigoArea)
-                .addGap(82, 82, 82))
+                .addGap(33, 33, 33))
             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 626, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
@@ -119,11 +124,12 @@ public class frmSucursal extends javax.swing.JInternalFrame {
                     .addComponent(lblSucursal)
                     .addComponent(lblCodigoArea))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
-        btnEnviarCambioRuta.setText("Seleccionar");
+        btnEnviarCambioRuta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/outline_send_black_24dp.png"))); // NOI18N
+        btnEnviarCambioRuta.setText("Enviar");
         btnEnviarCambioRuta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEnviarCambioRutaActionPerformed(evt);
@@ -134,22 +140,23 @@ public class frmSucursal extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(lblTotalUnidades)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnEnviarCambioRuta)
+                .addComponent(btnEnviarCambioRuta, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblTotalUnidades)
-                    .addComponent(btnEnviarCambioRuta))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnEnviarCambioRuta, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblTotalUnidades, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap())
         );
 
         pack();
@@ -161,7 +168,7 @@ public class frmSucursal extends javax.swing.JInternalFrame {
 
     private void btnEnviarCambioRutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarCambioRutaActionPerformed
         int fila = listaSucursales.getSelectedRow();
-        
+
         frmCambioRuta.txtSucursal.setText(listaSucursales.getValueAt(fila, 1).toString());
         frmCambioRuta.lblCodigoArea.setText(listaSucursales.getValueAt(fila, 0).toString());
         this.dispose();
@@ -170,13 +177,16 @@ public class frmSucursal extends javax.swing.JInternalFrame {
     private void listaSucursalesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaSucursalesMouseClicked
 
         int fila = listaSucursales.getSelectedRow();
-        
+
         lblCodigoArea.setText(listaSucursales.getValueAt(fila, 0).toString());
         lblSucursal.setText(listaSucursales.getValueAt(fila, 1).toString());
-        
 
 
     }//GEN-LAST:event_listaSucursalesMouseClicked
+
+    private void txtBuscardorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscardorKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBuscardorKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

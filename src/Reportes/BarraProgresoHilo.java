@@ -33,6 +33,7 @@ public class BarraProgresoHilo extends Thread{
         try {
 
             for (int i = 0; i < 100; i++) {
+                
                 frmBarraProgreso.lblPorcentaje.setText(String.valueOf(i) + " % ");
                 progreso.jProgressBar1.setValue(i);
                 

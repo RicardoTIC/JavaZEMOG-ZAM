@@ -28,7 +28,7 @@ public class frmCancelacionDeviaje extends javax.swing.JInternalFrame {
         txtNumeroViaje.setText(frmViajes.txtNumeroViaje.getText());
         txtCodigoArea.setText(frmViajes.txtCodigoRuta.getText());
         txtNumeroGuia.setText(frmViajes.txtNumeroGuia.getText());
-
+        btnActualizarCancelacionviaje.setEnabled(false);
         if (lblCodigoArea.getText().length() <= 0 || lblNumeroViaje.getText().length() <= 0) {
             mostrar("", "");
         } else {
@@ -79,7 +79,7 @@ public class frmCancelacionDeviaje extends javax.swing.JInternalFrame {
         cboEstatusAsignacion = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
         cboEstatusPedido = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
+        btnActualizarCancelacionviaje = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
         txtNumeroGuia = new javax.swing.JTextField();
         checkManual = new javax.swing.JCheckBox();
@@ -133,7 +133,8 @@ public class frmCancelacionDeviaje extends javax.swing.JInternalFrame {
         lbltotalviatico.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lbltotalviatico.setText("-");
 
-        btnCancelar.setText("Cancelar");
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/outline_do_disturb_alt_black_24dp.png"))); // NOI18N
+        btnCancelar.setText("Cancelar viaje");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarActionPerformed(evt);
@@ -179,10 +180,11 @@ public class frmCancelacionDeviaje extends javax.swing.JInternalFrame {
 
         cboEstatusPedido.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona el estatus pedido", "Todos", "Capturado", "Asignado", "Entregado", "Cancelado", "En transito" }));
 
-        jButton1.setText("Actualizar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnActualizarCancelacionviaje.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/outline_sync_alt_black_24dp.png"))); // NOI18N
+        btnActualizarCancelacionviaje.setText("Actualizar");
+        btnActualizarCancelacionviaje.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnActualizarCancelacionviajeActionPerformed(evt);
             }
         });
 
@@ -211,31 +213,29 @@ public class frmCancelacionDeviaje extends javax.swing.JInternalFrame {
                     .addComponent(jLabel6))
                 .addGap(10, 10, 10)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtNumeroGuia, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(lblNumeroViaje, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblCodigoArea, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(cboEstatusGuia, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(cboEstatusAnticipo, javax.swing.GroupLayout.Alignment.LEADING, 0, 250, Short.MAX_VALUE)
+                                    .addComponent(cboPrestamo, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(cboEstatusAsignacion, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(cboEstatusPedido, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
+                                .addComponent(checkManual, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButton1)
+                                .addComponent(btnActualizarCancelacionviaje, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnCancelar))
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(429, 429, 429)
-                                .addComponent(lbltotalviatico, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(58, 58, 58)
-                                .addComponent(checkManual))))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(lblNumeroViaje, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblCodigoArea, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cboEstatusGuia, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cboEstatusAnticipo, javax.swing.GroupLayout.Alignment.LEADING, 0, 250, Short.MAX_VALUE)
-                        .addComponent(cboPrestamo, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cboEstatusAsignacion, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cboEstatusPedido, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(txtNumeroGuia, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(429, 429, 429)
+                        .addComponent(lbltotalviatico, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -268,7 +268,8 @@ public class frmCancelacionDeviaje extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(cboEstatusPedido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cboEstatusPedido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(checkManual))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -286,11 +287,10 @@ public class frmCancelacionDeviaje extends javax.swing.JInternalFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnCancelar)
-                            .addComponent(jButton1)
-                            .addComponent(checkManual))))
+                            .addComponent(btnActualizarCancelacionviaje))))
                 .addContainerGap())
         );
 
@@ -303,6 +303,7 @@ public class frmCancelacionDeviaje extends javax.swing.JInternalFrame {
 
         cboEstatusViaje.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona un estatus", "Cancelado", "Liquidado", "Pendiente", "Realizado", "Transito", "Liberado" }));
 
+        btnActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/outline_sync_alt_black_24dp.png"))); // NOI18N
         btnActualizar.setText("Actualizar");
         btnActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -333,7 +334,7 @@ public class frmCancelacionDeviaje extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnActualizar)
+                    .addComponent(jScrollPane3)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel12)
@@ -344,9 +345,13 @@ public class frmCancelacionDeviaje extends javax.swing.JInternalFrame {
                             .addComponent(cboEstatusViaje, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(txtNumeroViaje, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
-                                .addComponent(txtCodigoArea, javax.swing.GroupLayout.Alignment.LEADING))))
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(287, Short.MAX_VALUE))
+                                .addComponent(txtCodigoArea, javax.swing.GroupLayout.Alignment.LEADING)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(215, 215, 215)
+                .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(226, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -365,9 +370,9 @@ public class frmCancelacionDeviaje extends javax.swing.JInternalFrame {
                     .addComponent(cboEstatusViaje, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 135, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(btnActualizar)
-                .addGap(57, 57, 57))
+                .addContainerGap(151, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Trafico viaje", jPanel2);
@@ -382,7 +387,7 @@ public class frmCancelacionDeviaje extends javax.swing.JInternalFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 584, Short.MAX_VALUE)
+            .addGap(0, 571, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Trafico Guia", jPanel3);
@@ -397,7 +402,7 @@ public class frmCancelacionDeviaje extends javax.swing.JInternalFrame {
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 584, Short.MAX_VALUE)
+            .addGap(0, 571, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Desp_asignacion", jPanel4);
@@ -412,7 +417,7 @@ public class frmCancelacionDeviaje extends javax.swing.JInternalFrame {
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 584, Short.MAX_VALUE)
+            .addGap(0, 571, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Trafico_guia", jPanel5);
@@ -425,7 +430,7 @@ public class frmCancelacionDeviaje extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 599, Short.MAX_VALUE)
         );
 
         pack();
@@ -594,9 +599,9 @@ public class frmCancelacionDeviaje extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnActualizarCancelacionviajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarCancelacionviajeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnActualizarCancelacionviajeActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         ///Declaramos una varibale estado para definir el estatus del viaje
@@ -675,6 +680,7 @@ public class frmCancelacionDeviaje extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TablaTrafico;
     private javax.swing.JButton btnActualizar;
+    private javax.swing.JButton btnActualizarCancelacionviaje;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JComboBox<String> cboEstatusAnticipo;
     private javax.swing.JComboBox<String> cboEstatusAsignacion;
@@ -683,7 +689,6 @@ public class frmCancelacionDeviaje extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> cboEstatusViaje;
     private javax.swing.JComboBox<String> cboPrestamo;
     private javax.swing.JCheckBox checkManual;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

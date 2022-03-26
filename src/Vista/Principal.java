@@ -51,12 +51,24 @@ public class Principal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        javax.swing.GroupLayout escritorioLayout = new javax.swing.GroupLayout(escritorio);
+        escritorio.setLayout(escritorioLayout);
+        escritorioLayout.setHorizontalGroup(
+            escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 928, Short.MAX_VALUE)
+        );
+        escritorioLayout.setVerticalGroup(
+            escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 496, Short.MAX_VALUE)
+        );
+
         menuBar.setAutoscrolls(true);
 
         fileMenu.setMnemonic('f');
         fileMenu.setText("Menu Principal");
 
         HistoricoDeViajes.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        HistoricoDeViajes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/outline_calendar_month_black_24dp.png"))); // NOI18N
         HistoricoDeViajes.setMnemonic('o');
         HistoricoDeViajes.setText("Historico de viajes");
         HistoricoDeViajes.addActionListener(new java.awt.event.ActionListener() {
@@ -67,6 +79,7 @@ public class Principal extends javax.swing.JFrame {
         fileMenu.add(HistoricoDeViajes);
 
         ResumenDeKilometros.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        ResumenDeKilometros.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/outline_trending_down_black_24dp.png"))); // NOI18N
         ResumenDeKilometros.setMnemonic('s');
         ResumenDeKilometros.setText("Resumen de kilometros");
         ResumenDeKilometros.addActionListener(new java.awt.event.ActionListener() {
@@ -77,6 +90,7 @@ public class Principal extends javax.swing.JFrame {
         fileMenu.add(ResumenDeKilometros);
 
         exitMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        exitMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/outline_close_black_24dp.png"))); // NOI18N
         exitMenuItem.setMnemonic('x');
         exitMenuItem.setText("Salir");
         exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -91,6 +105,8 @@ public class Principal extends javax.swing.JFrame {
         Sucursal.setMnemonic('e');
         Sucursal.setText("Catalogos");
 
+        Unidades.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_MASK));
+        Unidades.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/outline_directions_bus_filled_black_24dp.png"))); // NOI18N
         Unidades.setMnemonic('t');
         Unidades.setText("Unidades");
         Unidades.setToolTipText("");
@@ -101,6 +117,8 @@ public class Principal extends javax.swing.JFrame {
         });
         Sucursal.add(Unidades);
 
+        Operadores.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        Operadores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/outline_groups_black_24dp.png"))); // NOI18N
         Operadores.setMnemonic('y');
         Operadores.setText("Operadores");
         Operadores.addActionListener(new java.awt.event.ActionListener() {
@@ -110,6 +128,8 @@ public class Principal extends javax.swing.JFrame {
         });
         Sucursal.add(Operadores);
 
+        Rutas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
+        Rutas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/outline_share_location_black_24dp.png"))); // NOI18N
         Rutas.setMnemonic('p');
         Rutas.setText("RutasSucursal");
         Rutas.addActionListener(new java.awt.event.ActionListener() {
@@ -119,6 +139,8 @@ public class Principal extends javax.swing.JFrame {
         });
         Sucursal.add(Rutas);
 
+        PowerZAM.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
+        PowerZAM.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/outline_directions_bus_filled_black_24dp.png"))); // NOI18N
         PowerZAM.setText("Unidades PowerZAM");
         PowerZAM.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -127,6 +149,8 @@ public class Principal extends javax.swing.JFrame {
         });
         Sucursal.add(PowerZAM);
 
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/outline_home_black_24dp.png"))); // NOI18N
         jMenuItem1.setText("Sucursal");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -135,6 +159,8 @@ public class Principal extends javax.swing.JFrame {
         });
         Sucursal.add(jMenuItem1);
 
+        BonoOperadores.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_COMMA, java.awt.event.InputEvent.CTRL_MASK));
+        BonoOperadores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/outline_groups_black_24dp.png"))); // NOI18N
         BonoOperadores.setText("Bono de operadores");
         BonoOperadores.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -152,6 +178,7 @@ public class Principal extends javax.swing.JFrame {
         contentMenuItem.setText("Contents");
         helpMenu.add(contentMenuItem);
 
+        aboutMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/outline_help_outline_black_24dp.png"))); // NOI18N
         aboutMenuItem.setMnemonic('a');
         aboutMenuItem.setText("About");
         helpMenu.add(aboutMenuItem);
@@ -164,11 +191,11 @@ public class Principal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(escritorio, javax.swing.GroupLayout.DEFAULT_SIZE, 928, Short.MAX_VALUE)
+            .addComponent(escritorio)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(escritorio, javax.swing.GroupLayout.DEFAULT_SIZE, 496, Short.MAX_VALUE)
+            .addComponent(escritorio)
         );
 
         pack();
