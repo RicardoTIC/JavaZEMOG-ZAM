@@ -6,7 +6,7 @@ import Logica.fOperadores;
 import Logica.fPowerZamUnidades;
 import Logica.fUnidades;
 import Modelo.Operador;
-import com.sun.org.apache.xml.internal.security.utils.HelperNodeList;
+
 import java.awt.BorderLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JScrollPane;

@@ -9,11 +9,13 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 
 /**
@@ -24,10 +26,10 @@ public class ImagenesFondo implements Border {
     public BufferedImage img;
     public ImagenesFondo(){
         try {
-            URL imagenPath = new URL(getClass().getResource("../Imagenes/fondo2.jpg").toString());
+            URL imagenPath = new URL(getClass().getResource("/Imagenes/fondo2.jpg").toString());
             img = ImageIO.read(imagenPath);
-        } catch (Exception ex) {
-            Logger.getLogger(ImagenesFondo.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
         }
         
     }

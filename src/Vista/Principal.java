@@ -9,6 +9,7 @@ import Vista.Viajes.frmViajes;
 import Vista.Indicadores.ResumenKilometros;
 import Helpers.Ayudas;
 import Reportes.ImagenesFondo;
+import Vistas.IniciarSesion;
 import java.beans.PropertyVetoException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -202,7 +203,9 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
-        System.exit(0);
+        IniciarSesion login = new IniciarSesion();
+        login.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_exitMenuItemActionPerformed
 
     private void HistoricoDeViajesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HistoricoDeViajesActionPerformed
