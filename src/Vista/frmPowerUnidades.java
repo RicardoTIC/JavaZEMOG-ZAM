@@ -31,8 +31,8 @@ public class frmPowerUnidades extends javax.swing.JInternalFrame {
     Logica.fPowerZamUnidades func = new fPowerZamUnidades();
     PowerZamUnidades pwo = new PowerZamUnidades();
     Helpers.Ayudas ayuda = new Ayudas();
-    DefaultComboBoxModel datos = new DefaultComboBoxModel(func.comboBoxEstatusUnidad());
-    DefaultComboBoxModel comboPepsi = new DefaultComboBoxModel(func.comboBoxEstatusUnidadPepsi());
+//    DefaultComboBoxModel datos = new DefaultComboBoxModel(func.comboBoxEstatusUnidad());
+//    DefaultComboBoxModel comboPepsi = new DefaultComboBoxModel(func.comboBoxEstatusUnidadPepsi());
     DefaultComboBoxModel comboSucursal = new DefaultComboBoxModel(func.comboSucursal());
     SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
     GregorianCalendar fechaInicial = new GregorianCalendar();
@@ -45,9 +45,9 @@ public class frmPowerUnidades extends javax.swing.JInternalFrame {
         initComponents();
         mostrar("");
 
-        cboEstatus.setModel(datos);
-        cboEstatusPepsi.setModel(comboPepsi);
-        cboSucursal.setModel(comboSucursal);
+//        cboEstatus.setModel(datos);
+//        cboEstatusPepsi.setModel(comboPepsi);
+//        cboSucursal.setModel(comboSucursal);
         deshabilitar();
         txtMontoRentaFija.setText("0");
         txtFechaInicio.setText(formatoFecha.format(fechaInicial.getTime()));
@@ -195,6 +195,10 @@ public class frmPowerUnidades extends javax.swing.JInternalFrame {
         };
         jLabel7 = new javax.swing.JLabel();
         txtBuscar = new javax.swing.JTextField();
+        cboPruebas = new javax.swing.JComboBox<>();
+        lblCodigoArea = new javax.swing.JLabel();
+        lblId_estatus = new javax.swing.JLabel();
+        lblid_estatus_pepsi = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
@@ -218,13 +222,13 @@ public class frmPowerUnidades extends javax.swing.JInternalFrame {
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel4.setText("Fecha Final :");
 
-        cboEstatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboEstatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona el estatus", "Titular con cuota", "Detenida por estrategia", "Backups", "Inactivo" }));
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel8.setText("Estatus :");
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel9.setText("E :status Pepsi");
+        jLabel9.setText("Estatus Pepsi :");
 
         txtUnidad.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -268,9 +272,33 @@ public class frmPowerUnidades extends javax.swing.JInternalFrame {
             }
         });
 
-        cboEstatusPepsi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboEstatusPepsi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona el estatus pepsi", "Especial", "Cervecero", "Fuera", "Dedicado" }));
 
-        cboSucursal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboSucursal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona la sucursal", "CCZ", "CCZD", "GEPP", "CMMD", "CMM", "CMG", "CMGD", "CMP", "CMT", "NGL", "CHH", "DGO", "CUL", "HMO", "CCT", "CMC", "JRZ", "ZCT", "QRO", "MTY" }));
+        cboSucursal.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cboSucursalItemStateChanged(evt);
+            }
+        });
+        cboSucursal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cboSucursalMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                cboSucursalMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                cboSucursalMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                cboSucursalMousePressed(evt);
+            }
+        });
+        cboSucursal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboSucursalActionPerformed(evt);
+            }
+        });
 
         btnResumen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/outline_leaderboard_black_24dp.png"))); // NOI18N
         btnResumen.setText("Resumen");
@@ -345,6 +373,14 @@ public class frmPowerUnidades extends javax.swing.JInternalFrame {
             }
         });
 
+        cboPruebas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Este es una prueba" }));
+
+        lblCodigoArea.setText("CodigoArea");
+
+        lblId_estatus.setText("id_estatus");
+
+        lblid_estatus_pepsi.setText("id_estatus_pepsi");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -366,14 +402,21 @@ public class frmPowerUnidades extends javax.swing.JInternalFrame {
                     .addComponent(jLabel14))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(cboIngresoXFlete, javax.swing.GroupLayout.Alignment.LEADING, 0, 189, Short.MAX_VALUE)
-                        .addComponent(cboIndTitular, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cboTipoCuota, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cboEstatusPepsi, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cboEstatus, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(cboSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(cboIngresoXFlete, javax.swing.GroupLayout.Alignment.LEADING, 0, 189, Short.MAX_VALUE)
+                            .addComponent(cboIndTitular, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cboTipoCuota, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cboEstatusPepsi, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cboEstatus, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblId_estatus)
+                            .addComponent(lblid_estatus_pepsi)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(cboSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblCodigoArea))
                     .addComponent(txtFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtFechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cboRazonDetenida, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -392,7 +435,10 @@ public class frmPowerUnidades extends javax.swing.JInternalFrame {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(btnEliminar)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(btnResumen))))
+                            .addComponent(btnResumen)))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(cboPruebas, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtUnidad, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)))
                 .addGap(40, 40, 40)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 681, Short.MAX_VALUE)
                 .addContainerGap())
@@ -412,7 +458,9 @@ public class frmPowerUnidades extends javax.swing.JInternalFrame {
                     .addComponent(jLabel7))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(40, 40, 40)
+                        .addGap(14, 14, 14)
+                        .addComponent(cboPruebas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(txtUnidad, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -421,7 +469,8 @@ public class frmPowerUnidades extends javax.swing.JInternalFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(cboSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel2))
+                                    .addComponent(jLabel2)
+                                    .addComponent(lblCodigoArea))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel3)
@@ -433,11 +482,13 @@ public class frmPowerUnidades extends javax.swing.JInternalFrame {
                                 .addGap(33, 33, 33))
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(cboEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel8)))
+                                .addComponent(jLabel8)
+                                .addComponent(lblId_estatus)))
                         .addGap(8, 8, 8)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
-                            .addComponent(cboEstatusPepsi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cboEstatusPepsi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblid_estatus_pepsi))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cboTipoCuota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -450,7 +501,7 @@ public class frmPowerUnidades extends javax.swing.JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel12)
                             .addComponent(cboIngresoXFlete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel13)
                             .addComponent(cbo_ind_rentaFija, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -504,23 +555,30 @@ public class frmPowerUnidades extends javax.swing.JInternalFrame {
 
     private void ListaUnidadesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ListaUnidadesMouseClicked
         btnGuardar.setText("Editar");
+        
+        int id = 0,id_estatus =0;
         habilitar();
         try {
             int fila = ListaUnidades.rowAtPoint(evt.getPoint());
-            
-            
-            
+
             txtUnidad.setText(ListaUnidades.getValueAt(fila, 2).toString()); //Unidad
             txtFechaInicio.setText(ListaUnidades.getValueAt(fila, 0).toString()); // Fecha Inicio
             txtFechaFinal.setText(ListaUnidades.getValueAt(fila, 1).toString());
-
+            id = Integer.parseInt(ListaUnidades.getValueAt(fila, 7).toString());
+            id_estatus = Integer.parseInt(ListaUnidades.getValueAt(fila, 8).toString());
+            lblId_estatus.setText(ListaUnidades.getValueAt(fila, 8).toString());
+            lblid_estatus_pepsi.setText(ListaUnidades.getValueAt(fila, 9).toString());
             
-            
+            cboSucursal.setSelectedItem(func.buscar_estatus_unidad_sucursal(id));
+            lblCodigoArea.setText(String.valueOf(func.buscar_codigo_area(cboSucursal.getSelectedItem().toString())));
+            cboTipoCuota.setSelectedItem(ListaUnidades.getValueAt(fila, 11).toString());
+            cboEstatus.setSelectedItem(func.buscar_estatus_unidad(id_estatus));
+            cboEstatusPepsi.setSelectedItem(ListaUnidades.getValueAt(fila, 6).toString());
             
         } catch (Exception e) {
             System.out.println("Error al seleccionar datos null " + e.getMessage());
         }
-
+        
 
     }//GEN-LAST:event_ListaUnidadesMouseClicked
 
@@ -725,6 +783,40 @@ public class frmPowerUnidades extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_btnEliminarActionPerformed
 
+    private void cboSucursalMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cboSucursalMousePressed
+        
+    }//GEN-LAST:event_cboSucursalMousePressed
+
+    private void cboSucursalMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cboSucursalMouseEntered
+  
+    }//GEN-LAST:event_cboSucursalMouseEntered
+
+    private void cboSucursalMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cboSucursalMouseExited
+        
+    }//GEN-LAST:event_cboSucursalMouseExited
+
+    private void cboSucursalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cboSucursalMouseClicked
+        
+    }//GEN-LAST:event_cboSucursalMouseClicked
+
+    private void cboSucursalItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboSucursalItemStateChanged
+
+       
+    }//GEN-LAST:event_cboSucursalItemStateChanged
+
+    private void cboSucursalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboSucursalActionPerformed
+        
+        int fila = ListaUnidades.getSelectedRow();
+        
+        
+        lblCodigoArea.setText(String.valueOf(func.buscar_codigo_area_nombre_sucursal(cboSucursal.getSelectedItem().toString())));
+        
+            
+        
+       
+        
+    }//GEN-LAST:event_cboSucursalActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable ListaUnidades;
@@ -736,6 +828,7 @@ public class frmPowerUnidades extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> cboEstatusPepsi;
     private javax.swing.JComboBox<String> cboIndTitular;
     private javax.swing.JComboBox<String> cboIngresoXFlete;
+    private javax.swing.JComboBox<String> cboPruebas;
     private javax.swing.JComboBox<String> cboRazonDetenida;
     private javax.swing.JComboBox<String> cboSucursal;
     private javax.swing.JComboBox<String> cboTipoCuota;
@@ -757,6 +850,9 @@ public class frmPowerUnidades extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblCodigoArea;
+    private javax.swing.JLabel lblId_estatus;
+    private javax.swing.JLabel lblid_estatus_pepsi;
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextArea txtComentario;
     private javax.swing.JTextField txtFechaFinal;

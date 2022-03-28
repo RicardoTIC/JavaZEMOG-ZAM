@@ -18,6 +18,7 @@ import java.util.Vector;
 import java.util.concurrent.Callable;
 import javax.swing.table.DefaultTableModel;
 import  Modelo.PowerZamUnidades;
+import java.util.List;
 /**
  *
  * @author Ricardo Herrera
@@ -208,8 +209,7 @@ public class fPowerZamUnidades {
         return modelo;
         
     }
-    
-    
+   
     public boolean deleteUnidad (PowerZamUnidades u){
     
         try {
@@ -275,5 +275,93 @@ public class fPowerZamUnidades {
         
         
     }
+    public int buscar_codigo_area(String base){
+        int codigo_area = 0;
+        try {
+            
+            PreparedStatement pst = con.prepareCall("select id_area from dbo.general_area where nombrecorto=?");
+            pst.setString(1, base);
+            
+            ResultSet rs = pst.executeQuery();
+            
+            if (rs.next()) {
+                codigo_area = rs.getInt("id_area");
+                return codigo_area;
+            }
+            
+        } catch (SQLException e) {
+            return 0;
+                    
+        }
+        return codigo_area;
+    }
+    
+    public String buscar_estatus_unidad(int id){
+        String valor = "";
+        try {
+            PreparedStatement pst = con.prepareCall("select peu.nombre_Estatus from dbo.powerzam_unidad pw join dbo.powerzam_estatus_unidad peu on peu.id_estatus = pw.id_estatus where pw.id_estatus = ?");
+            pst.setInt(1, id);
+            
+            ResultSet rs = pst.executeQuery();
+            
+            if (rs.next()) {
+                valor = rs.getString("nombre_Estatus");
+                return valor;
+            }
+            
+            
+        } catch (SQLException e) {
+            return valor;
+        }
+        return valor;
+    }
+    
+    public int buscar_codigo_area_nombre_sucursal(String suc){
+       // Evento se encarga de buscar el codigo area en base a la sucursal selecciona del cboSucursal del furmulario
+        int codigo_area = 0;
+        try {
+            
+            PreparedStatement pst = con.prepareCall("select a.id_area from dbo.powerzam_unidad pu join dbo.general_area a on a.id_area = pu.id_area where a.nombrecorto =?");
+            pst.setString(1, suc);
+            
+            ResultSet rs = pst.executeQuery();
+            
+            if (rs.next()) {
+                codigo_area = rs.getInt("id_area");
+                return codigo_area;
+                        
+            }
+            
+            
+        } catch (Exception e) {
+            return 0;
+        }
+        return codigo_area;
+        
+    }
+    
+    public String buscar_estatus_unidad_sucursal(int id){
+        String valor = "";
+        int codigoArea = 0;
+        try {
+            
+            PreparedStatement pst = con.prepareCall("select a.nombrecorto from dbo.powerzam_unidad pu join dbo.general_area a on a.id_area = pu.id_area where a.id_area ="+id);
+            
+            ResultSet rs = pst.executeQuery();
+            
+            if (rs.next()) {
+                valor = rs.getString("nombrecorto");
+                return valor;
+            }
+            
+            
+        } catch (SQLException e) {
+            return valor;
+        }
+        return valor;
+        
+    }
+    
+    
     
 }

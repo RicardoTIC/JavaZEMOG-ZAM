@@ -35,7 +35,7 @@ public class fViajesPendientes {
                 return valor;
             }
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
 
             return valor = "";
         }
@@ -199,5 +199,5 @@ public class fViajesPendientes {
         }
 
     }
-
+    
 }
