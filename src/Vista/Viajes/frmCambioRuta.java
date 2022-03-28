@@ -4,7 +4,7 @@ import Helpers.Ayudas;
 import Logica.fConvenios;
 import Modelo.Convenios;
 import Vista.Principal;
-import Vista.frmRutas;
+import Vista.Rutas.frmRutas;
 import Vista.frmSucursal;
 
 public class frmCambioRuta extends javax.swing.JInternalFrame {

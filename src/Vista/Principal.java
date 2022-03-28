@@ -5,6 +5,9 @@
  */
 package Vista;
 
+import Vista.Operadores.frmBonosOperadores;
+import Vista.Operadores.frmOperadores;
+import Vista.Rutas.frmRutas;
 import Vista.Viajes.frmViajes;
 import Vista.Indicadores.ResumenKilometros;
 import Helpers.Ayudas;

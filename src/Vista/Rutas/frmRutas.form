@@ -289,6 +289,7 @@
                 <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="ListaRutasKeyPressed"/>
               </Events>
               <AuxValues>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JTable(){&#xa;    @Override&#xa;    public boolean isCellEditable(int fila, int col){&#xa;        &#xa;        if(col == 1){&#xa;            return true;&#xa;        }else{&#xa;            return false;&#xa;        }&#xa;&#xa;    }&#xa;    &#xa;&#xa;}"/>
                 <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="ListaRutas.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);&#xa;&#xa;JScrollPane pane = new JScrollPane(ListaRutas);&#xa;add(pane, BorderLayout.CENTER);"/>
               </AuxValues>
             </Component>

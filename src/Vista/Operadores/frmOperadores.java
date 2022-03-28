@@ -1,4 +1,4 @@
-package Vista;
+package Vista.Operadores;
 
 import Helpers.Ayudas;
 import Vista.Viajes.frmViajes;
@@ -60,7 +60,17 @@ public class frmOperadores extends javax.swing.JInternalFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        ListaOperadores = new javax.swing.JTable();
+        ListaOperadores = new javax.swing.JTable(){
+
+            public boolean isCellEditable(int fila, int col){
+                if(col == 1){
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+
+        };
         jLabel1 = new javax.swing.JLabel();
         txtBuscar = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();

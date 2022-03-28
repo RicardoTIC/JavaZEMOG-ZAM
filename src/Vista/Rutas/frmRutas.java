@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Vista;
+package Vista.Rutas;
 
 import Vista.Viajes.frmViajes;
 import Helpers.Ayudas;
@@ -85,7 +85,19 @@ public class frmRutas extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         txtSucursal = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        ListaRutas = new javax.swing.JTable();
+        ListaRutas = new javax.swing.JTable(){
+            @Override
+            public boolean isCellEditable(int fila, int col){
+
+                if(col == 1){
+                    return true;
+                }else{
+                    return false;
+                }
+
+            }
+
+        };
         jLabel2 = new javax.swing.JLabel();
         txtBuscar = new javax.swing.JTextField();
         lbltotalRegistros = new javax.swing.JLabel();

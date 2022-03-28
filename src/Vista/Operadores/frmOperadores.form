@@ -200,6 +200,9 @@
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="ListaOperadoresMouseClicked"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JTable(){&#xa;    &#xa;    public boolean isCellEditable(int fila, int col){&#xa;        if(col == 1){&#xa;            return true;&#xa;        }else{&#xa;            return false;&#xa;        }&#xa;    }&#xa;&#xa;&#xa;}"/>
+              </AuxValues>
             </Component>
           </SubComponents>
         </Container>
