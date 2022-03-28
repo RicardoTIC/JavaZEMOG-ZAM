@@ -24,19 +24,18 @@ import java.util.Enumeration;
 public class Conexion {
 
     //Primero creamos las propiedades  de nuestra clase conexion 
-<<<<<<< HEAD
+
     //public String db = "zemog;";
     public String db = "zemogpruebas;";
     public String user = "Ricardo;";
-    // public String user = "Zemog;";
-=======
-    public String db = "zemog;";
+    // public String user = "Zemog;"
+    //public String db = "zemog;";
     //public String user = "Ricardo;";
-    public String user = "Zemog;";
->>>>>>> 93f6eca1a15212b689e9e98420a9a3bcddef4674
+    //public String user = "Zemog;";
+
     public String pass = "rhvjinzo101212;";
-    public String url = "jdbc:sqlserver://SRVJZZEMOG-03\\:1433;databaseName=" + db + "user=" + user + "password=" + pass;
-    //public String url = "jdbc:sqlserver://192.168.100.30\\:1433;databaseName=" + db + "user=" + user + "password=" + pass;
+    //public String url = "jdbc:sqlserver://SRVJZZEMOG-03\\:1433;databaseName=" + db + "user=" + user + "password=" + pass;
+    public String url = "jdbc:sqlserver://192.168.100.30\\:1433;databaseName=" + db + "user=" + user + "password=" + pass;
     private Ayudas help = new Ayudas();
 
     public Connection conectar() {

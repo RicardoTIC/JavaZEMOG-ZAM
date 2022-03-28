@@ -1,24 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1">
-        <file>
-            <url>src/Vista/Viajes/frmViajesCancelados.java</url>
-            <bookmark id="1">
-                <name/>
-                <line>28</line>
-                <key/>
-            </bookmark>
-        </file>
-    </editor-bookmarks>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/C:/Users/Ricardo/Documents/NetBeansProjects/JavaZEMOG-ZAM/src/Vista/frmPowerUnidades.java</file>
-=======
-            <file>file:/C:/Users/Ricardo%20Herrera/Documents/NetBeansProjects/ZEMOGZAM/src/Vista/Login/IniciarSesion.java</file>
-            <file>file:/C:/Users/Ricardo%20Herrera/Documents/NetBeansProjects/ZEMOGZAM/src/Vista/Viajes/frmViajes.java</file>
-            <file>file:/C:/Users/Ricardo%20Herrera/Documents/NetBeansProjects/ZEMOGZAM/src/Vista/Principal.java</file>
->>>>>>> 93f6eca1a15212b689e9e98420a9a3bcddef4674
+            <file>file:/C:/Users/Ricardo/Documents/NetBeansProjects/JavaZEMOG-ZAM/src/Vista/frmConsultaCartaPorte.java</file>
+            <file>file:/C:/Users/Ricardo/Documents/NetBeansProjects/JavaZEMOG-ZAM/src/Vista/Viajes/frmViajes.java</file>
         </group>
     </open-files>
 </project-private>

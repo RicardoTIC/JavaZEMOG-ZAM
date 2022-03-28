@@ -51,9 +51,7 @@ public class frmOperadores extends javax.swing.JInternalFrame {
 
     }
 
-    void mostrar() {
-    }
-
+  
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -388,6 +386,9 @@ public class frmOperadores extends javax.swing.JInternalFrame {
 
             if (funcionesOperadores.updateOperator(op)) {
                 hp.mensajeLateral("Se actualizo correctamente a el operador " + txtNombreEmpleado.getText() + " Al estado " + op.getEstatus(), "Actualizado", "aceptado");
+                //buscar, sucursal , estatus    
+                mostrar(txtNombreEmpleado.getText(),"", "");
+            
             } else {
                 hp.mensajeLateral("No se actualizo correctamente el estado del operador " + txtNombreEmpleado.getText() + " # Empleado " + txtidEmpleado.getText(), "No se actualizado ", "error");
             }

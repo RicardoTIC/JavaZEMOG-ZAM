@@ -184,10 +184,10 @@ public class frmViajes extends javax.swing.JInternalFrame {
     }
 
     public void mostarDetalladoFechasBuscardor(String fechainicio, String fechafinal, String[] buscar) {
-
+        String valor_Comparativo = "";
         ListaDatos.setModel(func.showdataFordate(fechainicio, fechafinal, buscar));
         tamano_columnas();
-
+        func.totalRegistros = 0;
         if (ListaDatos.getRowCount() == 0) {
             if (help.mensajeConfirmacion("No se encontro ningun registro deseas buscar en viajes cancelados ? ") == 0) {
 
@@ -198,11 +198,18 @@ public class frmViajes extends javax.swing.JInternalFrame {
 
             }
         }
+        valor_Comparativo = ListaDatos.getValueAt(0, 15).toString();
+        
 
-        /* if (ListaDatos.getValueAt(0, 13).equals(buscar)) {
-            ListaDatos.changeSelection(0, 13, false, false);
-            seleccionar_fial();
-        }*/
+        //Descontamos el tamano del arreglo. al arreglo principal para que siempre nos de 1 y solo seleccione uno
+        for (int i = 0; i < buscar.length - (buscar.length-1); i++) {
+            
+            if (valor_Comparativo.equalsIgnoreCase(buscar[i])) {
+                ListaDatos.changeSelection(0, 15, false, false);
+                seleccionar_fial();
+            }
+        }
+        
         lbltotalRegistros.setText("Total registros " + String.valueOf(func.totalRegistros));
         tamano_columnas();
     }
@@ -1585,7 +1592,7 @@ public class frmViajes extends javax.swing.JInternalFrame {
 
         Operador op = new Operador();
         String cadenaAux;
-        
+
         if (txtNumeroViaje.getText().length() <= 0) {
             help.mensaje("Ingresa un numero de viaje", "Informativo");
             return;
@@ -1605,21 +1612,21 @@ public class frmViajes extends javax.swing.JInternalFrame {
         op.setNo_viaje(Integer.parseInt(txtNumeroViaje.getText()));
         op.setId_operador(Integer.parseInt(lblIDOperadores.getText()));
         op.setNombreOperador(txtOperador.getText());
-        
-        cadenaAux = txtBuscar.getText();
-        
+
+        cadenaAux = txtBuscar.getText().trim();
+
         if (cadenaAux.length() <= 0) {
-            cadenaAux = txtfolio.getText();
+            cadenaAux = txtfolio.getText().trim();
         }
-        
+
         arregloUnidades = cadenaAux.split(" ");
-        
+
         if (help.mensajeConfirmacion("Deseas actualizar el registro " + op.getNombreOperador() + " Id Operador " + op.getId_operador()) != 1) {
 
             if (ope.update(op)) {
                 help.mensajeLateral("Modificacion  exitosa", "Se modifico correctamente el operador ", "aceptado");
-                 mostarDetalladoFechasBuscardor(formatoFecha.format(txtFechaInicio.getDate()), formatoFecha.format(txtFechaFinal.getDate()), arregloUnidades);
-                 
+                mostarDetalladoFechasBuscardor(formatoFecha.format(txtFechaInicio.getDate()), formatoFecha.format(txtFechaFinal.getDate()), arregloUnidades);
+
                 lblIDOperadores.setText("idOperador");
             } else {
                 help.mensajeLateral("Modificacion erronea", "No Se modifico correctamente el operador", "error");
@@ -1802,7 +1809,7 @@ public class frmViajes extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_CheckAvanzadoActionPerformed
 
     private void btnSeguimientoFacturasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeguimientoFacturasActionPerformed
-       
+
     }//GEN-LAST:event_btnSeguimientoFacturasActionPerformed
 
 
