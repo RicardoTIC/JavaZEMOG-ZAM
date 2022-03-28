@@ -137,10 +137,8 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="txtKilometros" min="-2" pref="198" max="-2" attributes="0"/>
                           <Component id="txtfolio" min="-2" pref="197" max="-2" attributes="0"/>
-                          <Group type="103" alignment="0" groupAlignment="0" attributes="0">
-                              <Component id="txtViatico" alignment="0" min="-2" pref="198" max="-2" attributes="0"/>
-                              <Component id="txtNombreCorto" alignment="0" min="-2" pref="198" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="txtViatico" alignment="0" min="-2" pref="198" max="-2" attributes="0"/>
+                          <Component id="txtNombreCorto" alignment="0" min="-2" pref="198" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="201" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">

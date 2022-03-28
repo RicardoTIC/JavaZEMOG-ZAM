@@ -19,11 +19,11 @@ public class Conexion {
 
     //Primero creamos las propiedades  de nuestra clase conexion 
     public String db = "zemog;";
-    public String user = "Ricardo;";
-   // public String user = "Zemog;";
+    //public String user = "Ricardo;";
+    public String user = "Zemog;";
     public String pass = "rhvjinzo101212;";
-    //public String url = "jdbc:sqlserver://SRVJZZEMOG-03\\:1433;databaseName=" + db + "user=" + user + "password=" + pass;
-    public String url = "jdbc:sqlserver://192.168.100.30\\:1433;databaseName=" + db + "user=" + user + "password=" + pass;
+    public String url = "jdbc:sqlserver://SRVJZZEMOG-03\\:1433;databaseName=" + db + "user=" + user + "password=" + pass;
+    //public String url = "jdbc:sqlserver://192.168.100.30\\:1433;databaseName=" + db + "user=" + user + "password=" + pass;
     private Ayudas help = new Ayudas();
 
     public Connection conectar() {
