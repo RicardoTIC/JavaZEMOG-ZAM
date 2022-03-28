@@ -67,6 +67,7 @@ public class frmViajes extends javax.swing.JInternalFrame {
         java.util.Timer timer = new java.util.Timer();
         timer.schedule(tiempo, 0, 1000);
         inhabilitar_cajas_busqueda_avazanda(false);
+        btnSeguimientoFacturas.setEnabled(false);
 
     }
 
@@ -1294,7 +1295,7 @@ public class frmViajes extends javax.swing.JInternalFrame {
 
             try {
 
-                cadenaPruebas = txtBuscar.getText();
+                cadenaPruebas = txtBuscar.getText().trim();
                 String[] cadenaArreglo = cadenaPruebas.split(" ");
                 NumeroRegistrosPegados.setText("Total registros consultado " + String.valueOf(cadenaArreglo.length));
                 lblEncontrado.setText("Total de registros encontrados " + String.valueOf(ListaDatos.getRowCount() - 2));

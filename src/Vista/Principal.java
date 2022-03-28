@@ -12,7 +12,8 @@ import Vista.Viajes.frmViajes;
 import Vista.Indicadores.ResumenKilometros;
 import Helpers.Ayudas;
 import Reportes.ImagenesFondo;
-import Vistas.IniciarSesion;
+import Vista.Login.IniciarSesion;
+import Vista.Viajes.frmBarraProgreso;
 import java.beans.PropertyVetoException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,7 +25,9 @@ import javax.swing.JInternalFrame;
  * @author Ricardo Herrera
  */
 public class Principal extends javax.swing.JFrame {
+
     Helpers.Ayudas help = new Ayudas();
+
     public Principal() {
         initComponents();
         escritorio.setBorder(new ImagenesFondo());
@@ -54,6 +57,11 @@ public class Principal extends javax.swing.JFrame {
         aboutMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         javax.swing.GroupLayout escritorioLayout = new javax.swing.GroupLayout(escritorio);
         escritorio.setLayout(escritorioLayout);
@@ -213,58 +221,59 @@ public class Principal extends javax.swing.JFrame {
 
     private void HistoricoDeViajesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HistoricoDeViajesActionPerformed
         frmViajes viajes = new frmViajes();
-        
+
         escritorio.add(viajes);
-        
+
         help.centrarPantalla(escritorio, viajes);
-        
-//        try {
-//            viajes.setMaximum(true);
-//            
-//        } catch (PropertyVetoException ex) {
-//            System.out.println("Error");
-//        }
+
+        try {
+            viajes.setMaximum(true);
+
+        } catch (PropertyVetoException ex) {
+            System.out.println("Error");
+        }
+
         viajes.show();
-                
-        
+
+
     }//GEN-LAST:event_HistoricoDeViajesActionPerformed
 
     private void ResumenDeKilometrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ResumenDeKilometrosActionPerformed
         ResumenKilometros frm = new ResumenKilometros();
-       
+
         escritorio.add(frm);
         help.centrarPantalla(escritorio, frm);
         frm.show();
-        
+
     }//GEN-LAST:event_ResumenDeKilometrosActionPerformed
 
     private void UnidadesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UnidadesActionPerformed
-       frmUnidades unidades = new frmUnidades();
-       
-       escritorio.add(unidades);
-       help.centrarPantalla(escritorio, unidades);
-       unidades.show();
+        frmUnidades unidades = new frmUnidades();
+
+        escritorio.add(unidades);
+        help.centrarPantalla(escritorio, unidades);
+        unidades.show();
     }//GEN-LAST:event_UnidadesActionPerformed
 
     private void OperadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OperadoresActionPerformed
-        
-        frmOperadores operadores  = new frmOperadores();
-        
+
+        frmOperadores operadores = new frmOperadores();
+
         escritorio.add(operadores);
-        
+
         help.centrarPantalla(escritorio, operadores);
         operadores.show();
-        
+
     }//GEN-LAST:event_OperadoresActionPerformed
 
     private void RutasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RutasActionPerformed
-        frmRutas rutas  = new frmRutas();
-        
+        frmRutas rutas = new frmRutas();
+
         escritorio.add(rutas);
         help.centrarPantalla(escritorio, rutas);
-        
+
         rutas.show();
-        
+
     }//GEN-LAST:event_RutasActionPerformed
 
     private void PowerZAMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PowerZAMActionPerformed
@@ -275,7 +284,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_PowerZAMActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        frmSucursal formularioSucursal  = new frmSucursal();
+        frmSucursal formularioSucursal = new frmSucursal();
         escritorio.add(formularioSucursal);
         help.centrarPantalla(escritorio, formularioSucursal);
         formularioSucursal.show();
@@ -286,9 +295,13 @@ public class Principal extends javax.swing.JFrame {
         escritorio.add(frmOperadores);
         help.centrarPantalla(escritorio, frmOperadores);
         frmOperadores.show();
-        
-               
+
+
     }//GEN-LAST:event_BonoOperadoresActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
