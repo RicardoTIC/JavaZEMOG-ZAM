@@ -9,6 +9,15 @@ public class Operador {
     private String nombreOperador;
     private String estado;
     private String estatus;
+    private String fecha_baja;
+
+    public String getFecha_baja() {
+        return fecha_baja;
+    }
+
+    public void setFecha_baja(String fecha_baja) {
+        this.fecha_baja = fecha_baja;
+    }
 
     public String getEstatus() {
         return estatus;

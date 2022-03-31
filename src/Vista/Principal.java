@@ -12,6 +12,7 @@ import Vista.Viajes.frmViajes;
 import Vista.Indicadores.ResumenKilometros;
 import Helpers.Ayudas;
 import Reportes.ImagenesFondo;
+import Vista.CartaPorte.frmCartaPorte;
 import Vista.Login.IniciarSesion;
 import Vista.Viajes.frmBarraProgreso;
 import java.beans.PropertyVetoException;
@@ -52,6 +53,8 @@ public class Principal extends javax.swing.JFrame {
         PowerZAM = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         BonoOperadores = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         contentMenuItem = new javax.swing.JMenuItem();
         aboutMenuItem = new javax.swing.JMenuItem();
@@ -183,6 +186,20 @@ public class Principal extends javax.swing.JFrame {
 
         menuBar.add(Sucursal);
 
+        jMenu1.setText("Vistas Avanzadas");
+
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/outline_text_snippet_black_24dp.png"))); // NOI18N
+        jMenuItem2.setText("Carta Porte");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem2);
+
+        menuBar.add(jMenu1);
+
         helpMenu.setMnemonic('h');
         helpMenu.setText("Help");
 
@@ -303,6 +320,17 @@ public class Principal extends javax.swing.JFrame {
 
     }//GEN-LAST:event_formWindowOpened
 
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        frmCartaPorte frm = new frmCartaPorte();
+        
+        escritorio.add(frm);
+        help.centrarPantalla(escritorio, frm);
+        frm.show();
+        
+        
+        
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -354,7 +382,9 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenu helpMenu;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuBar menuBar;
     // End of variables declaration//GEN-END:variables
 

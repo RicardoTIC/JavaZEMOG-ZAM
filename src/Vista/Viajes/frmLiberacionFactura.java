@@ -22,13 +22,14 @@ public class frmLiberacionFactura extends javax.swing.JInternalFrame {
 
     public frmLiberacionFactura() {
         initComponents();
+        
+        
         if (frmViajes.txtNumeroGuia.getText().length() == 0 || frmViajes.txtEstatusFactura.getText().length() == 0) {
             lblNumeroGuia.setText("Sin seleccion de numero guia");
             lblEstatus.setText("Sin estatus");
-
             lblNumeroGuia.setFont(new Font("Arial", Font.BOLD, 12));
         } else {
-
+            
             lblEstatus.setText(frmViajes.lblEstatusGuia.getText());
             lblNumeroGuia.setText(frmViajes.txtNumeroGuia.getText());
             lblEstatusFactura.setText(frmViajes.txtEstatusFactura.getText());
@@ -181,10 +182,10 @@ public class frmLiberacionFactura extends javax.swing.JInternalFrame {
                     .addComponent(lblEstatusFactura)
                     .addComponent(jLabel5))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnActualizar)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jCheckBoxForzarLiberacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jCheckBoxForzarLiberacion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnActualizar))
                 .addContainerGap())
         );
 

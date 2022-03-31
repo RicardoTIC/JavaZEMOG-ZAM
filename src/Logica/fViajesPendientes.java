@@ -30,7 +30,7 @@ public class fViajesPendientes {
             ResultSet rs = pst.executeQuery();
 
             if (rs.next()) {
-
+                
                 valor = rs.getString("estatusViajePendiente");
                 return valor;
             }

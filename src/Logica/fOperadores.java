@@ -27,6 +27,53 @@ public class fOperadores extends crud<Operador> {
     private Connection con = sqlServer.conectar();
     Ayudas help = new Ayudas();
 
+    public Operador buscar_informacion_operador(String nombre){
+        Operador valorEncontrado = new Operador();
+        try {
+            
+            PreparedStatement pst = con.prepareCall("SELECT CASE WHEN estado = 'A' THEN 'Activo' ELSE 'Inactivo' END estado, fecha_baja,nombre FROM personal_personal where nombre =?");
+            pst.setString(1, nombre);
+            
+            
+            ResultSet rs = pst.executeQuery();
+            
+            if (rs.next()) {
+                valorEncontrado.setEstado(rs.getString(1));
+                valorEncontrado.setFecha_baja(rs.getString(2));
+                valorEncontrado.setNombreOperador(rs.getString(3));
+            }
+            
+            return valorEncontrado;
+            
+        } catch (SQLException e) {
+            return null;
+        }
+        
+    }
+    
+    
+    public String buscar_estatus_operador(String nombreOperador){
+        String valorEncontrado = "";
+        try {
+            
+            PreparedStatement pst = con.prepareCall("SELECT CASE WHEN estado = 'A' THEN 'Activo' ELSE 'Inactivo' END estado FROM personal_personal where nombre =?");
+            pst.setString(1, nombreOperador);
+            
+            
+            ResultSet rs = pst.executeQuery();
+            
+            if (rs.next()) {
+                valorEncontrado = rs.getString(1);
+            }
+            
+            return valorEncontrado;
+            
+        } catch (SQLException e) {
+            return "No se encontro ningun estado de operador" + e.getMessage();
+        }
+        
+    }
+    
     public DefaultTableModel showdata(String buscar, String sucursal, String activo) {
 
         try {
