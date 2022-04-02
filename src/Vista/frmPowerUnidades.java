@@ -58,7 +58,7 @@ public class frmPowerUnidades extends javax.swing.JInternalFrame {
 
     void mostrar(String buscar) {
         ListaUnidades.setModel(func.mostrar(buscar));
-        
+
     }
 
     void deshabilitar() {
@@ -108,13 +108,12 @@ public class frmPowerUnidades extends javax.swing.JInternalFrame {
 
     void tamano_columnas() {
 
-        
         for (int i = 0; i < ListaUnidades.getColumnCount(); i++) {
             ListaUnidades.getColumnModel().getColumn(i).setMaxWidth(150);
             ListaUnidades.getColumnModel().getColumn(i).setPreferredWidth(150);
             ListaUnidades.getColumnModel().getColumn(i).setMaxWidth(150);
         }
-        
+
 //        ListaUnidades.getColumnModel().getColumn(0).setMinWidth(150);
 //        ListaUnidades.getColumnModel().getColumn(0).setPreferredWidth(150);
 //        ListaUnidades.getColumnModel().getColumn(0).setMaxWidth(150);
@@ -130,7 +129,6 @@ public class frmPowerUnidades extends javax.swing.JInternalFrame {
 //        ListaUnidades.getColumnModel().getColumn(5).setMinWidth(150);
 //        ListaUnidades.getColumnModel().getColumn(5).setPreferredWidth(150);
 //        ListaUnidades.getColumnModel().getColumn(5).setMaxWidth(150);
-
 //        ListaUnidades.getColumnModel().getColumn(0).setMaxWidth(0);
 //        ListaUnidades.getColumnModel().getColumn(0).setMinWidth(0);
 //        ListaUnidades.getColumnModel().getColumn(0).setPreferredWidth(0);
@@ -555,8 +553,8 @@ public class frmPowerUnidades extends javax.swing.JInternalFrame {
 
     private void ListaUnidadesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ListaUnidadesMouseClicked
         btnGuardar.setText("Editar");
-        
-        int id = 0,id_estatus =0;
+
+        int id = 0, id_estatus = 0;
         habilitar();
         try {
             int fila = ListaUnidades.rowAtPoint(evt.getPoint());
@@ -568,107 +566,107 @@ public class frmPowerUnidades extends javax.swing.JInternalFrame {
             id_estatus = Integer.parseInt(ListaUnidades.getValueAt(fila, 8).toString());
             lblId_estatus.setText(ListaUnidades.getValueAt(fila, 8).toString());
             lblid_estatus_pepsi.setText(ListaUnidades.getValueAt(fila, 9).toString());
-            
+
             cboSucursal.setSelectedItem(func.buscar_estatus_unidad_sucursal(id));
             lblCodigoArea.setText(String.valueOf(func.buscar_codigo_area(cboSucursal.getSelectedItem().toString())));
             cboTipoCuota.setSelectedItem(ListaUnidades.getValueAt(fila, 11).toString());
             cboEstatus.setSelectedItem(func.buscar_estatus_unidad(id_estatus));
             cboEstatusPepsi.setSelectedItem(ListaUnidades.getValueAt(fila, 6).toString());
-            
+
         } catch (Exception e) {
             System.out.println("Error al seleccionar datos null " + e.getMessage());
         }
-        
+
 
     }//GEN-LAST:event_ListaUnidadesMouseClicked
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
 
-        Sucursal sc = (Sucursal) cboSucursal.getSelectedItem();
-        EstatusUnidad eu = (EstatusUnidad) cboEstatus.getSelectedItem();
-        Estatus_Pepsi ep = (Estatus_Pepsi) cboEstatusPepsi.getSelectedItem();
-        SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        GregorianCalendar fechafinal = new GregorianCalendar(1900, 1, 0, 12, 59, 59);
-
-        if (cboSucursal.getSelectedIndex() == 0 || cboSucursal.getSelectedItem() == "Selecciona una Sucursal") {
-            ayuda.mensaje("Selecciona una sucursal ", "Informativo");
-            cboSucursal.requestFocus();
-            return;
-        }
-
-        if (txtUnidad.getText().length() == 0) {
-            ayuda.mensaje("Iingresa una unidad", "Informativo");
-            txtUnidad.requestFocus();
-            return;
-        }
-
-        if (txtFechaInicio.getText().length() == 0) {
-            ayuda.mensaje("Ingresa una fecha inicio ", "Informativo");
-            txtFechaFinal.requestFocus();
-            return;
-        }
-
-        if (cboTipoCuota.getSelectedIndex() == 0) {
-            ayuda.mensaje("Ingresa una tipo de cuota correcta k o m ", "Informativo");
-            cboTipoCuota.requestFocus();
-            return;
-        }
-
-        if (cboIndTitular.getSelectedIndex() == 0) {
-            ayuda.mensaje("Ingresa el estatus titular", "Informativo");
-            cboIndTitular.requestFocus();
-            return;
-        }
-
-        if (cboIngresoXFlete.getSelectedIndex() == 0) {
-            ayuda.mensaje("Ingresa el tipo de flete ", "Informativo");
-            cboIngresoXFlete.requestFocus();
-            return;
-        }
-
-        if (cbo_ind_rentaFija.getSelectedIndex() == 0) {
-            ayuda.mensaje("Ingresa el tipo de renta fija ", "Informativo");
-            cbo_ind_rentaFija.requestFocus();
-            return;
-        }
-        if (cbo_ind_rentaFija.getSelectedIndex() == 0) {
-            ayuda.mensaje("Ingresa el tipo de renta fija ", "Informativo");
-            cbo_ind_rentaFija.requestFocus();
-            return;
-        }
-
-        if (txtMontoRentaFija.getText().length() < 0) {
-            txtMontoRentaFija.setText(String.valueOf(0));
-        }
-
-        if (cboRazonDetenida.getSelectedIndex() == 0) {
-            ayuda.mensaje("Ingresa una razon de detencion", "Informativo");
-            cboRazonDetenida.requestFocus();
-            return;
-        }
-
-        if (cboEstatus.getSelectedIndex() == 0 || cboEstatus.getSelectedItem() == "Selecciona un estatus") {
-            ayuda.mensaje("Selecciona un estatus valido ", "Informativo");
-            cboEstatus.requestFocus();
-            return;
-        }
-        if (cboEstatusPepsi.getSelectedIndex() == 0 || cboEstatus.getSelectedItem() == "Selecciona un estatus") {
-            ayuda.mensaje("Selecciona un estatus valido ", "Informativo");
-            cboEstatusPepsi.requestFocus();
-            return;
-        }
-
-        if (txtComentario.getText().length() == 0) {
-            ayuda.mensaje("Ingresa un comentario para la unidad", "Informativo");
-            txtComentario.requestFocus();
-            return;
-        }
-
         try {
+            
+            
+            Sucursal sc = (Sucursal) cboSucursal.getSelectedItem();
+            EstatusUnidad eu = (EstatusUnidad) cboEstatus.getSelectedItem();
+            Estatus_Pepsi ep = (Estatus_Pepsi) cboEstatusPepsi.getSelectedItem();
+            SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            GregorianCalendar fechafinal = new GregorianCalendar(1900, 1, 0, 12, 59, 59);
 
-            
+            if (cboSucursal.getSelectedIndex() == 0 || cboSucursal.getSelectedItem() == "Selecciona una Sucursal") {
+                ayuda.mensaje("Selecciona una sucursal ", "Informativo");
+                cboSucursal.requestFocus();
+                return;
+            }
+
+            if (txtUnidad.getText().length() == 0) {
+                ayuda.mensaje("Iingresa una unidad", "Informativo");
+                txtUnidad.requestFocus();
+                return;
+            }
+
+            if (txtFechaInicio.getText().length() == 0) {
+                ayuda.mensaje("Ingresa una fecha inicio ", "Informativo");
+                txtFechaFinal.requestFocus();
+                return;
+            }
+
+            if (cboTipoCuota.getSelectedIndex() == 0) {
+                ayuda.mensaje("Ingresa una tipo de cuota correcta k o m ", "Informativo");
+                cboTipoCuota.requestFocus();
+                return;
+            }
+
+            if (cboIndTitular.getSelectedIndex() == 0) {
+                ayuda.mensaje("Ingresa el estatus titular", "Informativo");
+                cboIndTitular.requestFocus();
+                return;
+            }
+
+            if (cboIngresoXFlete.getSelectedIndex() == 0) {
+                ayuda.mensaje("Ingresa el tipo de flete ", "Informativo");
+                cboIngresoXFlete.requestFocus();
+                return;
+            }
+
+            if (cbo_ind_rentaFija.getSelectedIndex() == 0) {
+                ayuda.mensaje("Ingresa el tipo de renta fija ", "Informativo");
+                cbo_ind_rentaFija.requestFocus();
+                return;
+            }
+            if (cbo_ind_rentaFija.getSelectedIndex() == 0) {
+                ayuda.mensaje("Ingresa el tipo de renta fija ", "Informativo");
+                cbo_ind_rentaFija.requestFocus();
+                return;
+            }
+
+            if (txtMontoRentaFija.getText().length() < 0) {
+                txtMontoRentaFija.setText(String.valueOf(0));
+            }
+
+            if (cboRazonDetenida.getSelectedIndex() == 0) {
+                ayuda.mensaje("Ingresa una razon de detencion", "Informativo");
+                cboRazonDetenida.requestFocus();
+                return;
+            }
+
+            if (cboEstatus.getSelectedIndex() == 0 || cboEstatus.getSelectedItem() == "Selecciona un estatus") {
+                ayuda.mensaje("Selecciona un estatus valido ", "Informativo");
+                cboEstatus.requestFocus();
+                return;
+            }
+            if (cboEstatusPepsi.getSelectedIndex() == 0 || cboEstatus.getSelectedItem() == "Selecciona un estatus") {
+                ayuda.mensaje("Selecciona un estatus valido ", "Informativo");
+                cboEstatusPepsi.requestFocus();
+                return;
+            }
+
+            if (txtComentario.getText().length() == 0) {
+                ayuda.mensaje("Ingresa un comentario para la unidad", "Informativo");
+                txtComentario.requestFocus();
+                return;
+            }
+
             System.out.println(" Fecha Final " + txtFechaFinal.getText());
-            
+
             pwo.setId_area(sc.getId_area());
             pwo.setId_unidad((txtUnidad.getText()));
             pwo.setF_inicial(Date.valueOf(txtFechaInicio.getText()));
@@ -683,7 +681,6 @@ public class frmPowerUnidades extends javax.swing.JInternalFrame {
             pwo.setId_estatus_pepsi(ep.getId_estatus_pepsi());
             pwo.setComentarios(txtComentario.getText());
 
-
             if (func.insertarUnidad(pwo)) {
                 ayuda.mensaje("Registros ingresados correctamente", "Informativo");
                 limpiarCasillas();
@@ -692,7 +689,10 @@ public class frmPowerUnidades extends javax.swing.JInternalFrame {
             }
 
         } catch (NumberFormatException e) {
-            System.out.println("Error  " + e.getMessage());
+            ayuda.mensaje("Error en la" + getClass().getName() + " :" + e.getMessage(), title);
+        } catch (Exception ex) {
+
+            ayuda.mensaje("Error en la" + getClass().getName() + " :" + ex.getMessage(), title);
         }
 
 
@@ -752,14 +752,12 @@ public class frmPowerUnidades extends javax.swing.JInternalFrame {
                     return;
                 }
 
-
                 if (txtFechaInicio.getText().length() == 0) {
                     ayuda.mensaje("No puedes eliminar una unidad sin selecciona una fecha", "Informativo");
                     txtFechaInicio.requestFocus();
                     return;
                 }
 
-   
                 System.out.println("Area " + pwo.getId_area());
 
                 System.out.println("Unidad " + pwo.getId_unidad());
@@ -784,37 +782,33 @@ public class frmPowerUnidades extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void cboSucursalMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cboSucursalMousePressed
-        
+
     }//GEN-LAST:event_cboSucursalMousePressed
 
     private void cboSucursalMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cboSucursalMouseEntered
-  
+
     }//GEN-LAST:event_cboSucursalMouseEntered
 
     private void cboSucursalMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cboSucursalMouseExited
-        
+
     }//GEN-LAST:event_cboSucursalMouseExited
 
     private void cboSucursalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cboSucursalMouseClicked
-        
+
     }//GEN-LAST:event_cboSucursalMouseClicked
 
     private void cboSucursalItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboSucursalItemStateChanged
 
-       
+
     }//GEN-LAST:event_cboSucursalItemStateChanged
 
     private void cboSucursalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboSucursalActionPerformed
-        
+
         int fila = ListaUnidades.getSelectedRow();
-        
-        
+
         lblCodigoArea.setText(String.valueOf(func.buscar_codigo_area_nombre_sucursal(cboSucursal.getSelectedItem().toString())));
-        
-            
-        
-       
-        
+
+
     }//GEN-LAST:event_cboSucursalActionPerformed
 
 

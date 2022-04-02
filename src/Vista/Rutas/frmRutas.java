@@ -30,17 +30,17 @@ public class frmRutas extends javax.swing.JInternalFrame {
     }
 
     void mostrar_informacion_nueva() {
-        //El metodo nos sirve para poder visualizar la informacion de ruta dependiendo si nuestro formulario de viajes esta abuerto o no 
+        //El metodo nos sirve para poder visualizar la informacion de ruta dependiendo si nuestro formulario de viajes esta abierto o no 
         frmViajes frm = new frmViajes();
         try {
 
-            if (frm.isShowing()) {
+            if (frmViajes.txtNombreCorto.getText().equalsIgnoreCase("")) {
+                mostrar("");
+
+            } else {
                 txtBuscar.setText(frmViajes.txtNombreCorto.getText());
                 mostrar(frmViajes.txtNombreCorto.getText());
-            }else{
-                mostrar("");
             }
-
 
         } catch (Exception e) {
             help.mensaje("La tabla de datos esta vacia " + e.getMessage(), "Error");
@@ -135,7 +135,7 @@ public class frmRutas extends javax.swing.JInternalFrame {
 
         btnEnviar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnEnviar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/outline_send_black_24dp.png"))); // NOI18N
-        btnEnviar.setText("Enviar");
+        btnEnviar.setText("Seleccionar");
         btnEnviar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEnviarActionPerformed(evt);

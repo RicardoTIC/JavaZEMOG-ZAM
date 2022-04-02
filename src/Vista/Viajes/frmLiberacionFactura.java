@@ -137,8 +137,8 @@ public class frmLiberacionFactura extends javax.swing.JInternalFrame {
                                 .addGap(0, 110, Short.MAX_VALUE))
                             .addComponent(lblNumeroGuia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(33, 33, 33)
+                        .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jCheckBoxForzarLiberacion)
@@ -183,9 +183,9 @@ public class frmLiberacionFactura extends javax.swing.JInternalFrame {
                     .addComponent(jLabel5))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
                     .addComponent(jCheckBoxForzarLiberacion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnActualizar))
+                    .addComponent(btnActualizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -211,7 +211,7 @@ public class frmLiberacionFactura extends javax.swing.JInternalFrame {
         String prestamo = "";
         String numeroGuia = lblNumeroGuia.getText();
 
-        if (lblEstatusFactura.getText().equalsIgnoreCase("facturado")) {
+        if (lblEstatusFactura.getText().equalsIgnoreCase("facturado") && cboEstatusCartaPorte.getSelectedItem().toString().equalsIgnoreCase("Cancelado") && cboPrestamo.getSelectedItem().toString().equalsIgnoreCase("Pendiente")) {
             aux.mensaje("No se puede canceladar una carta porte si ya tiene factura", "error");
             return;
         }

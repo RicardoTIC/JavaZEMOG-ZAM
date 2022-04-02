@@ -79,20 +79,29 @@ public class frmViajes extends javax.swing.JInternalFrame {
 
     void Buscar_Operador_Inactivo() {
 
-        Operador op = ope.buscar_informacion_operador(txtOperador.getText());
+        try {
+            Operador op = ope.buscar_informacion_operador(txtOperador.getText());
 
-        if (op.getEstado().equalsIgnoreCase("Inactivo")) {
-            
-            lblEstadoOperador.setOpaque(true);
-            /// Tipo de letra , font.bold, size
-            lblEstadoOperador.setFont(new Font("Arial",Font.BOLD,14));
-            lblEstadoOperador.setToolTipText("Fecha de baja "+op.getFecha_baja());
-            lblEstadoOperador.setForeground(Color.red);
-            lblEstadoOperador.setText(op.getEstado());
-        } else {
-            lblEstadoOperador.setBackground(Color.gray);
-            lblEstadoOperador.setText(op.getEstado());
-            lblEstadoOperador.setForeground(Color.green);
+            if (op.getEstado().equalsIgnoreCase("Inactivo")) {
+
+                lblEstadoOperador.setOpaque(true);
+                lblEstadoOperador.setHorizontalAlignment(SwingConstants.CENTER);
+                /// Tipo de letra , font.bold, size
+                lblEstadoOperador.setFont(new Font("Arial", Font.BOLD, 11));
+                lblEstadoOperador.setBackground(Color.decode("#ecf0f1")); /// permite hexadecimales
+                lblEstadoOperador.setToolTipText("Fecha de baja " + op.getFecha_baja());
+                lblEstadoOperador.setForeground(Color.red);
+                lblEstadoOperador.setText(op.getEstado());
+            } else {
+                lblEstadoOperador.setHorizontalAlignment(SwingConstants.CENTER);
+                lblEncontrado.setToolTipText("Sin fecha de baja");
+                lblEstadoOperador.setOpaque(true);
+                lblEstadoOperador.setBackground(Color.decode("#ecf0f1"));
+                lblEstadoOperador.setText(op.getEstado());
+                lblEstadoOperador.setForeground(Color.black);
+            }
+        } catch (Exception e) {
+            help.mensaje("Error " + ope.buscar_estatus_operador(txtOperacion.getText()), "Error");
         }
 
     }
@@ -225,7 +234,7 @@ public class frmViajes extends javax.swing.JInternalFrame {
     public void mostarDetalladoFechasBuscardor(String fechainicio, String fechafinal, String[] buscar) {
         String valor_Comparativo = "";
         ListaDatos.setModel(func.showdataFordate(fechainicio, fechafinal, buscar));
-        tamano_columnas();
+        //tamano_columnas();
         func.totalRegistros = 0;
         if (ListaDatos.getRowCount() == 0) {
             if (help.mensajeConfirmacion("No se encontro ningun registro deseas buscar en viajes cancelados ? ") == 0) {
@@ -237,19 +246,11 @@ public class frmViajes extends javax.swing.JInternalFrame {
 
             }
         }
-        valor_Comparativo = ListaDatos.getValueAt(0, 15).toString();
-
-        //Descontamos el tamano del arreglo. al arreglo principal para que siempre nos de 1 y solo seleccione uno
-        for (int i = 0; i < buscar.length - (buscar.length - 1); i++) {
-
-            if (valor_Comparativo.equalsIgnoreCase(buscar[i])) {
-                ListaDatos.changeSelection(0, 1, false, false);
-                seleccionar_fial();
-            }
-        }
+        ListaDatos.changeSelection(0, 1, false, false);
+        seleccionar_fial();
 
         lbltotalRegistros.setText("Total registros " + String.valueOf(func.totalRegistros));
-        tamano_columnas();
+        //tamano_columnas();
     }
 
     void mostrarPorFechas(String fechainicio, String[] fechafinal) {
@@ -347,7 +348,7 @@ public class frmViajes extends javax.swing.JInternalFrame {
 
     void validacion_estatus() {
 
-        if (txtEstatus.getText().equalsIgnoreCase("Transito") || txtEstatus.getText().equalsIgnoreCase("Pendiente")) {
+        if (txtEstatus.getText().equalsIgnoreCase("Transito") || lblEstatusGuia.getText().equalsIgnoreCase("Transito")) {
             lblError.setOpaque(true);
             lblError.setForeground(Color.red);
             lblError.setText("Debes de finalizar el viaje para poder realizar alguna modificacion");
@@ -460,6 +461,7 @@ public class frmViajes extends javax.swing.JInternalFrame {
         };
         CheckAvanzado = new javax.swing.JCheckBox();
         lblError = new javax.swing.JLabel();
+        barraMovimiento = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         btnFacturaCancelada = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -814,6 +816,31 @@ public class frmViajes extends javax.swing.JInternalFrame {
         PanelLista.add(CheckAvanzado, new org.netbeans.lib.awtextra.AbsoluteConstraints(595, 44, -1, -1));
         PanelLista.add(lblError, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 74, 700, 20));
 
+        barraMovimiento.setBackground(new java.awt.Color(255, 255, 255));
+        barraMovimiento.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                barraMovimientoMouseDragged(evt);
+            }
+        });
+        barraMovimiento.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                barraMovimientoMousePressed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout barraMovimientoLayout = new javax.swing.GroupLayout(barraMovimiento);
+        barraMovimiento.setLayout(barraMovimientoLayout);
+        barraMovimientoLayout.setHorizontalGroup(
+            barraMovimientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1310, Short.MAX_VALUE)
+        );
+        barraMovimientoLayout.setVerticalGroup(
+            barraMovimientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 50, Short.MAX_VALUE)
+        );
+
+        PanelLista.add(barraMovimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 450, 1310, 50));
+
         jPanel3.add(PanelLista, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 387, 730, 502));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -1020,38 +1047,46 @@ public class frmViajes extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
+        try {
+            
+            String cadenaPruebas;
+            String dateStart = formatoFecha.format(txtFechaInicio.getDate());
+            String dateEnd = formatoFecha.format(txtFechaFinal.getDate());
 
-        String cadenaPruebas;
-        String dateStart = formatoFecha.format(txtFechaInicio.getDate());
-        String dateEnd = formatoFecha.format(txtFechaFinal.getDate());
+            if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
 
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+                try {
 
-            try {
+                    cadenaPruebas = txtBuscar.getText().trim();
+                    String[] cadenaArreglo = cadenaPruebas.split(" ");
 
-                cadenaPruebas = txtBuscar.getText().trim();
-                String[] cadenaArreglo = cadenaPruebas.split(" ");
-                NumeroRegistrosPegados.setText("Total registros consultado " + String.valueOf(cadenaArreglo.length));
-                lblEncontrado.setText("Total de registros encontrados " + String.valueOf(ListaDatos.getRowCount() - 2));
+                    if (cadenaArreglo.length >= 1) {
+                        for (int i = 0; i < cadenaArreglo.length; i++) {
+                            mostarDetalladoFechasBuscardor(dateStart, dateEnd, cadenaArreglo);
 
-                if (cadenaArreglo.length >= 1) {
-                    for (int i = 0; i < cadenaArreglo.length; i++) {
-                        mostarDetalladoFechasBuscardor(dateStart, dateEnd, cadenaArreglo);
+                        }
+                        NumeroRegistrosPegados.setText("Total registros consultado " + String.valueOf(cadenaArreglo.length));
+                        lblEncontrado.setText("Total de registros encontrados " + String.valueOf(ListaDatos.getRowCount() - 2));
+
                     }
+
+                    func.totalRegistros = 0;
+                } catch (Exception e) {
+                    help.mensaje("Error " + e.getMessage(), "Error");
+
                 }
 
-                func.totalRegistros = 0;
-            } catch (Exception e) {
-                help.mensaje("Error " + e.getMessage(), "Error");
+                if (ListaDatos.getRowCount() >= 1) {
+                    Buscar_Operador_Inactivo();
+                    validacion_estatus();
+                }
 
             }
 
-            
-
-            validacion_estatus();
-            Buscar_Operador_Inactivo();
-
+        } catch (Exception e) {
+            help.mensaje("Error " + e.getMessage(), "Error");
         }
+
     }//GEN-LAST:event_txtBuscarKeyReleased
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
@@ -1094,10 +1129,10 @@ public class frmViajes extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
 
         // mostarDetalladoFechasBuscardor("","",txtBuscar.getText());
-        String fechainicial = formatoFecha.format(txtFechaInicio.getDate());
-        String fechafinal = formatoFecha.format(txtFechaFinal.getDate());
-        String buscar = txtBuscar.getText().trim();
-
+//        String fechainicial = formatoFecha.format(txtFechaInicio.getDate());
+//        String fechafinal = formatoFecha.format(txtFechaFinal.getDate());
+//        String buscar = txtBuscar.getText().trim();
+//
 
     }//GEN-LAST:event_txtBuscarKeyPressed
 
@@ -1248,10 +1283,12 @@ public class frmViajes extends javax.swing.JInternalFrame {
         }
 
         frmCancelacionDeviaje cancelacion = new frmCancelacionDeviaje();
+        
         Principal.escritorio.add(cancelacion);
         help.centrarPantalla(Principal.escritorio, cancelacion);
+       
         cancelacion.show();
-
+        
     }//GEN-LAST:event_btnCancelacionViajeActionPerformed
 
     private void btnActualizarUnidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarUnidadActionPerformed
@@ -1283,29 +1320,46 @@ public class frmViajes extends javax.swing.JInternalFrame {
 
         }
 
-        unidades.setId_unidad(txtUnidad.getText());
-        unidades.setId_remolque1(txtRemolque1.getText());
-        unidades.setId_remolque2(txtRemolque2.getText());
-        unidades.setId_dolly(txtDolly.getText());
+        if (uni.validacion_existente_unidad(txtUnidad.getText()) == 0) {
 
-        unidades.setCodigoArea(Integer.parseInt(txtCodigoRuta.getText()));
-        unidades.setNumeroViaje(Integer.parseInt(txtNumeroViaje.getText()));
+            help.mensaje("La unidad no existe en la base de datos no puedes ingresar una unidad que no existe", "Error");
+            lblError.setOpaque(true);
+            lblError.setForeground(Color.red);
+            lblError.setText("Warning : La unidad no existe en la base de datos no puedes ingresar una unidad que no existe");
 
-        if (help.mensajeConfirmacion("Deseas actualizar el registros " + txtUnidad.getText()) == 0) {
+            return;
 
-            cadenaAux = txtBuscar.getText();
+        } else {
 
-            if (cadenaAux.length() <= 0) {
-                cadenaAux = txtfolio.getText();
-            }
+            lblError.setOpaque(true);
+            lblError.setText("");
+            lblError.setBackground(Color.white);
 
-            arregloUnidades = cadenaAux.split(" ");
+            unidades.setId_unidad(txtUnidad.getText());
+            unidades.setId_remolque1(txtRemolque1.getText());
+            unidades.setId_remolque2(txtRemolque2.getText());
+            unidades.setId_dolly(txtDolly.getText());
 
-            if (uni.actualizarUnidad(unidades)) {
-                mostarDetalladoFechasBuscardor(formatoFecha.format(txtFechaInicio.getDate()), formatoFecha.format(txtFechaFinal.getDate()), arregloUnidades);
-                help.mensajeLateral("Actualizado", "Se actualizado correctamente el registro", "aceptado");
-            } else {
-                help.mensajeLateral("Error", "No se puedo actualizar el registro correctamente", "fallo");
+            unidades.setCodigoArea(Integer.parseInt(txtCodigoRuta.getText()));
+            unidades.setNumeroViaje(Integer.parseInt(txtNumeroViaje.getText()));
+
+            if (help.mensajeConfirmacion("Deseas actualizar el registros " + txtUnidad.getText()) == 0) {
+
+                cadenaAux = txtBuscar.getText();
+
+                if (cadenaAux.length() <= 0) {
+                    cadenaAux = txtfolio.getText();
+                }
+
+                arregloUnidades = cadenaAux.split(" ");
+
+                if (uni.actualizarUnidad(unidades)) {
+                    mostarDetalladoFechasBuscardor(formatoFecha.format(txtFechaInicio.getDate()), formatoFecha.format(txtFechaFinal.getDate()), arregloUnidades);
+                    help.mensajeLateral("Actualizado", "Se actualizado correctamente el registro", "aceptado");
+                } else {
+                    help.mensajeLateral("Error", "No se puedo actualizar el registro correctamente", "fallo");
+                }
+
             }
 
         }
@@ -1451,15 +1505,13 @@ public class frmViajes extends javax.swing.JInternalFrame {
                 if (TablaFolio.getRowCount() <= 0) {
                     help.mensaje("Agregado", "Informativo");
                 }
-
                 lista.add(ListaDatos.getValueAt(fila, 15).toString());
                 lista.add(ListaDatos.getValueAt(fila, 0).toString());
                 lista.add(ListaDatos.getValueAt(fila, 1).toString());
                 lista.add(ListaDatos.getValueAt(fila, 16).toString());
-
                 modeloTabla.addRow(lista);
-
                 TablaFolio.setModel(modeloTabla);
+
             }
 
             txtNumeroViaje.setText(ListaDatos.getValueAt(fila, 0).toString());
@@ -1522,7 +1574,7 @@ public class frmViajes extends javax.swing.JInternalFrame {
             } else {
                 lblModalidad.setText("Sencillo");
             }
-            
+
             Buscar_Operador_Inactivo();
             //lblEstadoOperador.setText(ope.buscar_estatus_operador(txtOperador.getText()));
         } catch (Exception e) {
@@ -1547,6 +1599,20 @@ public class frmViajes extends javax.swing.JInternalFrame {
     private void btnSeguimientoFacturasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeguimientoFacturasActionPerformed
 
     }//GEN-LAST:event_btnSeguimientoFacturasActionPerformed
+    int xx, yy;
+    private void barraMovimientoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_barraMovimientoMousePressed
+        xx = getX();
+        yy = getY();
+    }//GEN-LAST:event_barraMovimientoMousePressed
+
+    private void barraMovimientoMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_barraMovimientoMouseDragged
+
+        int x = evt.getXOnScreen();
+        int y = evt.getYOnScreen();
+
+        this.setLocation(xx - x, yy - y);
+
+    }//GEN-LAST:event_barraMovimientoMouseDragged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1556,6 +1622,7 @@ public class frmViajes extends javax.swing.JInternalFrame {
     private javax.swing.JLabel NumeroRegistrosPegados;
     private javax.swing.JPanel PanelLista;
     public static javax.swing.JTable TablaFolio;
+    private javax.swing.JPanel barraMovimiento;
     private javax.swing.JButton btnActualizarUnidad;
     private javax.swing.JButton btnBuscarCartaCobro;
     private javax.swing.JButton btnCambioRuta;

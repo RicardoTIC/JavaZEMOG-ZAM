@@ -28,6 +28,18 @@ public class fCartaPorte {
     private CartaPorte carta = new CartaPorte();
     
     
+    public CartaPorte informacion_carta_porte(String numero_guia){
+        
+        try {
+            
+            PreparedStatement pst = con.prepareCall("");
+            
+        } catch (Exception e) {
+        }
+        return null;
+        
+    }
+    
     public String liberacion_factura(String numero_guia){
     
         try {

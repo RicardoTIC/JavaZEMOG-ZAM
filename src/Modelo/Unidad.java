@@ -17,7 +17,15 @@ public class Unidad {
     private String id_remolque1;
     private String id_remolque2;
     private String id_dolly;
-    
+    private String mensajeError;
+
+    public String getMensajeError() {
+        return mensajeError;
+    }
+
+    public void setMensajeError(String mensajeError) {
+        this.mensajeError = mensajeError;
+    }
     
 
     public Unidad() {

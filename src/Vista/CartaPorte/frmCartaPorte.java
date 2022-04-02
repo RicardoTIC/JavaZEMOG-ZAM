@@ -21,6 +21,7 @@ public class frmCartaPorte extends javax.swing.JInternalFrame {
     Helpers.Ayudas aux = new Ayudas();
     CartaPorte obj = new CartaPorte();
     ListaProductos ls = new ListaProductos();
+    
 
     public frmCartaPorte() {
         initComponents();
@@ -46,8 +47,6 @@ public class frmCartaPorte extends javax.swing.JInternalFrame {
     void mostrar_detallado_informacion() {
 
         obj.setNum_guia(txtCartaPorte.getText());
-
-        System.out.println("Numero Guia " + obj.getNum_guia());
 
         for (CartaPorte listaDato : func.listaDatos(obj)) {
 
@@ -86,6 +85,7 @@ public class frmCartaPorte extends javax.swing.JInternalFrame {
     }
 
     void validacion_viajes_en_transito() {
+
         if (lblEstatus.getText().equalsIgnoreCase("Transito")) {
             aux.mensajeLateral("Alerta", "El viaje se encuentra en transito y no lo puedes liberar hasta terminar el viaje", "cuidado");
             lblError.setOpaque(true);
@@ -95,7 +95,6 @@ public class frmCartaPorte extends javax.swing.JInternalFrame {
             lblError.setBackground(Color.white);
             lblError.setText("");
         }
-
     }
 
     @SuppressWarnings("unchecked")
@@ -177,6 +176,7 @@ public class frmCartaPorte extends javax.swing.JInternalFrame {
         jLabel4 = new javax.swing.JLabel();
         jScrollPane7 = new javax.swing.JScrollPane();
         ListaDePendientes = new javax.swing.JList<>();
+        jLabel7 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -624,6 +624,11 @@ public class frmCartaPorte extends javax.swing.JInternalFrame {
         jLabel38.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel38.setText("Num_guia");
 
+        txtCartaPorteMasivo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtCartaPorteMasivoMouseClicked(evt);
+            }
+        });
         txtCartaPorteMasivo.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtCartaPorteMasivoKeyReleased(evt);
@@ -640,6 +645,16 @@ public class frmCartaPorte extends javax.swing.JInternalFrame {
             }
         });
         jScrollPane7.setViewportView(ListaDePendientes);
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setText("Masivo");
+        jLabel7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel7MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -665,6 +680,7 @@ public class frmCartaPorte extends javax.swing.JInternalFrame {
                                 .addGap(60, 60, 60))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jScrollPane7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addComponent(jTextField21, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextField20, javax.swing.GroupLayout.Alignment.LEADING)
@@ -699,7 +715,9 @@ public class frmCartaPorte extends javax.swing.JInternalFrame {
                 .addComponent(txtCartaPorteMasivo, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(87, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel7)
+                .addContainerGap(62, Short.MAX_VALUE))
         );
 
         jPanel1.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 20, 200, 580));
@@ -929,22 +947,20 @@ public class frmCartaPorte extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_ListaDePendientesMouseClicked
 
     private void txtCartaPorteMasivoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCartaPorteMasivoKeyReleased
-
         DefaultListModel lista = new DefaultListModel();
         String[] arreglo;
         arreglo = txtCartaPorteMasivo.getText().split(" ");
 
         for (int i = 0; i < arreglo.length; i++) {
-            lista.addElement(arreglo[i]);
-
+            lista.addElement(arreglo[i].trim());
         }
-
+        
         ListaDePendientes.setModel(lista);
 
     }//GEN-LAST:event_txtCartaPorteMasivoKeyReleased
 
     private void txtOrigenRemitenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtOrigenRemitenteActionPerformed
-        // TODO add your handling code here:
+       
     }//GEN-LAST:event_txtOrigenRemitenteActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
@@ -954,8 +970,6 @@ public class frmCartaPorte extends javax.swing.JInternalFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 
         if (aux.mensajeConfirmacion("Deseas liberar de su factura la siguiente carta porte ? " + txtCartaPorte.getText()) == 0) {
-
-            System.out.println(txtCartaPorte.getText());
 
             if (func.liberacion_factura(txtCartaPorte.getText()).equalsIgnoreCase("success")) {
                 aux.mensajeLateral("Registro actualizado !!!! ", "El registro se actualizado correctamente ", "aceptado");
@@ -968,6 +982,28 @@ public class frmCartaPorte extends javax.swing.JInternalFrame {
         }
 
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void txtCartaPorteMasivoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtCartaPorteMasivoMouseClicked
+
+    }//GEN-LAST:event_txtCartaPorteMasivoMouseClicked
+
+    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
+        DefaultListModel lista = new DefaultListModel();
+        
+        for (int i = 0; i < lista.getSize(); i++) {
+
+            aux.mensaje((String) lista.getElementAt(i), "datos");
+            validacion_viajes_en_transito();
+            if (func.liberacion_factura((String) lista.getElementAt(i)).equalsIgnoreCase("success")) {
+                aux.mensajeLateral("Registro actualizado !!!! ", "El registro se actualizado correctamente ", "aceptado");
+                //mostrar_detallado_informacion();
+                
+            } else {
+                aux.mensajeLateral("Error", func.liberacion_factura(txtCartaPorte.getText()), "error");
+            }
+
+        }
+    }//GEN-LAST:event_jLabel7MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1013,6 +1049,7 @@ public class frmCartaPorte extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;

@@ -15,6 +15,7 @@ import Reportes.ImagenesFondo;
 import Vista.CartaPorte.frmCartaPorte;
 import Vista.Login.IniciarSesion;
 import Vista.Viajes.frmBarraProgreso;
+import Vista.Viajes.frmCancelacionDeviaje;
 import java.beans.PropertyVetoException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,6 +29,7 @@ import javax.swing.JInternalFrame;
 public class Principal extends javax.swing.JFrame {
 
     Helpers.Ayudas help = new Ayudas();
+    public boolean validacionAbierto;
 
     public Principal() {
         initComponents();
@@ -322,13 +324,12 @@ public class Principal extends javax.swing.JFrame {
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         frmCartaPorte frm = new frmCartaPorte();
-        
+
         escritorio.add(frm);
         help.centrarPantalla(escritorio, frm);
         frm.show();
-        
-        
-        
+
+
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**

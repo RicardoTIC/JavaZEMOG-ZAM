@@ -10,6 +10,7 @@ import Helpers.crud;
 import Modelo.Unidad;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.DefaultListModel;
@@ -26,6 +27,47 @@ public class fUnidades extends crud<Unidad> {
     public int totalRegistros;
     public int totalUnidades;
     private Ayudas help = new Ayudas();
+
+    public Unidad stock(String unidad) {
+        Unidad uni = new Unidad();
+        try {
+            PreparedStatement pst = con.prepareCall("select id_area,id_unidad from dbo.mtto_unidades where id_unidad = ? ");
+            pst.setString(1, unidad);
+            
+            ResultSet rs = pst.executeQuery();
+            
+            if (rs.next()) {
+                uni.setCodigoArea(rs.getInt(1));
+                uni.setId_unidad(rs.getString(2));
+                
+            }
+            return uni;
+
+        } catch (SQLException e) {
+            uni.setMensajeError("Error"+e.getMessage());
+            return uni;
+        }
+        
+    }
+
+    public int validacion_existente_unidad(String unidad) {
+
+        try {
+
+            PreparedStatement pst = con.prepareCall("select count(*) from dbo.mtto_unidades where id_unidad = ? ");
+            pst.setString(1, unidad);
+
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+
+        } catch (Exception e) {
+            return 0;
+        }
+        return 0;
+    }
 
     @Override
     public DefaultTableModel showdata(String buscar) {

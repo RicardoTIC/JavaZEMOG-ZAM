@@ -46,7 +46,8 @@ public class fOperadores extends crud<Operador> {
             return valorEncontrado;
             
         } catch (SQLException e) {
-            return null;
+            valorEncontrado.setMensajeError("Mensaje de error "+e.getMessage());
+            return valorEncontrado;
         }
         
     }

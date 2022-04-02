@@ -10,7 +10,16 @@ public class Operador {
     private String estado;
     private String estatus;
     private String fecha_baja;
+    private String mensajeError;
 
+    public String getMensajeError() {
+        return mensajeError;
+    }
+
+    public void setMensajeError(String mensajeError) {
+        this.mensajeError = mensajeError;
+    }
+    
     public String getFecha_baja() {
         return fecha_baja;
     }
