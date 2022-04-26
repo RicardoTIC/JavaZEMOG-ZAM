@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Vista;
 
 import Helpers.Ayudas;
@@ -11,47 +6,33 @@ import Modelo.EstatusUnidad;
 import Modelo.Estatus_Pepsi;
 import Modelo.PowerZamUnidades;
 import Modelo.Sucursal;
-import Modelo.Unidad;
 import Vista.Indicadores.ResumenUnidades;
 import java.awt.BorderLayout;
 import java.sql.Date;
+
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.GregorianCalendar;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-/**
- *
- * @author Ricardo Herrera
- */
 public class frmPowerUnidades extends javax.swing.JInternalFrame {
 
     Logica.fPowerZamUnidades func = new fPowerZamUnidades();
     PowerZamUnidades pwo = new PowerZamUnidades();
     Helpers.Ayudas ayuda = new Ayudas();
-//    DefaultComboBoxModel datos = new DefaultComboBoxModel(func.comboBoxEstatusUnidad());
-//    DefaultComboBoxModel comboPepsi = new DefaultComboBoxModel(func.comboBoxEstatusUnidadPepsi());
     DefaultComboBoxModel comboSucursal = new DefaultComboBoxModel(func.comboSucursal());
     SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
     GregorianCalendar fechaInicial = new GregorianCalendar();
     GregorianCalendar fechaFinal = new GregorianCalendar();
 
-    Date dateStart;
-    Date dateEnd;
-
     public frmPowerUnidades() {
         initComponents();
         mostrar("");
 
-//        cboEstatus.setModel(datos);
-//        cboEstatusPepsi.setModel(comboPepsi);
-//        cboSucursal.setModel(comboSucursal);
         deshabilitar();
         txtMontoRentaFija.setText("0");
-        txtFechaInicio.setText(formatoFecha.format(fechaInicial.getTime()));
-        txtFechaFinal.setText("null");
+
         tamano_columnas();
 
     }
@@ -77,12 +58,10 @@ public class frmPowerUnidades extends javax.swing.JInternalFrame {
     void habilitar() {
 
         txtBuscar.setEnabled(true);
-
         cboEstatusPepsi.setEnabled(true);
         cboEstatus.setEnabled(true);
         txtFechaFinal.setEnabled(true);
         txtFechaInicio.setEnabled(true);
-
         txtUnidad.setEnabled(true);
 
     }
@@ -98,8 +77,8 @@ public class frmPowerUnidades extends javax.swing.JInternalFrame {
         cboTipoCuota.setSelectedIndex(0);
         cboSucursal.setSelectedIndex(0);
 
-        txtFechaFinal.setText("");
-        txtFechaInicio.setText("");
+        txtFechaFinal.setCalendar(fechaFinal);
+        txtFechaInicio.setCalendar(fechaFinal);
 
         txtUnidad.setText("");
         txtComentario.setText("");
@@ -157,8 +136,6 @@ public class frmPowerUnidades extends javax.swing.JInternalFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         txtUnidad = new javax.swing.JTextField();
-        txtFechaInicio = new javax.swing.JTextField();
-        txtFechaFinal = new javax.swing.JTextField();
         btnGuardar = new javax.swing.JButton();
         btnNuevo = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
@@ -193,10 +170,11 @@ public class frmPowerUnidades extends javax.swing.JInternalFrame {
         };
         jLabel7 = new javax.swing.JLabel();
         txtBuscar = new javax.swing.JTextField();
-        cboPruebas = new javax.swing.JComboBox<>();
         lblCodigoArea = new javax.swing.JLabel();
         lblId_estatus = new javax.swing.JLabel();
         lblid_estatus_pepsi = new javax.swing.JLabel();
+        txtFechaInicio = new com.toedter.calendar.JDateChooser();
+        txtFechaFinal = new com.toedter.calendar.JDateChooser();
 
         setClosable(true);
         setIconifiable(true);
@@ -231,18 +209,6 @@ public class frmPowerUnidades extends javax.swing.JInternalFrame {
         txtUnidad.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 txtUnidadMouseClicked(evt);
-            }
-        });
-
-        txtFechaInicio.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txtFechaInicioMouseClicked(evt);
-            }
-        });
-
-        txtFechaFinal.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txtFechaFinalMouseClicked(evt);
             }
         });
 
@@ -371,8 +337,6 @@ public class frmPowerUnidades extends javax.swing.JInternalFrame {
             }
         });
 
-        cboPruebas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Este es una prueba" }));
-
         lblCodigoArea.setText("CodigoArea");
 
         lblId_estatus.setText("id_estatus");
@@ -400,23 +364,6 @@ public class frmPowerUnidades extends javax.swing.JInternalFrame {
                     .addComponent(jLabel14))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(cboIngresoXFlete, javax.swing.GroupLayout.Alignment.LEADING, 0, 189, Short.MAX_VALUE)
-                            .addComponent(cboIndTitular, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cboTipoCuota, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cboEstatusPepsi, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cboEstatus, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblId_estatus)
-                            .addComponent(lblid_estatus_pepsi)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(cboSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblCodigoArea))
-                    .addComponent(txtFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtFechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cboRazonDetenida, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(cbo_ind_rentaFija, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -434,9 +381,25 @@ public class frmPowerUnidades extends javax.swing.JInternalFrame {
                             .addComponent(btnEliminar)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(btnResumen)))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(cboPruebas, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtUnidad, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)))
+                    .addComponent(txtUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(txtFechaFinal, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cboIngresoXFlete, javax.swing.GroupLayout.Alignment.LEADING, 0, 189, Short.MAX_VALUE)
+                            .addComponent(cboIndTitular, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cboTipoCuota, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cboEstatusPepsi, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cboEstatus, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblId_estatus)
+                            .addComponent(lblid_estatus_pepsi)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(txtFechaInicio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cboSucursal, javax.swing.GroupLayout.Alignment.LEADING, 0, 189, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblCodigoArea)))
                 .addGap(40, 40, 40)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 681, Short.MAX_VALUE)
                 .addContainerGap())
@@ -456,32 +419,31 @@ public class frmPowerUnidades extends javax.swing.JInternalFrame {
                     .addComponent(jLabel7))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addComponent(cboPruebas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(40, 40, 40)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(txtUnidad, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cboSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2)
+                            .addComponent(lblCodigoArea))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(cboSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel2)
-                                    .addComponent(lblCodigoArea))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel3)
-                                    .addComponent(txtFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jLabel3)
                                 .addGap(18, 18, 18)
+                                .addComponent(jLabel4)
+                                .addGap(36, 36, 36))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(txtFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtFechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel4)
-                                    .addComponent(txtFechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(33, 33, 33))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(cboEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel8)
-                                .addComponent(lblId_estatus)))
+                                    .addComponent(cboEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel8)
+                                    .addComponent(lblId_estatus))))
                         .addGap(8, 8, 8)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
@@ -499,7 +461,7 @@ public class frmPowerUnidades extends javax.swing.JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel12)
                             .addComponent(cboIngresoXFlete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel13)
                             .addComponent(cbo_ind_rentaFija, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -552,21 +514,26 @@ public class frmPowerUnidades extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void ListaUnidadesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ListaUnidadesMouseClicked
+        SimpleDateFormat dataFormato = new SimpleDateFormat();
+        GregorianCalendar calendarioEsta = new GregorianCalendar();
+        
         btnGuardar.setText("Editar");
-
+        
         int id = 0, id_estatus = 0;
         habilitar();
         try {
             int fila = ListaUnidades.rowAtPoint(evt.getPoint());
 
             txtUnidad.setText(ListaUnidades.getValueAt(fila, 2).toString()); //Unidad
-            txtFechaInicio.setText(ListaUnidades.getValueAt(fila, 0).toString()); // Fecha Inicio
-            txtFechaFinal.setText(ListaUnidades.getValueAt(fila, 1).toString());
+            calendarioEsta.setGregorianChange(Date.valueOf(ListaUnidades.getValueAt(fila, 0).toString()));
+            System.out.println(calendarioEsta);
+            txtFechaFinal.setCalendar(calendarioEsta);
+            
             id = Integer.parseInt(ListaUnidades.getValueAt(fila, 7).toString());
             id_estatus = Integer.parseInt(ListaUnidades.getValueAt(fila, 8).toString());
             lblId_estatus.setText(ListaUnidades.getValueAt(fila, 8).toString());
             lblid_estatus_pepsi.setText(ListaUnidades.getValueAt(fila, 9).toString());
-
+            
             cboSucursal.setSelectedItem(func.buscar_estatus_unidad_sucursal(id));
             lblCodigoArea.setText(String.valueOf(func.buscar_codigo_area(cboSucursal.getSelectedItem().toString())));
             cboTipoCuota.setSelectedItem(ListaUnidades.getValueAt(fila, 11).toString());
@@ -583,14 +550,13 @@ public class frmPowerUnidades extends javax.swing.JInternalFrame {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
 
         try {
-            
-            
+
             Sucursal sc = (Sucursal) cboSucursal.getSelectedItem();
             EstatusUnidad eu = (EstatusUnidad) cboEstatus.getSelectedItem();
             Estatus_Pepsi ep = (Estatus_Pepsi) cboEstatusPepsi.getSelectedItem();
             SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             GregorianCalendar fechafinal = new GregorianCalendar(1900, 1, 0, 12, 59, 59);
-
+            
             if (cboSucursal.getSelectedIndex() == 0 || cboSucursal.getSelectedItem() == "Selecciona una Sucursal") {
                 ayuda.mensaje("Selecciona una sucursal ", "Informativo");
                 cboSucursal.requestFocus();
@@ -600,12 +566,6 @@ public class frmPowerUnidades extends javax.swing.JInternalFrame {
             if (txtUnidad.getText().length() == 0) {
                 ayuda.mensaje("Iingresa una unidad", "Informativo");
                 txtUnidad.requestFocus();
-                return;
-            }
-
-            if (txtFechaInicio.getText().length() == 0) {
-                ayuda.mensaje("Ingresa una fecha inicio ", "Informativo");
-                txtFechaFinal.requestFocus();
                 return;
             }
 
@@ -665,12 +625,11 @@ public class frmPowerUnidades extends javax.swing.JInternalFrame {
                 return;
             }
 
-            System.out.println(" Fecha Final " + txtFechaFinal.getText());
-
-            pwo.setId_area(sc.getId_area());
+            pwo.setId_area(Integer.parseInt(lblCodigoArea.getText()));
             pwo.setId_unidad((txtUnidad.getText()));
-            pwo.setF_inicial(Date.valueOf(txtFechaInicio.getText()));
-            pwo.setF_fin(txtFechaFinal.getText());
+
+            pwo.setF_inicial(formatoFecha.format(txtFechaInicio.getCalendar()));
+            
             pwo.setTipocuota(cboTipoCuota.getSelectedItem().toString());
             pwo.setInd_titular(Integer.parseInt(cboIndTitular.getSelectedItem().toString()));
             pwo.setInd_ingresoxflete(Integer.parseInt(cboIngresoXFlete.getSelectedItem().toString()));
@@ -716,33 +675,14 @@ public class frmPowerUnidades extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_txtUnidadMouseClicked
 
-    private void txtFechaInicioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtFechaInicioMouseClicked
-        if (evt.getClickCount() == 2) {
-            txtFechaInicio.setText(formatoFecha.format(fechaInicial.getTime()));
-        }
-    }//GEN-LAST:event_txtFechaInicioMouseClicked
-
-    private void txtFechaFinalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtFechaFinalMouseClicked
-        SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy/MM/dd");
-        GregorianCalendar fechafinal = new GregorianCalendar(1900, 0, 1, 0, 0, 0);
-
-        if (evt.getClickCount() == 2) {
-            txtFechaFinal.setText(formatoFecha.format(fechafinal.getTime()));
-        }
-
-    }//GEN-LAST:event_txtFechaFinalMouseClicked
-
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
 
         if (ayuda.mensajeConfirmacion("Deseas eliminar el registro ?") == 0) {
 
             try {
-                String FechaAuxiliar = txtFechaInicio.getText();
-                java.util.Date aux;
-                aux = formatoFecha.parse(FechaAuxiliar);
 
-                System.out.println(aux);
+                java.util.Date aux;
 
                 Sucursal sc = (Sucursal) cboSucursal.getSelectedItem();
 
@@ -751,19 +691,6 @@ public class frmPowerUnidades extends javax.swing.JInternalFrame {
                     txtUnidad.requestFocus();
                     return;
                 }
-
-                if (txtFechaInicio.getText().length() == 0) {
-                    ayuda.mensaje("No puedes eliminar una unidad sin selecciona una fecha", "Informativo");
-                    txtFechaInicio.requestFocus();
-                    return;
-                }
-
-                System.out.println("Area " + pwo.getId_area());
-
-                System.out.println("Unidad " + pwo.getId_unidad());
-                pwo.setF_inicial(Date.valueOf(formatoFecha.format(aux)));
-
-                System.out.println("Fecha : " + pwo.getF_inicial().getClass().getTypeName());
 
                 if (func.deleteUnidad(pwo)) {
                     ayuda.mensaje("Registro eliminado", "Informativo");
@@ -822,7 +749,6 @@ public class frmPowerUnidades extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> cboEstatusPepsi;
     private javax.swing.JComboBox<String> cboIndTitular;
     private javax.swing.JComboBox<String> cboIngresoXFlete;
-    private javax.swing.JComboBox<String> cboPruebas;
     private javax.swing.JComboBox<String> cboRazonDetenida;
     private javax.swing.JComboBox<String> cboSucursal;
     private javax.swing.JComboBox<String> cboTipoCuota;
@@ -849,8 +775,8 @@ public class frmPowerUnidades extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblid_estatus_pepsi;
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextArea txtComentario;
-    private javax.swing.JTextField txtFechaFinal;
-    private javax.swing.JTextField txtFechaInicio;
+    private com.toedter.calendar.JDateChooser txtFechaFinal;
+    private com.toedter.calendar.JDateChooser txtFechaInicio;
     private javax.swing.JTextField txtMontoRentaFija;
     public static javax.swing.JTextField txtUnidad;
     // End of variables declaration//GEN-END:variables

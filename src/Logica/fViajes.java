@@ -18,10 +18,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 
 import javax.swing.table.DefaultTableModel;
 import org.apache.poi.ss.usermodel.Cell;
@@ -41,10 +43,19 @@ public class fViajes {
     private String SQL = "";
     public int totalRegistros;
     public Integer kmPlus;
-    private int totalKilometros;
     private Ayudas help = new Ayudas();
-    public int total_kilometros = 0;
-
+    public int total_kilometros = 0, totalActivos = 0, totalInactivos = 0;
+    public ArrayList<String> lista = new ArrayList<>();
+    public float totalVentaModeloEspecializado = 0;
+    public float totalVentaModeloDedicado = 0;
+    public float totalVentaArca = 0;
+    public float totalVentaGEPP = 0;
+    public float totalKmConsulta = 0;
+    public float totalkmModeloEspecializado = 0, totalkmModeloDedicado = 0, totalkmArca = 0, totalkmGEPP = 0;
+    public int [] no_guia;
+    public int [] codigoArea;
+    
+    
     Ruta ruta = new Ruta();
     frmBarraProgreso progreso = new frmBarraProgreso();
 
@@ -115,8 +126,173 @@ public class fViajes {
 
     }
 
+    /*Este metodo nos retorna los viajes que tienen operadores inactivo para facturacion**/
+    public DefaultTableModel showOpeActive(String[] buscar, boolean estado) {
+        int contador = 1;
+        String[] columnas = {
+            "Numero Guia",
+            "Carta de cobro",
+            "Fecha de cancelacion",
+            "Numero Remision",
+            "Flete",
+            "Iva flete",
+            "Usuario Alta",
+            "Codigo Operador",
+            "Nombre Operador",
+            "Estado",
+            "Fecha Baja",
+            "Numero Economico",
+            "Estatus de unidad",
+            "Factura",
+            "Fecha de timbrado",
+            "Estatus viaje",
+            "Estatus factura",
+            "Sucursal",
+            "No Guia",
+            "Codigo area"
+        };
+
+        String[] registros = new String[columnas.length];
+
+        DefaultTableModel modelo = new DefaultTableModel(null, columnas);
+
+        if (estado) {
+            SQL = "SELECT tg.num_guia 'Numero Guia', \n"
+                    + "isnull(no_carta ,'S/n carta de cobro') 'Carta de cobro',  \n"
+                    + "isnull(tg.fecha_cancelacion, 0)  'Fecha de cancelacion',\n"
+                    + "no_remision 'Numero Remision',\n"
+                    + "flete 'Flete', \n"
+                    + "iva_guia 'Iva flete',\n"
+                    + "tg.id_modifico 'Usuario Alta',\n"
+                    + "tg.id_personal 'Codigo Operador', \n"
+                    + "tg.personalnombre 'Nombre Operador', \n"
+                    + "case when p.estado = 'A' then 'Activo' else 'Inactivo' END 'Estado', \n"
+                    + "isnull(p.fecha_baja,0) 'Fecha Baja' ,\n"
+                    + "mu.id_unidad 'Numero Economico', \n"
+                    + "case when mu.estatus = 'A' THEN  'Unidad Activa' else 'Unidad Inactiva' END as 'Estatus de unidad', \n"
+                    + "isnull(tg.num_guia_asignado,'Sin factura') 'Factura',\n"
+                    + "isnull(tfe.fecha_timbrado,0) 'Fecha de timbrado',\n"
+                    + "case when tg.status_guia = 'C' THEN 'Confirmado' \n"
+                    + "when tg.status_guia = 'R' THEN 'Regreso'\n"
+                    + "when tg.status_guia = 'A' THEN 'Pediente'\n"
+                    + "when tg.status_guia = 'C' THEN 'Confirmado'\n"
+                    + "when tg.status_guia = 'T' THEN 'Transito'\n"
+                    + "when tg.status_guia = 'B' THEN 'Cancelado'\n"
+                    + "END  'Estatus viaje',  \n"
+                    + "isnull(tfe.status,0) 'Estatus factura',\n"
+                    + "a.nombrecorto 'Sucursal',tg.no_guia,a.id_area\n"
+                    + "\n"
+                    + "from dbo.trafico_guia tg\n"
+                    + "join dbo.personal_personal p on p.id_personal = tg.id_personal \n"
+                    + "join dbo.mtto_unidades mu on mu.id_unidad = tg.id_unidad\n"
+                    + "join dbo.general_area a on a.id_area = tg.id_area\n"
+                    + "left join dbo.trafico_factura_electronica tfe on tfe.num_guia_original = tg.num_guia_asignado\n"
+                    + "where tg.num_guia =? ";
+        } else {
+            SQL = "SELECT tg.num_guia 'Numero Guia', \n"
+                    + "isnull(no_carta ,'S/n carta de cobro') 'Carta de cobro',  \n"
+                    + "isnull(tg.fecha_cancelacion, 0)  'Fecha de cancelacion',\n"
+                    + "no_remision 'Numero Remision',\n"
+                    + "flete 'Flete', \n"
+                    + "iva_guia 'Iva flete',\n"
+                    + "tg.id_modifico 'Usuario Alta',\n"
+                    + "tg.id_personal 'Codigo Operador', \n"
+                    + "tg.personalnombre 'Nombre Operador', \n"
+                    + "case when p.estado = 'A' then 'Activo' else 'Inactivo' END 'Estado', \n"
+                    + "isnull(p.fecha_baja,0) 'Fecha Baja' ,\n"
+                    + "mu.id_unidad 'Numero Economico', \n"
+                    + "case when mu.estatus = 'A' THEN  'Unidad Activa' else 'Unidad Inactiva' END as 'Estatus de unidad', \n"
+                    + "isnull(tg.num_guia_asignado,'Sin factura') 'Factura',\n"
+                    + "isnull(tfe.fecha_timbrado,0) 'Fecha de timbrado',\n"
+                    + "case when tg.status_guia = 'C' THEN 'Confirmado' \n"
+                    + "when tg.status_guia = 'R' THEN 'Regreso'\n"
+                    + "when tg.status_guia = 'A' THEN 'Pediente'\n"
+                    + "when tg.status_guia = 'C' THEN 'Confirmado'\n"
+                    + "when tg.status_guia = 'T' THEN 'Transito'\n"
+                    + "when tg.status_guia = 'B' THEN 'Cancelado'\n"
+                    + "END  'Estatus viaje',  \n"
+                    + "isnull(tfe.status,0) 'Estatus factura',\n"
+                    + "a.nombrecorto 'Sucursal',tg.no_guia,a.id_area\n"
+                    + "\n"
+                    + "from dbo.trafico_guia tg\n"
+                    + "join dbo.personal_personal p on p.id_personal = tg.id_personal \n"
+                    + "join dbo.mtto_unidades mu on mu.id_unidad = tg.id_unidad\n"
+                    + "join dbo.general_area a on a.id_area = tg.id_area\n"
+                    + "left join dbo.trafico_factura_electronica tfe on tfe.num_guia_original = tg.num_guia_asignado\n"
+                    + "where tg.num_guia =? and p.estado <> 'A'";
+
+        }
+
+        try {
+
+            for (int i = 0; i < buscar.length; i++) {
+
+                PreparedStatement pst = con.prepareCall(SQL);
+                pst.setString(1, buscar[i]);
+
+                ResultSet rs = pst.executeQuery();
+
+                while (rs.next()) {
+
+                    for (int j = 0; j < registros.length; j++) {
+                        
+                        registros[j] = rs.getString(contador);
+                       
+
+                        if (contador == 10 && rs.getString(10).equalsIgnoreCase("Activo")) {
+                            totalActivos += 1;
+                            lista.add(rs.getString(9));
+                            lista.add(rs.getString(10));
+                            lista.add(rs.getString(11));
+                        }
+                        if (contador == 10 && rs.getString(10).equalsIgnoreCase("Inactivo")) {
+                            totalInactivos += 1;
+                        }
+
+                        contador++;
+                    }
+                    modelo.addRow(registros);
+
+                }
+                contador = 1;
+            }
+            return modelo;
+
+        } catch (SQLException e) {
+            return null;
+        }
+
+    }
+
+    //Metodo para liberar todas las cartas portes.
+    public String liberacionCartaPorteMasivo(int[] no_guia, int[] codigoArea) {
+
+        SQL = "UPDATE dbo.trafico_guia set prestamo='P',status_guia='A' WHERE no_guia = ? and id_area = ? ";
+        String error = "";
+        try {
+            
+            for (int i = 0; i < no_guia.length; i++) {
+                PreparedStatement pst = con.prepareCall(SQL);
+                pst.setInt(1,no_guia[i]);
+                pst.setInt(2, codigoArea[i]);
+                
+                pst.execute();
+                
+            }
+            
+            return "success";
+        } catch (SQLException e) {
+            error = "No se puedo liberar las carta porte revisa el codigo para solucionar "+e.getMessage();
+            return error;
+        }
+
+    }
+
     public DefaultTableModel showdataFordate(String fechaInicio, String fechafinal, String[] buscar) {
         DefaultTableModel modelo;
+
+        String patron = "###,###.###";
+        DecimalFormat obj = new DecimalFormat(patron);
 
         String[] columnas = {
             "No de viaje", "Codigo Area", "Unidad", "Fecha Cita",
@@ -135,7 +311,7 @@ public class fViajes {
         try {
 
             for (int i = 0; i < buscar.length; i++) {
-                
+
                 CallableStatement cst = con.prepareCall("{call sp_ZEMOG_mostrarviajesZemog(?,?,?) }");
                 cst.setString(1, fechaInicio);
                 cst.setString(2, fechafinal);
@@ -143,6 +319,7 @@ public class fViajes {
                 ResultSet rs = cst.executeQuery();
 
                 while (rs.next()) {
+                    totalKmConsulta += rs.getFloat("kms");
 
                     registros[0] = rs.getString("NoViaje");
                     registros[1] = rs.getString("id_area");
@@ -161,11 +338,11 @@ public class fViajes {
                     registros[14] = rs.getString("kms");
                     registros[15] = rs.getString("Folio");
                     registros[16] = rs.getString("num_guia");
-                    registros[17] = rs.getString("flete");
-                    registros[18] = rs.getString("TotalVenta");
+                    registros[17] = obj.format(rs.getFloat("flete"));
+                    registros[18] = obj.format(rs.getFloat("TotalVenta"));
                     registros[19] = rs.getString("Expedicion");
                     registros[20] = rs.getString("NombreOperador1");
-                    registros[21] = rs.getString("TotalViaticos");
+                    registros[21] = obj.format(rs.getFloat("TotalViaticos"));
                     registros[22] = rs.getString("FechaConfirmacionDispersion");
                     registros[23] = rs.getString("ConceptosDispersion");
                     registros[24] = rs.getString("CondicionalPepsi");
@@ -184,7 +361,7 @@ public class fViajes {
                     registros[37] = rs.getString("EstatusCartaPorte");
                     registros[38] = rs.getString("numeroPedido");
                     registros[39] = rs.getString("CartaCobro");
-                    
+
                     totalRegistros = totalRegistros + 1;
 
                     modelo.addRow(registros);
@@ -195,7 +372,7 @@ public class fViajes {
             return modelo;
 
         } catch (SQLException e) {
-            help.mensaje("Error en la consulta fviajes " +e.getMessage(), "Error");
+            help.mensaje("Error en la consulta fviajes " + e.getMessage(), "Error");
             return null;
         }
 
@@ -204,7 +381,7 @@ public class fViajes {
     public DefaultTableModel resumenIndicador(String fechaInicio, String fechafinal) {
         DefaultTableModel modelo;
 
-        String[] columnas = {"Sucursal", "Dia", "Kilometros", "Numero Viajes", "Venta", "Promedio km"};
+        String[] columnas = {"Sucursal", "Operacion", "Dia", "Kilometros", "Numero Viajes", "Venta", "Promedio km"};
 
         String[] registros = new String[columnas.length + 1];
 
@@ -220,12 +397,23 @@ public class fViajes {
 
             while (rs.next()) {
 
+                if (rs.getString(2).equalsIgnoreCase("ME")) {
+                    totalVentaModeloEspecializado = totalVentaModeloEspecializado + rs.getFloat(2);
+                } else if (rs.getString(2).equalsIgnoreCase("MD")) {
+                    totalVentaModeloDedicado = totalVentaModeloDedicado + rs.getFloat(2);
+                } else if (rs.getString(2).equalsIgnoreCase("Arca")) {
+                    totalVentaArca = totalVentaArca + rs.getFloat(2);
+                } else {
+                    totalVentaGEPP = totalVentaGEPP + rs.getFloat(2);
+                }
+
                 registros[0] = rs.getString(1); // Sucursal
-                registros[1] = rs.getString(2); // Dia
-                registros[2] = rs.getString(3); // Km
-                registros[3] = rs.getString(4); // numeroViajes
-                registros[4] = rs.getString(5); // Venta
-                registros[5] = rs.getString(6); // PromedioViajes
+                registros[1] = rs.getString(2); // Operacion
+                registros[2] = rs.getString(3); // Dia
+                registros[3] = rs.getString(4); // Kilometros
+                registros[4] = rs.getString(5); // Numero de viajes
+                registros[5] = rs.getString(6); // Ventas
+                registros[6] = rs.getString(7); // Promedio km
 
                 totalRegistros = totalRegistros + 1;
                 modelo.addRow(registros);
@@ -249,6 +437,8 @@ public class fViajes {
         String[] registros = new String[columnas.length + 1];
 
         modelo = new DefaultTableModel(null, columnas);
+        String patron = "$ ###,###.###";
+        DecimalFormat obj = new DecimalFormat(patron);
 
         try {
 
@@ -261,12 +451,27 @@ public class fViajes {
 
             while (rs.next()) {
 
+                if (rs.getString(2).equalsIgnoreCase("ME")) {
+                    totalVentaModeloEspecializado = totalVentaModeloEspecializado + rs.getFloat(6);
+                    totalkmModeloEspecializado += rs.getFloat(4);
+
+                } else if (rs.getString(2).equalsIgnoreCase("MD")) {
+                    totalVentaModeloDedicado = totalVentaModeloDedicado + rs.getFloat(6);
+                    totalkmModeloDedicado += rs.getFloat(4);
+                } else if (rs.getString(2).equalsIgnoreCase("Arca")) {
+                    totalVentaArca = totalVentaArca + rs.getFloat(6);
+                    totalkmArca += rs.getFloat(4);
+                } else if (rs.getString(2).equalsIgnoreCase("GEPP")) {
+                    totalVentaGEPP = totalVentaGEPP + rs.getFloat(6);
+                    totalkmGEPP += rs.getFloat(4);
+                }
+
                 registros[0] = rs.getString(1); // Sucursal
                 registros[1] = rs.getString(2); // Sucursal
                 registros[2] = rs.getString(3); // Dia
-                registros[3] = rs.getString(4); // Km
+                registros[3] = obj.format(rs.getInt(4)); // Km
                 registros[4] = rs.getString(5); // numeroViajes
-                registros[5] = rs.getString(6); // Venta
+                registros[5] = obj.format(rs.getFloat(6)); // Venta
                 registros[6] = rs.getString(7); // PromedioViajes
 
                 totalRegistros = totalRegistros + 1;
@@ -337,122 +542,91 @@ public class fViajes {
 
     public void cargarDB_Excel(String fechaInicio, String fechafinal, String buscar) {
         Workbook libro = new XSSFWorkbook();
-        Sheet hoja = libro.createSheet("Detalle de viajes");
 
-        //Creamos una fila cero para las columnas
-        Row fila0 = hoja.createRow(0);
+        JFileChooser fc = new JFileChooser();
 
-        String[] columnas = {"Numero de viaje",
-            "Numero de area",
-            "Numero Economico",
-            "Fecha Cita Carga",
-            "Fecha Cita Carga",
-            "Remolque1",
-            "Remolque2",
-            "Dolly",
-            "Id Asignacion",
-            "Nombre Ruta",
-            "id Ruta",
-            "Origen",
-            "Destino",
-            "EstadoOrigen",
-            "EstadoDestino",
-            "id_asignacion_orig",
-            "Tipo Viaje",
-            "Sucursal",
-            "Km PWO ZAM",
-            "Km reales",
-            "Folio",
-            "Numero Guia",
-            "Venta",
-            "Total Venta",
-            "Expedicion",
-            "Numero Adicional",
-            "Id Operador1",
-            "Nombre Operador1",
-            "Telefono Operador1",
-            "Id Operador2",
-            "Telefono Operador2",
-            "Numero Asignacion",
-            "Total Viaticos",
-            "Fecha Dispersion",
-            "Conceptos Dispersion",
-            "Condicional Pepsi",
-            "Trayecto",
-            "Fecha Creacion",
-            "Numero Guia",
-            "Folio Complemento",
-            "nombre Operacion",
-            "Estatus",
-            "usuarioAlta",
-            "Venta Real",
-            "Numero Cobro",
-            "Factura",
-            "Estatus Factura",
-            "Folio Separado",};
+        // Abrimos la ventana , guardamos la opcion seleccionada por el usuario
+        int selecciona = fc.showSaveDialog(fc);
 
-        //recorremos el arreglo
-        for (int i = 0; i < columnas.length; i++) {
+        //si el usuario , pincha en aceptar
+        if (selecciona == JFileChooser.APPROVE_OPTION) {
+            //Seleccionamos el archivo
+            String nuevoArchivo = fc.getSelectedFile().getPath() + ".xlsx";
 
-            Cell celda = fila0.createCell(i);
-            celda.setCellValue(columnas[i]);
-        }
+            Sheet hoja = libro.createSheet("Detalle de viajes");
 
-        int numFila = 1;
+            //Creamos una fila cero para las columnas
+            Row fila0 = hoja.createRow(0);
 
-        try {
+            String[] columnas = {"Numero de viaje", "Numero de area", "Numero Economico", "Fecha Cita Carga", "Fecha Cita Carga", "Remolque1", "Remolque2",
+                "Dolly", "Id Asignacion", "Nombre Ruta", "id Ruta", "Origen", "Destino", "EstadoOrigen", "EstadoDestino", "id_asignacion_orig", "Tipo Viaje",
+                "Sucursal", "Km PWO ZAM", "Km reales", "Folio", "Numero Guia", "Venta", "Total Venta", "Expedicion", "Numero Adicional", "Id Operador1",
+                "Nombre Operador1", "Telefono Operador1", "Id Operador2", "Telefono Operador2", "Numero Asignacion", "Total Viaticos", "Fecha Dispersion",
+                "Conceptos Dispersion", "Condicional Pepsi", "Trayecto", "Fecha Creacion", "Numero Guia", "Folio Complemento", "nombre Operacion", "Estatus",
+                "usuarioAlta", "Venta Real", "Numero Cobro", "Factura", "Estatus Factura", "Folio Separado"};
 
-            CallableStatement cst = con.prepareCall("{call sp_ZEMOG_mostrarviajesZemog(?,?,?) }");
-            cst.setString(1, fechaInicio);
-            cst.setString(2, fechafinal);
-            cst.setString(3, buscar);
+            //recorremos el arreglo
+            for (int i = 0; i < columnas.length; i++) {
 
-            ResultSet rs = cst.executeQuery();
-
-            //Numero de columnas
-            int numCol = rs.getMetaData().getColumnCount();
-
-            while (rs.next()) {
-
-                Row filaDatos = hoja.createRow(numFila);
-
-                for (int i = 0; i < numCol; i++) {
-                    Cell celda = filaDatos.createCell(i);
-
-                    if (i == 0 || i == 1 || i == 18 || i == 19 || i == 22 || i == 23 || i == 43 || i == 32 || i == 23) {
-                        celda.setCellValue(rs.getDouble(i + 1));
-                    } else if (i == 3 || i == 4 || i == 33 || i == 37) {
-                        celda.setCellValue(rs.getDate(i + 1));
-                    } else {
-                        celda.setCellValue(rs.getString(i + 1));
-                    }
-
-                }
-
-                numFila++;
+                Cell celda = fila0.createCell(i);
+                celda.setCellValue(columnas[i]);
             }
 
-            String nombreArchivo = "ViajesZEMOG.xlsx";
-            FileOutputStream archivo = new FileOutputStream(nombreArchivo);
-            libro.write(archivo);
-            archivo.close();
-            File objetoFila = new File(nombreArchivo);
-            Desktop.getDesktop().open(objetoFila);
+            int numFila = 1;
 
             try {
-                Thread.sleep(1000);
-                help.mensaje("Excel descagado saticfactoriamente !!! ", "Success");
-            } catch (InterruptedException ex) {
-                Logger.getLogger(fViajes.class.getName()).log(Level.SEVERE, null, ex);
+
+                CallableStatement cst = con.prepareCall("{call sp_ZEMOG_mostrarviajesZemog(?,?,?) }");
+                cst.setString(1, fechaInicio);
+                cst.setString(2, fechafinal);
+                cst.setString(3, buscar);
+
+                ResultSet rs = cst.executeQuery();
+
+                //Numero de columnas
+                int numCol = rs.getMetaData().getColumnCount();
+
+                while (rs.next()) {
+
+                    Row filaDatos = hoja.createRow(numFila);
+
+                    for (int i = 0; i < numCol; i++) {
+                        Cell celda = filaDatos.createCell(i);
+
+                        if (i == 0 || i == 1 || i == 18 || i == 19 || i == 22 || i == 23 || i == 43 || i == 32 || i == 23) {
+                            celda.setCellValue(rs.getDouble(i + 1));
+                        } else if (i == 3 || i == 4 || i == 33 || i == 37) {
+                            celda.setCellValue(rs.getDate(i + 1));
+                        } else {
+                            celda.setCellValue(rs.getString(i + 1));
+                        }
+
+                    }
+
+                    numFila++;
+                }
+
+                try (FileOutputStream archivo = new FileOutputStream(nuevoArchivo)) {
+                    libro.write(archivo);
+                }
+                File objetoFila = new File(nuevoArchivo);
+
+                try {
+                    Thread.sleep(100);
+                    help.mensaje("Excel descagado saticfactoriamente !!! ", "Success");
+                    Desktop.getDesktop().open(objetoFila);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(fViajes.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            } catch (IOException e) {
+                help.mensaje("error ", "Error");
+            } catch (SQLException ex) {
+                help.mensaje("Error en el " + fSucursal.class.getName() + ex.getMessage() + " Contacta al adm de sistema al ricardo.herrera@zemog.com.mx", "Error");
+
             }
 
-        } catch (IOException e) {
-            help.mensaje("error ", "Error");
-        } catch (SQLException ex) {
-            help.mensaje("Error en el " + fSucursal.class.getName() + ex.getMessage() + " Contacta al adm de sistema al ricardo.herrera@zemog.com.mx", "Error");
-
         }
-
     }
 
     public boolean liberacionCartaPorte(String numeroGuia, String estatusGuia, String prestamo) {
@@ -480,10 +654,10 @@ public class fViajes {
 
     }
 
-    public boolean cancelacion_Carta_Porte(int codigoArea, int numeroViaje, String estatusGuia, String prestamo, String comentarios, String estatusAnticipo, int estatusPedido, int estatusAsignacion, String cartaPorte,String accion) {
+    public boolean cancelacion_Carta_Porte(int codigoArea, int numeroViaje, String estatusGuia, String prestamo, String comentarios, String estatusAnticipo, int estatusPedido, int estatusAsignacion, String cartaPorte, String accion) {
 
         try {
-            
+
             CallableStatement cst = con.prepareCall("{call sp_ZEMOG_Cancelar_Carta_Porte(?,?,?,?,?,?,?,?,?,?)}");
             cst.setInt(1, codigoArea);
             cst.setInt(2, numeroViaje);
@@ -495,7 +669,7 @@ public class fViajes {
             cst.setInt(8, estatusAsignacion);
             cst.setString(9, cartaPorte);
             cst.setString(10, accion);
-            
+
             cst.executeUpdate();
 
             return true;
@@ -566,15 +740,15 @@ public class fViajes {
         };
 
         Object[] registros = new String[columnas.length];
- 
+
         modelo = new DefaultTableModel(null, columnas);
 
         try {
 
             for (int i = 0; i < buscar.length; i++) {
-                
+
                 CallableStatement cts = con.prepareCall("{call sp_ZEMOG_mostrar_viajes_cancelados(?,?,?)}");
-                
+
                 cts.setString(1, fechaInicio);
                 cts.setString(2, fechafinal);
                 cts.setString(3, buscar[i]);
@@ -614,30 +788,25 @@ public class fViajes {
         }
 
     }
-    
-    public String update_trafico_viaje(String estado, int num_viaje , int codigo_area){
-        
+
+    public String update_trafico_viaje(String estado, int num_viaje, int codigo_area) {
+
         try {
-            
+
             PreparedStatement cst = con.prepareCall("update dbo.trafico_viaje set status_viaje=? where no_viaje=? and id_area =? ");
             cst.setString(1, estado);
             cst.setInt(2, num_viaje);
             cst.setInt(3, codigo_area);
-            
+
             cst.execute();
-            
+
             return "success";
-            
-            
+
         } catch (SQLException e) {
-        
+
             return "Error  " + e.getMessage();
         }
-        
-    }
-    
-    
 
-    
-    
+    }
+
 }

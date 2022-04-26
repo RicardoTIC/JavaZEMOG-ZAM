@@ -190,7 +190,7 @@ public class frmViajesCancelados extends javax.swing.JInternalFrame {
         txtcomentarios.setRows(4);
         jScrollPane2.setViewportView(txtcomentarios);
 
-        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(755, 52, 210, 107));
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 70, 300, 107));
         jPanel1.add(txtCartaPorte, new org.netbeans.lib.awtextra.AbsoluteConstraints(436, 116, 165, -1));
         jPanel1.add(txtFechaCancelacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(436, 147, 165, -1));
 

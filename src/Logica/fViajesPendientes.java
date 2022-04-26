@@ -65,8 +65,31 @@ public class fViajesPendientes {
 
         return valor;
     }
+    
+    public int alertasPendientes(){
+        int alertas = 0;
+        
+        try {
+            
+            PreparedStatement pst = con.prepareCall("select count(*) from powerZemogViajesPendientes where estatusViajePendiente = 'Activo'");
+            
+            ResultSet rs = pst.executeQuery();
+            
+            if (rs.next()) {
+                alertas = rs.getInt(1);
+            }
+            return alertas;
+            
+        } catch (SQLException e) {
+            
+            return 0;
+        }
+        
+        
+    
+    }
 
-    public DefaultTableModel showdata(String buscar) {
+    public DefaultTableModel showdata(String buscar, String estatus) {
 
         DefaultTableModel modelo;
 
@@ -94,8 +117,9 @@ public class fViajesPendientes {
 
         try {
 
-            CallableStatement cst = con.prepareCall("{call sp_ZEMOG_mostrar_viajes_seguimiento_facturas(?)}");
+            CallableStatement cst = con.prepareCall("{call sp_ZEMOG_mostrar_viajes_seguimiento_facturas(?,?)}");
             cst.setString(1, buscar);
+            cst.setString(2, estatus);
 
             ResultSet rs = cst.executeQuery();
 

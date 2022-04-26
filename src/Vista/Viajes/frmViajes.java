@@ -23,10 +23,17 @@ import Vista.frmViaticos;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.HeadlessException;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -35,10 +42,13 @@ import java.util.Vector;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -60,11 +70,27 @@ public class frmViajes extends javax.swing.JInternalFrame {
     TimerTask tiempo = new Reloj();
     JScrollPane scroll = new JScrollPane();
     String[] arregloUnidades;
+    Toolkit t = Toolkit.getDefaultToolkit();
 
     public frmViajes() {
 
         initComponents();
-
+        
+         int width = t.getScreenSize().width;
+         int height = t.getScreenSize().height;
+        
+        if (width < 1920  && height < 1080) {
+            
+            try {
+                    
+                this.setMaximum(true);
+                
+            } catch (Exception ex) {
+                help.mensaje("Error al maximizar pantalla "+ex.getMessage(), "Error");
+            }
+            
+        }
+        
         txtFechaFinal.setDate(fechainicial.getTime());
         txtFechaInicio.setDate(fechafinal.getTime());
         lbltotalRegistros.setText("Total registro : ");
@@ -232,8 +258,13 @@ public class frmViajes extends javax.swing.JInternalFrame {
     }
 
     public void mostarDetalladoFechasBuscardor(String fechainicio, String fechafinal, String[] buscar) {
-        String valor_Comparativo = "";
+        String patron = "###,###.###";
+        DecimalFormat obj = new DecimalFormat(patron);
+        int totalRegistros = 0;
+
         ListaDatos.setModel(func.showdataFordate(fechainicio, fechafinal, buscar));
+
+        lblTotalKM.setText(obj.format(func.totalKmConsulta));
         //tamano_columnas();
         func.totalRegistros = 0;
         if (ListaDatos.getRowCount() == 0) {
@@ -248,8 +279,10 @@ public class frmViajes extends javax.swing.JInternalFrame {
         }
         ListaDatos.changeSelection(0, 1, false, false);
         seleccionar_fial();
+        totalRegistros = ListaDatos.getRowCount();
+        func.totalKmConsulta = 0;
 
-        lbltotalRegistros.setText("Total registros " + String.valueOf(func.totalRegistros));
+        lbltotalRegistros.setText("Total registros " + String.valueOf(totalRegistros));
         //tamano_columnas();
     }
 
@@ -460,8 +493,9 @@ public class frmViajes extends javax.swing.JInternalFrame {
             }
         };
         CheckAvanzado = new javax.swing.JCheckBox();
-        lblError = new javax.swing.JLabel();
         barraMovimiento = new javax.swing.JPanel();
+        lblError = new javax.swing.JLabel();
+        lblTotalKM = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         btnFacturaCancelada = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -776,11 +810,11 @@ public class frmViajes extends javax.swing.JInternalFrame {
         lbltotalRegistros.setText("Total Registros");
         PanelLista.add(lbltotalRegistros, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 481, 240, -1));
 
-        NumeroRegistrosPegados.setText("NumeroDeRegistrosPegados");
-        PanelLista.add(NumeroRegistrosPegados, new org.netbeans.lib.awtextra.AbsoluteConstraints(394, 107, -1, -1));
+        NumeroRegistrosPegados.setText("Numero De Registros Pegados :");
+        PanelLista.add(NumeroRegistrosPegados, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 100, -1, 20));
 
-        lblEncontrado.setText("Folios Encontrados");
-        PanelLista.add(lblEncontrado, new org.netbeans.lib.awtextra.AbsoluteConstraints(628, 107, -1, -1));
+        lblEncontrado.setText("Folios Encontrados :");
+        PanelLista.add(lblEncontrado, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 74, -1, 20));
 
         ListaDatos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -814,7 +848,6 @@ public class frmViajes extends javax.swing.JInternalFrame {
             }
         });
         PanelLista.add(CheckAvanzado, new org.netbeans.lib.awtextra.AbsoluteConstraints(595, 44, -1, -1));
-        PanelLista.add(lblError, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 74, 700, 20));
 
         barraMovimiento.setBackground(new java.awt.Color(255, 255, 255));
         barraMovimiento.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
@@ -832,14 +865,18 @@ public class frmViajes extends javax.swing.JInternalFrame {
         barraMovimiento.setLayout(barraMovimientoLayout);
         barraMovimientoLayout.setHorizontalGroup(
             barraMovimientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1310, Short.MAX_VALUE)
+            .addGap(0, 1330, Short.MAX_VALUE)
         );
         barraMovimientoLayout.setVerticalGroup(
             barraMovimientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 50, Short.MAX_VALUE)
         );
 
-        PanelLista.add(barraMovimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 450, 1310, 50));
+        PanelLista.add(barraMovimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 450, 1330, 50));
+        PanelLista.add(lblError, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 74, 700, 20));
+
+        lblTotalKM.setText("jLabel34");
+        PanelLista.add(lblTotalKM, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 420, 120, 20));
 
         jPanel3.add(PanelLista, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 387, 730, 502));
 
@@ -985,6 +1022,11 @@ public class frmViajes extends javax.swing.JInternalFrame {
         btnConsultarViajesAvanzados.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnConsultarViajesAvanzados.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/outline_search_black_24dp.png"))); // NOI18N
         btnConsultarViajesAvanzados.setText("Consultar");
+        btnConsultarViajesAvanzados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsultarViajesAvanzadosActionPerformed(evt);
+            }
+        });
         jPanel2.add(btnConsultarViajesAvanzados, new org.netbeans.lib.awtextra.AbsoluteConstraints(458, 27, -1, -1));
         jPanel2.add(txtCodigoViaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(347, 33, 101, -1));
 
@@ -1019,7 +1061,7 @@ public class frmViajes extends javax.swing.JInternalFrame {
         });
         jPanel2.add(btnViaticos, new org.netbeans.lib.awtextra.AbsoluteConstraints(57, 406, 281, -1));
 
-        jPanel3.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(746, 387, -1, 502));
+        jPanel3.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(746, 387, 590, 502));
 
         lblEstatusGuia.setText("-------");
         jPanel3.add(lblEstatusGuia, new org.netbeans.lib.awtextra.AbsoluteConstraints(792, 149, -1, -1));
@@ -1036,7 +1078,7 @@ public class frmViajes extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 872, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1048,7 +1090,7 @@ public class frmViajes extends javax.swing.JInternalFrame {
 
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
         try {
-            
+
             String cadenaPruebas;
             String dateStart = formatoFecha.format(txtFechaInicio.getDate());
             String dateEnd = formatoFecha.format(txtFechaFinal.getDate());
@@ -1206,8 +1248,8 @@ public class frmViajes extends javax.swing.JInternalFrame {
 
         if (evt.getClickCount() == 2) {
             frmRutas rutas = new frmRutas();
-            Principal.escritorio.add(rutas);
             help.centrarPantalla(Principal.escritorio, rutas);
+            Principal.escritorio.add(rutas);
             rutas.show();
 
         }
@@ -1283,12 +1325,12 @@ public class frmViajes extends javax.swing.JInternalFrame {
         }
 
         frmCancelacionDeviaje cancelacion = new frmCancelacionDeviaje();
-        
+
         Principal.escritorio.add(cancelacion);
         help.centrarPantalla(Principal.escritorio, cancelacion);
-       
+
         cancelacion.show();
-        
+
     }//GEN-LAST:event_btnCancelacionViajeActionPerformed
 
     private void btnActualizarUnidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarUnidadActionPerformed
@@ -1496,7 +1538,7 @@ public class frmViajes extends javax.swing.JInternalFrame {
 
         Vector<String> lista = new Vector<>();
 
-        int fila = ListaDatos.getSelectedRow();
+        int fila = ListaDatos.rowAtPoint(evt.getPoint());
 
         try {
 
@@ -1578,7 +1620,7 @@ public class frmViajes extends javax.swing.JInternalFrame {
             Buscar_Operador_Inactivo();
             //lblEstadoOperador.setText(ope.buscar_estatus_operador(txtOperador.getText()));
         } catch (Exception e) {
-            help.mensaje("error " + e.getMessage(), "Error");
+            help.mensaje("Error en el metodo seleccionar dato " + getClass() + " Error " + e.getMessage(), "Error");
         }
 
 
@@ -1610,9 +1652,66 @@ public class frmViajes extends javax.swing.JInternalFrame {
         int x = evt.getXOnScreen();
         int y = evt.getYOnScreen();
 
-        this.setLocation(xx - x, yy - y);
+        this.setLocation(x - xx, y - yy);
 
     }//GEN-LAST:event_barraMovimientoMouseDragged
+
+    public static void guardarFichero(String cadena, File archivo) {
+
+        FileWriter escribir;
+        try {
+
+            escribir = new FileWriter(archivo, true);
+            escribir.write(cadena);
+            escribir.close();
+
+        } catch (FileNotFoundException ex) {
+
+        } catch (IOException ex) {
+
+        }
+    }
+
+    private void btnConsultarViajesAvanzadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarViajesAvanzadosActionPerformed
+        JFileChooser guardar = new JFileChooser();
+        guardar.showSaveDialog(null);
+        guardar.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+
+        File archivo = guardar.getSelectedFile();
+
+        frmViajes.guardarFichero("", archivo);
+
+        /*
+
+        //Creas el fileChooser 
+        JFileChooser fileChooser = new JFileChooser();
+        //Establecemos el tipo de archivos que vamos a visualizar
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        //Establecemos los filtros o archivos que vamos a visualizar en el fileChooser
+        
+        //fileChooser.setFileFilter(new FileNameExtensionFilter("Todos los archivos", ".xlsm",".jpg",".png"));
+        FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("Todos los archivos", ".xlsx", "xlsm");
+        // 
+        fileChooser.setFileFilter(imgFilter);
+        // abrimos el file chooser  se menaje igual que con lo JOptionPane.
+        int result = fileChooser.showOpenDialog(this);
+        
+        if (result != JFileChooser.CANCEL_OPTION) {
+            
+            File fileName = fileChooser.getSelectedFile();
+
+            if ((fileName == null) || (fileName.getName().equals(""))) {
+                txtBuscar.setText("...");
+            } else {
+                txtBuscar.setText(fileName.getAbsolutePath());
+                help.mensaje(fileName.getAbsolutePath(), "Informativo");
+                
+            }
+        }
+
+         */
+
+    }//GEN-LAST:event_btnConsultarViajesAvanzadosActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1693,6 +1792,7 @@ public class frmViajes extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblNumeroViaje;
     private javax.swing.JLabel lblOrigen;
     public static javax.swing.JLabel lblReloj;
+    private javax.swing.JLabel lblTotalKM;
     private javax.swing.JLabel lbltotalRegistros;
     private javax.swing.JTextField txtAsignacion;
     public static javax.swing.JTextField txtBuscar;

@@ -77,8 +77,8 @@ public class frmCartaPorte extends javax.swing.JInternalFrame {
             txtRFCDestino.setText(listaDato.getRfc_cliente());
         }
 
-        ls.setNo_guia(Integer.parseInt(txtNum_guia.getText()));
-        ls.setId_area(Integer.parseInt(txtCodigoArea.getText()));
+        //ls.setNo_guia(Integer.parseInt(txtNum_guia.getText()));
+        //ls.setId_area(Integer.parseInt(txtCodigoArea.getText()));
 
         mostrar(ls);
 

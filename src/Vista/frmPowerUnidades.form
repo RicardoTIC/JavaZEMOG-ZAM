@@ -72,27 +72,6 @@
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                              <Component id="cboIngresoXFlete" alignment="0" pref="189" max="32767" attributes="0"/>
-                              <Component id="cboIndTitular" alignment="0" max="32767" attributes="0"/>
-                              <Component id="cboTipoCuota" alignment="0" max="32767" attributes="0"/>
-                              <Component id="cboEstatusPepsi" alignment="0" max="32767" attributes="0"/>
-                              <Component id="cboEstatus" alignment="0" max="32767" attributes="0"/>
-                          </Group>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="lblId_estatus" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblid_estatus_pepsi" alignment="0" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="cboSucursal" min="-2" pref="189" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="lblCodigoArea" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Component id="txtFechaInicio" alignment="0" min="-2" pref="296" max="-2" attributes="0"/>
-                      <Component id="txtFechaFinal" alignment="0" min="-2" pref="296" max="-2" attributes="0"/>
                       <Component id="cboRazonDetenida" alignment="0" min="-2" pref="130" max="-2" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="cbo_ind_rentaFija" min="-2" pref="130" max="-2" attributes="0"/>
@@ -113,9 +92,29 @@
                               <Component id="btnResumen" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="cboPruebas" alignment="0" max="32767" attributes="0"/>
-                          <Component id="txtUnidad" alignment="0" pref="125" max="32767" attributes="0"/>
+                      <Component id="txtUnidad" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                              <Component id="txtFechaFinal" alignment="0" max="32767" attributes="0"/>
+                              <Component id="cboIngresoXFlete" alignment="0" pref="189" max="32767" attributes="0"/>
+                              <Component id="cboIndTitular" alignment="0" max="32767" attributes="0"/>
+                              <Component id="cboTipoCuota" alignment="0" max="32767" attributes="0"/>
+                              <Component id="cboEstatusPepsi" alignment="0" max="32767" attributes="0"/>
+                              <Component id="cboEstatus" alignment="0" max="32767" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="lblId_estatus" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblid_estatus_pepsi" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                              <Component id="txtFechaInicio" alignment="0" max="32767" attributes="0"/>
+                              <Component id="cboSucursal" alignment="0" pref="189" max="32767" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="lblCodigoArea" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
@@ -141,37 +140,35 @@
                   </Group>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
-                          <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
-                          <Component id="cboPruebas" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jLabel1" alignment="1" min="-2" max="-2" attributes="0"/>
                               <Component id="txtUnidad" alignment="1" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="cboSucursal" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblCodigoArea" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="cboSucursal" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="lblCodigoArea" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="txtFechaInicio" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
+                                  <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="txtFechaFinal" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+                                  <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                               </Group>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="cboEstatus" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblId_estatus" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Component id="txtFechaInicio" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="txtFechaFinal" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="cboEstatus" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblId_estatus" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
                           </Group>
                           <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
@@ -195,7 +192,7 @@
                               <Component id="jLabel12" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="cboIngresoXFlete" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="27" max="32767" attributes="0"/>
+                          <EmptySpace pref="42" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel13" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="cbo_ind_rentaFija" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -302,16 +299,6 @@
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
           </AuxValues>
-        </Component>
-        <Component class="javax.swing.JTextField" name="txtFechaInicio">
-          <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="txtFechaInicioMouseClicked"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JTextField" name="txtFechaFinal">
-          <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="txtFechaFinalMouseClicked"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnGuardar">
           <Properties>
@@ -603,18 +590,6 @@
             <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtBuscarKeyReleased"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JComboBox" name="cboPruebas">
-          <Properties>
-            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="1">
-                <StringItem index="0" value="Este es una prueba"/>
-              </StringArray>
-            </Property>
-          </Properties>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-          </AuxValues>
-        </Component>
         <Component class="javax.swing.JLabel" name="lblCodigoArea">
           <Properties>
             <Property name="text" type="java.lang.String" value="CodigoArea"/>
@@ -629,6 +604,10 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="id_estatus_pepsi"/>
           </Properties>
+        </Component>
+        <Component class="com.toedter.calendar.JDateChooser" name="txtFechaInicio">
+        </Component>
+        <Component class="com.toedter.calendar.JDateChooser" name="txtFechaFinal">
         </Component>
       </SubComponents>
     </Container>

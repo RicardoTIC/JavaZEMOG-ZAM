@@ -7,8 +7,13 @@ package Vista.Indicadores;
 
 import Helpers.Ayudas;
 import Logica.fViajes;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 /**
  *
@@ -18,8 +23,11 @@ public class ResumenKilometros extends javax.swing.JInternalFrame {
 
     fViajes func = new fViajes();
     SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    //Cremos una instancia de Calendar para optener la fecha actual
+    Calendar fecha = Calendar.getInstance();
+
     GregorianCalendar fechainicial = new GregorianCalendar();
-    GregorianCalendar fechafinal = new GregorianCalendar(2022, 0, 1, 12, 59, 59);
+    GregorianCalendar fechafinal = new GregorianCalendar(2022, fecha.get(Calendar.MONTH), 1, 12, 59, 59);
     Ayudas help = new Ayudas();
 
     public ResumenKilometros() {
@@ -31,21 +39,57 @@ public class ResumenKilometros extends javax.swing.JInternalFrame {
 
     void mostrarPorFechas(String fechainicio, String fechafinal) {
         ListaResumen.setModel(func.resumenIndicador(fechainicio, fechafinal));
-        lblkmCMT.setText("Total km CMT " + String.valueOf(func.kmPlus));
-        lbltotalregistros.setText("Total registros " + String.valueOf(func.totalRegistros));
+
     }
 
     void mostrarPorOperacion(String fechainicio, String fechafinal, String operacion) {
+        String patron = "###,###.###";
+        String moneda = "$ ###,###.###";
+        
+        DecimalFormat obj = new DecimalFormat(patron);
+        DecimalFormat dinero = new DecimalFormat(moneda);
+        
+        String ME, Arca, GEPP, MD,MEKM,ArcaKM,GEPPKm,MDKm;
+
         try {
+
             ListaResumen.setModel(func.resumenIndicadorOperacion(fechainicio, fechafinal, operacion));
-            lblkmCMT.setText("Total km CMT " + String.valueOf(func.total_kilometros));
-            lbltotalregistros.setText("Total registros " + String.valueOf(func.totalRegistros));
+            
+            ME = dinero.format(func.totalVentaModeloEspecializado);
+            Arca = dinero.format(func.totalVentaArca);
+            GEPP = dinero.format(func.totalVentaGEPP);
+            MD = dinero.format(func.totalVentaModeloDedicado);
+            
+            MEKM = obj.format(func.totalkmModeloEspecializado);
+            MDKm = obj.format(func.totalkmModeloDedicado);
+            ArcaKM = obj.format(func.totalkmArca);
+            
+            GEPPKm = obj.format(func.totalkmGEPP);
+            
+            lblKmEspecializado.setText(MEKM);
+            lblKmModeloDedicado.setText(MDKm);
+            lblKmArca.setText(ArcaKM);
+            lblKmGEPP.setText(GEPPKm);
+            
+            lblTotalModeloEspecializado.setText(ME);
+            lblTotalModeloDedicado.setText(MD);
+            lblTotalArca.setText(Arca);
+            lblTotalGEPP.setText(GEPP);
 
         } catch (Exception e) {
-            
-            help.mensajeLateral("Error", "NO se puedo generar el excel Timeout " + e.getMessage() , "error");
-        }
 
+            help.mensajeLateral("Error", "No se puedo generar el excel Timeout " + e.getMessage(), "error");
+        }
+        func.totalVentaModeloEspecializado = 0;
+        func.totalVentaModeloDedicado = 0;
+        func.totalVentaArca = 0;
+        func.totalVentaGEPP = 0;
+        
+        func.totalkmModeloEspecializado = 0;
+        func.totalkmModeloDedicado = 0;
+        func.totalkmGEPP = 0;
+        func.totalkmArca = 0;
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -72,6 +116,28 @@ public class ResumenKilometros extends javax.swing.JInternalFrame {
         txtNumeroViajes = new javax.swing.JTextField();
         cboOperacion = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        lblTotalModeloEspecializado = new javax.swing.JLabel();
+        jSeparator2 = new javax.swing.JSeparator();
+        lblKmEspecializado = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        lblTotalModeloDedicado = new javax.swing.JLabel();
+        jSeparator3 = new javax.swing.JSeparator();
+        lblKmModeloDedicado = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        lblTotalArca = new javax.swing.JLabel();
+        jSeparator4 = new javax.swing.JSeparator();
+        lblKmArca = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        lblTotalGEPP = new javax.swing.JLabel();
+        jSeparator5 = new javax.swing.JSeparator();
+        lblKmGEPP = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        lblSucursal = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setClosable(true);
@@ -80,6 +146,7 @@ public class ResumenKilometros extends javax.swing.JInternalFrame {
         setTitle("Resumen");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Resumen de km", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 24))); // NOI18N
 
         ListaResumen.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -140,62 +207,253 @@ public class ResumenKilometros extends javax.swing.JInternalFrame {
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel7.setText("Operacion :");
 
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel8.setText("Total Modelo Especializado :");
+
+        lblTotalModeloEspecializado.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        lblTotalModeloEspecializado.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTotalModeloEspecializado.setText("-");
+
+        lblKmEspecializado.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        lblKmEspecializado.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblKmEspecializado.setText("-");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblTotalModeloEspecializado, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jSeparator2)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(lblKmEspecializado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel8)
+                .addGap(18, 18, 18)
+                .addComponent(lblTotalModeloEspecializado)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblKmEspecializado)
+                .addContainerGap(16, Short.MAX_VALUE))
+        );
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel9.setText("Total Modelo Dedicado :");
+
+        lblTotalModeloDedicado.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        lblTotalModeloDedicado.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTotalModeloDedicado.setText("-");
+
+        lblKmModeloDedicado.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        lblKmModeloDedicado.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblKmModeloDedicado.setText("-");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblTotalModeloDedicado, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel9)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jSeparator3))
+                .addContainerGap())
+            .addComponent(lblKmModeloDedicado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel9)
+                .addGap(18, 18, 18)
+                .addComponent(lblTotalModeloDedicado)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblKmModeloDedicado)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel10.setText("Total Arca :");
+
+        lblTotalArca.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        lblTotalArca.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTotalArca.setText("-");
+
+        lblKmArca.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        lblKmArca.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblKmArca.setText("-");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblTotalArca, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jSeparator4)
+                    .addComponent(lblKmArca, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel10)
+                .addGap(18, 18, 18)
+                .addComponent(lblTotalArca)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblKmArca)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel11.setText("Total GEPP :");
+
+        lblTotalGEPP.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        lblTotalGEPP.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTotalGEPP.setText("-");
+
+        lblKmGEPP.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        lblKmGEPP.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblKmGEPP.setText("-");
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblTotalGEPP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jSeparator5)
+                    .addComponent(lblKmGEPP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel11)
+                .addGap(18, 18, 18)
+                .addComponent(lblTotalGEPP)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblKmGEPP)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        lblSucursal.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lblSucursal.setText("-");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(lbltotalregistros)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblkmCMT, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 581, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 714, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(33, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel4)
-                                .addComponent(jLabel3))
-                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cboOperacion, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(txtFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(35, 35, 35)
-                                .addComponent(jLabel1))
-                            .addComponent(txtSucursal)
-                            .addComponent(txtKm))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(txtFechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lbltotalregistros)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnConsultar))
+                                .addComponent(lblkmCMT, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtVenta))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtNumeroViajes)))))
-                .addContainerGap(20, Short.MAX_VALUE))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(31, 31, 31)
+                                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addComponent(jLabel4)
+                                                .addComponent(jLabel3))
+                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(cboOperacion, 0, 227, Short.MAX_VALUE)
+                                            .addComponent(txtSucursal)
+                                            .addComponent(txtKm)
+                                            .addComponent(txtFechaInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                                    .addGap(104, 104, 104)
+                                                    .addComponent(jLabel5)
+                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                    .addComponent(txtVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                                    .addGap(39, 39, 39)
+                                                    .addComponent(jLabel6)
+                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(txtNumeroViajes)
+                                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                                            .addComponent(btnConsultar)
+                                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                            .addComponent(lblSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGap(81, 81, 81)
+                                                .addComponent(jLabel1)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(txtFechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(jScrollPane1))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(txtFechaInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtFechaFinal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(btnConsultar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtFechaInicio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtFechaFinal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -210,8 +468,10 @@ public class ResumenKilometros extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cboOperacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7))
-                .addGap(20, 20, 20)
+                    .addComponent(jLabel7)
+                    .addComponent(btnConsultar)
+                    .addComponent(lblSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(7, 7, 7)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -236,7 +496,13 @@ public class ResumenKilometros extends javax.swing.JInternalFrame {
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
         String fechainicial = formatoFecha.format(txtFechaInicio.getDate());
         String fechafinal = formatoFecha.format(txtFechaFinal.getDate());
-        String operacion = cboOperacion.getSelectedItem().toString();
+        String operacion = "";
+
+        if (cboOperacion.getSelectedIndex() == 0) {
+            operacion = "";
+        } else {
+            operacion = cboOperacion.getSelectedItem().toString();
+        }
 
         func.totalRegistros = 0;
         mostrarPorOperacion(fechainicial, fechafinal, operacion);
@@ -248,11 +514,20 @@ public class ResumenKilometros extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtSucursalKeyReleased
 
     private void ListaResumenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ListaResumenMouseClicked
-        int fila = ListaResumen.rowAtPoint(evt.getPoint());
-        txtSucursal.setText(ListaResumen.getValueAt(fila, 0).toString());
-        txtKm.setText(ListaResumen.getValueAt(fila, 2).toString());
-        txtVenta.setText(ListaResumen.getValueAt(fila, 4).toString());
-        txtNumeroViajes.setText(ListaResumen.getValueAt(fila, 3).toString());
+
+        try {
+            int fila = ListaResumen.rowAtPoint(evt.getPoint());
+            lblSucursal.setText(ListaResumen.getValueAt(fila, 0).toString());
+            txtSucursal.setText(ListaResumen.getValueAt(fila, 0).toString());
+            txtKm.setText(ListaResumen.getValueAt(fila, 3).toString());
+            txtVenta.setText(ListaResumen.getValueAt(fila, 5).toString());
+            txtNumeroViajes.setText(ListaResumen.getValueAt(fila, 4).toString());
+
+        } catch (Exception e) {
+            help.mensajeLateral("Error", "Error al seleccionar datos", "error");
+        }
+
+
     }//GEN-LAST:event_ListaResumenMouseClicked
 
 
@@ -261,14 +536,36 @@ public class ResumenKilometros extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnConsultar;
     private javax.swing.JComboBox<String> cboOperacion;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JSeparator jSeparator5;
+    private javax.swing.JLabel lblKmArca;
+    private javax.swing.JLabel lblKmEspecializado;
+    private javax.swing.JLabel lblKmGEPP;
+    private javax.swing.JLabel lblKmModeloDedicado;
+    private javax.swing.JLabel lblSucursal;
+    private javax.swing.JLabel lblTotalArca;
+    private javax.swing.JLabel lblTotalGEPP;
+    private javax.swing.JLabel lblTotalModeloDedicado;
+    private javax.swing.JLabel lblTotalModeloEspecializado;
     private javax.swing.JLabel lblkmCMT;
     private javax.swing.JLabel lbltotalregistros;
     private com.toedter.calendar.JDateChooser txtFechaFinal;

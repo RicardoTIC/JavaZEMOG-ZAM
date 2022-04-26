@@ -20,6 +20,7 @@ import javax.swing.JTable;
  */
 public class frmRutas extends javax.swing.JInternalFrame {
 
+    frmViajes frm = new frmViajes();
     Helpers.Ayudas help = new Ayudas();
     fRutas ruta = new fRutas();
 
@@ -31,28 +32,21 @@ public class frmRutas extends javax.swing.JInternalFrame {
 
     void mostrar_informacion_nueva() {
         //El metodo nos sirve para poder visualizar la informacion de ruta dependiendo si nuestro formulario de viajes esta abierto o no 
-        frmViajes frm = new frmViajes();
-        try {
-
-            if (frmViajes.txtNombreCorto.getText().equalsIgnoreCase("")) {
-                mostrar("");
-
-            } else {
-                txtBuscar.setText(frmViajes.txtNombreCorto.getText());
-                mostrar(frmViajes.txtNombreCorto.getText());
-            }
-
-        } catch (Exception e) {
-            help.mensaje("La tabla de datos esta vacia " + e.getMessage(), "Error");
-        }
+        mostrar("");
 
     }
 
     void mostrar(String buscar) {
+        try {
+            
+            ListaRutas.setModel(new Logica.fRutas().showdata(buscar));
+            lbltotalRegistros.setText("Total de registros " + String.valueOf(ruta.totalRegistros));
+            tamano_columna();
 
-        ListaRutas.setModel(new Logica.fRutas().showdata(buscar));
-        lbltotalRegistros.setText("Total de registros " + String.valueOf(ruta.totalRegistros));
-        tamano_columna();
+        } catch (Exception e) {
+            help.mensaje("Error "+getClass().getName() + " | "+e.getMessage(), "Error");
+        }
+
     }
 
     void tamano_columna() {

@@ -6,9 +6,11 @@
 package Vista.Viajes;
 
 import Helpers.Ayudas;
+import Logica.fTrafico_anticipo;
 import Logica.fTrafico_guia;
 import Logica.fTrafico_viaje;
 import Logica.fViajes;
+import Modelo.Trafico_anticipo;
 import Modelo.Trafico_guia;
 import Vista.Principal;
 import java.awt.BorderLayout;
@@ -26,22 +28,11 @@ public class frmCancelacionDeviaje extends javax.swing.JInternalFrame {
     fViajes func = new fViajes();
     fTrafico_viaje funcTraficoviaje = new fTrafico_viaje();
     fTrafico_guia funcTraficoGuia = new fTrafico_guia();
+    fTrafico_anticipo funcTraficoAnticipo = new fTrafico_anticipo();
 
     public frmCancelacionDeviaje() {
         initComponents();
-        lblCodigoArea.setText(frmViajes.txtCodigoRuta.getText());
-        lblNumeroViaje.setText(frmViajes.txtNumeroViaje.getText());
-        txtTraficoViajeNumeroViaje.setText(frmViajes.txtNumeroViaje.getText());
-        txtTraficoViajeCodigoArea.setText(frmViajes.txtCodigoRuta.getText());
-        txtNumeroGuia.setText(frmViajes.txtNumeroGuia.getText());
-        btnActualizarCancelacionviaje.setEnabled(false);
-
-        if (lblCodigoArea.getText().length() <= 0 || lblNumeroViaje.getText().length() <= 0) {
-            mostrar("", "");
-        } else {
-            mostrar(lblNumeroViaje.getText(), lblCodigoArea.getText());
-        }
-        habilitarCajas(false);
+        validacion_formulario();
     }
 
     public void validacion_formulario() {
@@ -51,6 +42,7 @@ public class frmCancelacionDeviaje extends javax.swing.JInternalFrame {
     }
 
     void informacion_viaje() {
+
         lblCodigoArea.setText(frmViajes.txtCodigoRuta.getText());
         lblNumeroViaje.setText(frmViajes.txtNumeroViaje.getText());
         txtTraficoViajeNumeroViaje.setText(frmViajes.txtNumeroViaje.getText());
@@ -99,6 +91,12 @@ public class frmCancelacionDeviaje extends javax.swing.JInternalFrame {
         txtComentariosTraficoGuia.setVisible(validacion);
         cboEstatusPrestamoTraficoGuia.setVisible(validacion);
         txtNumGuiaTraficoGuia.setEnabled(validacion);
+
+    }
+
+    void mostrarTrafico_anticipo(int numeroViaje, int codigoArea) {
+
+        ListaTablaAncipo.setModel(funcTraficoAnticipo.showAllData(numeroViaje, codigoArea));
 
     }
 
@@ -193,6 +191,32 @@ public class frmCancelacionDeviaje extends javax.swing.JInternalFrame {
         txtNumGuiaTraficoGuia = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        ListaTablaAncipo = new javax.swing.JTable(){
+
+            @Override
+            public boolean isCellEditable(int row , int col){
+
+                if(col == 1){
+                    return true;
+                }else{
+                    return false;
+                }
+
+            }
+
+        };
+        jLabel22 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        txtCodigoAreaTraficoAnticipo = new javax.swing.JTextField();
+        txtNumeroViajeTraficoAnticipo = new javax.swing.JTextField();
+        jLabel24 = new javax.swing.JLabel();
+        cboEstatusTraficoAnticipo = new javax.swing.JComboBox<>();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        txtComentariosAnticipo = new javax.swing.JTextArea();
+        jLabel25 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        btnBuscadorTraficoGuia = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         setClosable(true);
@@ -617,18 +641,122 @@ public class frmCancelacionDeviaje extends javax.swing.JInternalFrame {
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
 
+        ListaTablaAncipo.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        ListaTablaAncipo.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+        add(pane, BorderLayout.CENTER);
+        jScrollPane6.setViewportView(ListaTablaAncipo);
+
+        jLabel22.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel22.setText("Codigo Area :");
+
+        jLabel23.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel23.setText("Numero de viaje :");
+
+        jLabel24.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel24.setText("Estatus Anticipo :");
+
+        cboEstatusTraficoAnticipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona el estatus anticipo", "Aceptado", "Cancelado", "Edicion", "Liquidacion" }));
+
+        txtComentariosAnticipo.setColumns(20);
+        txtComentariosAnticipo.setRows(5);
+        jScrollPane7.setViewportView(txtComentariosAnticipo);
+
+        jLabel25.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel25.setText("Comentario :");
+
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/outline_update_black_24dp.png"))); // NOI18N
+        jButton2.setText("Actualizar Estatus");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        btnBuscadorTraficoGuia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/outline_travel_explore_black_24dp.png"))); // NOI18N
+        btnBuscadorTraficoGuia.setText("Buscar");
+        btnBuscadorTraficoGuia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscadorTraficoGuiaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 705, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel22))
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabel24)
+                                .addGap(0, 7, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cboEstatusTraficoAnticipo, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCodigoAreaTraficoAnticipo, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(382, 382, 382))
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jButton2)
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 645, javax.swing.GroupLayout.PREFERRED_SIZE))))
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addComponent(jLabel23)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtNumeroViajeTraficoAnticipo, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel25)
+                    .addComponent(btnBuscadorTraficoGuia, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 574, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel25)
+                    .addComponent(txtNumeroViajeTraficoAnticipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel23))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel22)
+                            .addComponent(txtCodigoAreaTraficoAnticipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(36, 36, 36)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cboEstatusTraficoAnticipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel24)))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(33, 33, 33)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2)
+                    .addComponent(btnBuscadorTraficoGuia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(45, 45, 45))
         );
 
-        jTabbedPane1.addTab("Trafico_guia", jPanel5);
+        jTabbedPane1.addTab("Trafico_anticipo", jPanel5);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -646,14 +774,14 @@ public class frmCancelacionDeviaje extends javax.swing.JInternalFrame {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         String accion = "Cancelar";
+
         if (frmViajes.lblEstatusGuia.getText().equalsIgnoreCase("Pendiente")) {
             aux.mensaje("NO PUEDES CANCELAR UNA VIAJE POR QUE ESTA EN ESTADO DE PENDIENTE FINALIZA EL VIAJE PARA CANCELAR", "INFORMATIVO");
         } else {
 
             String estatus_Anticipo = "", estatus_Guia = "", estatus_Prestamo = "", numero_guia = "";
             int estatus_Asignacion = 0, estatus_Pedido = 0;
-
-            int codigoArea = 0, numeroViaje = 0, auxiliar = 0;
+            int codigoArea = 0, numeroViaje = 0;
 
             if (lblCodigoArea.getText().length() <= 0) {
                 aux.mensaje("No puedes cancelar una viaje sin codigo de ruta", "Informativo");
@@ -767,21 +895,15 @@ public class frmCancelacionDeviaje extends javax.swing.JInternalFrame {
 
                     for (int j = 0; j < frmViajes.TablaFolio.getColumnCount(); j++) { //Columnas
 
-                        auxiliar = j;
-                        System.out.println(frmViajes.TablaFolio.getValueAt(i, j));
-
                         if (j == 1) {
                             numeroViaje = Integer.parseInt(frmViajes.TablaFolio.getValueAt(i, j).toString());
-
                         } else if (j == 2) {
                             codigoArea = Integer.parseInt(frmViajes.TablaFolio.getValueAt(i, j).toString());
-//                            j = auxiliar;
                         } else if (j == 3) {
                             numero_guia = frmViajes.TablaFolio.getValueAt(i, j).toString();
                         }
 
                         if (numeroViaje != 0 && codigoArea != 0 && !numero_guia.equalsIgnoreCase("")) {
-                            System.out.println("Numero de viaje " + numeroViaje + " Codigo Area " + codigoArea + " Numero de guia " + numero_guia);
 
                             if (func.cancelacion_Carta_Porte(codigoArea, numeroViaje, estatus_Guia, estatus_Prestamo,
                                     txtObservaciones.getText(), estatus_Anticipo, estatus_Pedido, estatus_Asignacion, numero_guia, accion)) {
@@ -965,64 +1087,61 @@ public class frmCancelacionDeviaje extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnActualizarTraficoGuiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarTraficoGuiaActionPerformed
-        
+
         Trafico_guia obj = new Trafico_guia();
         String estatusGuia = "";
-        
+
         if (txtCodigoAreaTraficoGuia.getText().length() <= 0 || txtNumeroViajeTraficoGuia.getText().length() <= 0) {
             aux.mensaje("Debes de ingresar un numero de viaje y codigo area", "Informativo");
             txtCodigoAreaTraficoGuia.requestFocus();
             return;
         }
-        
+
         if (cboEstatusTraficoGuia.getSelectedItem().toString().equalsIgnoreCase("Cancelado")) {
-            
+
             if (cboEstatusPrestamoTraficoGuia.getSelectedIndex() == 0) {
                 aux.mensaje("Debes seleccionar un estatus Prestamo", "Informativo");
                 cboPrestamo.requestFocus();
                 return;
-                
+
             }
-            
-            if (txtComentariosTraficoGuia.getText().length() <=0) {
+
+            if (txtComentariosTraficoGuia.getText().length() <= 0) {
                 aux.mensaje("Debes de agregar al menos un comentario", "Informativo");
                 txtComentariosTraficoGuia.requestFocus();
                 return;
             }
-            
-             switch(lblEstatusTraficoGuia.getText()){
-                 
-                 case "Confirmado" :
-                     estatusGuia = "C";
-                     break;
-                 case "Regreso" :
-                     estatusGuia = "R";
-                     break;
-                 case "Pendiente" :
-                     estatusGuia = "A";
-                     break;
-                 case "Transito" :
-                     estatusGuia = "T";
-                     break;
-                 case "Cancelado" :
-                     estatusGuia = "B";
-                     break;
-                 default:
-                     aux.mensaje("El estatus que ingresaste no exite", "Error");
-                     break;
-                 
-             }
-   
-            
+
+            switch (lblEstatusTraficoGuia.getText()) {
+
+                case "Confirmado":
+                    estatusGuia = "C";
+                    break;
+                case "Regreso":
+                    estatusGuia = "R";
+                    break;
+                case "Pendiente":
+                    estatusGuia = "A";
+                    break;
+                case "Transito":
+                    estatusGuia = "T";
+                    break;
+                case "Cancelado":
+                    estatusGuia = "B";
+                    break;
+                default:
+                    aux.mensaje("El estatus que ingresaste no exite", "Error");
+                    break;
+
+            }
+
             obj.setStatus_guia(estatusGuia);
             obj.setNo_guia(Integer.parseInt(txtNumGuiaTraficoGuia.getText()));
             obj.setMotivo_cancelacion(txtComentariosTraficoGuia.getText());
             obj.setPrestamo(cboPrestamo.getSelectedItem().toString());
-            
-            
-            aux.mensajeLateral("Datos ingresos " + estatusGuia, "Estatus guia "+obj.getStatus_guia() + " Numero de guia "+obj.getNo_guia() + " Motivo Cancelacion "+obj.getMotivo_cancelacion()+" Estatus prestamo "+obj.getPrestamo(), "ayuuda");
-            
-            
+
+            aux.mensajeLateral("Datos ingresos " + estatusGuia, "Estatus guia " + obj.getStatus_guia() + " Numero de guia " + obj.getNo_guia() + " Motivo Cancelacion " + obj.getMotivo_cancelacion() + " Estatus prestamo " + obj.getPrestamo(), "ayuuda");
+
         }
 
     }//GEN-LAST:event_btnActualizarTraficoGuiaActionPerformed
@@ -1051,27 +1170,99 @@ public class frmCancelacionDeviaje extends javax.swing.JInternalFrame {
 
         if (cboEstatusTraficoGuia.getSelectedItem().toString().equalsIgnoreCase("Cancelado")) {
             habilitarCajas(true);
-            aux.mensajeLateral("!!! success !!!","Se habilitaron los controles de comentarios para cancelar una viaje ","ayuuda");
+            aux.mensajeLateral("!!! success !!!", "Se habilitaron los controles de comentarios para cancelar una viaje ", "ayuuda");
 
         } else {
             habilitarCajas(false);
         }
-        
-        
+
         if (cboEstatusTraficoGuia.getSelectedItem().toString().equalsIgnoreCase("Transito")) {
-            aux.mensajeLateral("!!! Warning !!!","Este estatus es cuando la unidad esta en despacho no es recomendable utilizalo ","cuidado");
+            aux.mensajeLateral("!!! Warning !!!", "Este estatus es cuando la unidad esta en despacho no es recomendable utilizalo ", "cuidado");
         }
 
     }//GEN-LAST:event_cboEstatusTraficoGuiaActionPerformed
 
+    private void btnBuscadorTraficoGuiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscadorTraficoGuiaActionPerformed
+
+        ///Declaracion de variables 
+        int codigo_area = Integer.parseInt(txtCodigoAreaTraficoAnticipo.getText());
+        int numero_viaje = Integer.parseInt(txtNumeroViajeTraficoAnticipo.getText());
+
+        mostrarTrafico_anticipo(numero_viaje, codigo_area);
+
+    }//GEN-LAST:event_btnBuscadorTraficoGuiaActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
+        Trafico_anticipo obj = new Trafico_anticipo();
+        String StatusAnticipo = cboEstatusAnticipo.getSelectedItem().toString();
+
+        if (txtCodigoAreaTraficoAnticipo.getText().length() <= 0) {
+
+            aux.mensaje("Selecciona un codigo de area", "Informativo");
+            txtCodigoAreaTraficoAnticipo.requestFocus();
+            return;
+        }
+
+        if (txtNumeroViajeTraficoAnticipo.getText().length() <= 0) {
+
+            aux.mensaje("Selecciona un numero de viaje", "Informativo");
+            txtNumeroViajeTraficoAnticipo.requestFocus();
+            return;
+        }
+
+        if (cboEstatusTraficoAnticipo.getSelectedIndex() == 0) {
+
+            aux.mensaje("Selecciona un estatus correcto", "Informativo");
+            cboEstatusTraficoAnticipo.requestFocus();
+            return;
+        }
+
+        if (txtComentariosAnticipo.getText().length() <= 0) {
+
+            aux.mensaje("Agrega un comentario en la casilla de comentarios", "Informativo");
+            txtComentariosAnticipo.requestFocus();
+            return;
+        }
+
+        obj.setObservaciones(txtComentariosAnticipo.getText());
+        obj.setId_area(Integer.parseInt(txtCodigoAreaTraficoAnticipo.getText()));
+        obj.setNo_viaje(Integer.parseInt(txtNumeroViajeTraficoAnticipo.getText()));
+
+        if (StatusAnticipo.equalsIgnoreCase("Aceptado")) {
+            StatusAnticipo = "A";
+        } else if (StatusAnticipo.equalsIgnoreCase("Cancelado")) {
+            StatusAnticipo = "C";
+        } else if (StatusAnticipo.equalsIgnoreCase("Edicion")) {
+            StatusAnticipo = "E";
+        } else if (StatusAnticipo.equalsIgnoreCase("Liquidado")) {
+            StatusAnticipo = "L";
+        }
+
+        obj.setStatus_anticipo(StatusAnticipo);
+
+        if (funcTraficoAnticipo.update_trafico_anticipo(obj).equalsIgnoreCase("success")) {
+
+            aux.mensajeLateral("Se actualizo correctamente el registros ", "Se actualizo correctamente el viaje", "aceptado");
+            mostrarTrafico_anticipo(obj.getNo_viaje(), obj.getId_area());
+
+        } else {
+            aux.mensajeLateral("Error", funcTraficoAnticipo.update_trafico_anticipo(obj), "aceptado");
+        }
+
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable ListaTablaAncipo;
     private javax.swing.JTable ListaTraficoGuia;
     private javax.swing.JTable TablaTrafico;
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnActualizarCancelacionviaje;
     private javax.swing.JButton btnActualizarEstatusTraficoViaje;
     private javax.swing.JButton btnActualizarTraficoGuia;
+    private javax.swing.JButton btnBuscadorTraficoGuia;
     private javax.swing.JButton btnBuscarTraficoViaje;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JComboBox<String> cboEstatusAnticipo;
@@ -1079,11 +1270,13 @@ public class frmCancelacionDeviaje extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> cboEstatusGuia;
     private javax.swing.JComboBox<String> cboEstatusPedido;
     private javax.swing.JComboBox<String> cboEstatusPrestamoTraficoGuia;
+    private javax.swing.JComboBox<String> cboEstatusTraficoAnticipo;
     private javax.swing.JComboBox<String> cboEstatusTraficoGuia;
     private javax.swing.JComboBox<String> cboEstatusViajeTraficoViaje;
     private javax.swing.JComboBox<String> cboPrestamo;
     private javax.swing.JCheckBox checkManual;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1098,6 +1291,10 @@ public class frmCancelacionDeviaje extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1115,6 +1312,8 @@ public class frmCancelacionDeviaje extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lblCodigoArea;
@@ -1122,11 +1321,14 @@ public class frmCancelacionDeviaje extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblNumeroViaje;
     private javax.swing.JLabel lbltotalviatico;
     private javax.swing.JTable listaViaticos;
+    private javax.swing.JTextField txtCodigoAreaTraficoAnticipo;
     private javax.swing.JTextField txtCodigoAreaTraficoGuia;
+    private javax.swing.JTextArea txtComentariosAnticipo;
     private javax.swing.JTextArea txtComentariosTraficoGuia;
     private com.toedter.calendar.JDateChooser txtFechaCancelacionTraficoGuia;
     private javax.swing.JTextField txtNumGuiaTraficoGuia;
     private javax.swing.JTextField txtNumeroGuia;
+    private javax.swing.JTextField txtNumeroViajeTraficoAnticipo;
     private javax.swing.JTextField txtNumeroViajeTraficoGuia;
     private javax.swing.JTextArea txtObservaciones;
     private javax.swing.JTextField txtRemisionTraficoGuia;

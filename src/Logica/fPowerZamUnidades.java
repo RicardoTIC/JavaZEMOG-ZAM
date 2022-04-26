@@ -29,6 +29,7 @@ public class fPowerZamUnidades {
     private Connection con = cn.conectar();
     private int totalRegistros = 0;
     private Ayudas ayuda = new Ayudas();
+    
     PowerZamUnidades pwu = new PowerZamUnidades();
 
     public DefaultTableModel mostrar(String buscar) {
@@ -216,7 +217,7 @@ public class fPowerZamUnidades {
             CallableStatement cst = con.prepareCall("{call sp_ZEMOG_eliminar_unidad_PowerZam(?,?,?)}");
             cst.setInt(1, u.getId_area());
             cst.setString(2, u.getId_unidad());
-            cst.setDate(3,u.getF_inicial());
+            cst.setString(3,u.getF_inicial());
             
                         int n = cst.executeUpdate();
             
@@ -243,33 +244,28 @@ public class fPowerZamUnidades {
         
         try {
             
-            CallableStatement cst = con.prepareCall("{call sp_ZEMOG_insert_unidad_PowerZAM(?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+            CallableStatement cst = con.prepareCall("{call sp_ZEMOG_insert_unidad_PowerZAM(?,?,?,?,?,?,?,?,?,?,?,?)}");
             
             cst.setInt(1, u.getId_area());
             cst.setString(2, u.getId_unidad());
-            cst.setDate(3, u.getF_inicial());
-            cst.setString(4, u.getF_fin());
-            cst.setString(5, u.getTipocuota());
-            cst.setInt(6, u.getInd_titular());
-            cst.setInt(7, u.getInd_ingresoxflete());
-            cst.setInt(8, u.getInd_ingresoventafija());
-            cst.setFloat(9, u.getMontorentafija());
-            cst.setInt(10, u.getId_razon_detenida());
-            cst.setInt(11, u.getId_estatus());
-            cst.setInt(12, u.getId_estatus_pepsi());
-            cst.setString(13, u.getComentarios());
+            cst.setString(3, u.getF_inicial());
+            cst.setString(4, u.getTipocuota());
+            cst.setInt(5, u.getInd_titular());
+            cst.setInt(6, u.getInd_ingresoxflete());
+            cst.setInt(7, u.getInd_ingresoventafija());
+            cst.setFloat(8, u.getMontorentafija());
+            cst.setInt(9, u.getId_razon_detenida());
+            cst.setInt(10, u.getId_estatus());
+            cst.setInt(11, u.getId_estatus_pepsi());
+            cst.setString(12, u.getComentarios());
 
             
-            int n = cst.executeUpdate();
+            cst.executeUpdate();
             
-            if (n != 0) {
-                return true;
-            }else{
-                return false;
-            }
+            return true;
             
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+        } catch (SQLException e) {
+            
             return false;
         }
         

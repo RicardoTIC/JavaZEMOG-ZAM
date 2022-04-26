@@ -52,6 +52,7 @@ public class frmSucursal extends javax.swing.JInternalFrame {
         lblSucursal = new javax.swing.JLabel();
         lblCodigoArea = new javax.swing.JLabel();
         btnEnviarCambioRuta = new javax.swing.JButton();
+        btnEnviarGenerador = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setClosable(true);
@@ -124,7 +125,7 @@ public class frmSucursal extends javax.swing.JInternalFrame {
                     .addComponent(lblSucursal)
                     .addComponent(lblCodigoArea))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 313, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -133,6 +134,14 @@ public class frmSucursal extends javax.swing.JInternalFrame {
         btnEnviarCambioRuta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEnviarCambioRutaActionPerformed(evt);
+            }
+        });
+
+        btnEnviarGenerador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/outline_send_black_24dp.png"))); // NOI18N
+        btnEnviarGenerador.setText("Enviar Generador");
+        btnEnviarGenerador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEnviarGeneradorActionPerformed(evt);
             }
         });
 
@@ -145,6 +154,8 @@ public class frmSucursal extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(lblTotalUnidades)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnEnviarGenerador, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(52, 52, 52)
                 .addComponent(btnEnviarCambioRuta, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -153,9 +164,10 @@ public class frmSucursal extends javax.swing.JInternalFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnEnviarCambioRuta, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblTotalUnidades, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(lblTotalUnidades, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnEnviarGenerador, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -171,6 +183,7 @@ public class frmSucursal extends javax.swing.JInternalFrame {
 
         frmCambioRuta.txtSucursal.setText(listaSucursales.getValueAt(fila, 1).toString());
         frmCambioRuta.lblCodigoArea.setText(listaSucursales.getValueAt(fila, 0).toString());
+        
         this.dispose();
     }//GEN-LAST:event_btnEnviarCambioRutaActionPerformed
 
@@ -188,9 +201,14 @@ public class frmSucursal extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtBuscardorKeyTyped
 
+    private void btnEnviarGeneradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarGeneradorActionPerformed
+        
+    }//GEN-LAST:event_btnEnviarGeneradorActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEnviarCambioRuta;
+    private javax.swing.JButton btnEnviarGenerador;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

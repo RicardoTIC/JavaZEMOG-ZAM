@@ -5,6 +5,7 @@
  */
 package Reportes;
 
+import Helpers.Ayudas;
 import Logica.fViajes;
 import Vista.Viajes.frmBarraProgreso;
 import Vista.Viajes.frmViajes;
@@ -18,7 +19,9 @@ import javax.swing.table.DefaultTableModel;
 public class ConsultarViajes extends Thread {
 
     fViajes func = new fViajes();
-
+    Helpers.Ayudas aux = new Ayudas();
+    
+    
     private String fechainiciales;
     private String fechafinales;
     private String[] buscar;
@@ -33,7 +36,9 @@ public class ConsultarViajes extends Thread {
         try {
             frmViajes.ListaDatos.setModel(func.showdataFordate(fechainiciales, fechafinales, buscar));
             
-            Thread.sleep(10000);
+            Thread.sleep(1000);
+            
+            aux.mensaje("Datos encontrados", "Informativo");
             
         } catch (InterruptedException e) {
         

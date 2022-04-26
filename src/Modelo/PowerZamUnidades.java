@@ -16,7 +16,7 @@ public class PowerZamUnidades {
     private int id_area;
 
     private String id_unidad;
-    private Date f_inicial;
+    private String f_inicial;
     private String f_fin;
     private String tipocuota;
     private int ind_titular;
@@ -31,15 +31,16 @@ public class PowerZamUnidades {
     public PowerZamUnidades() {
     }
 
-    
-    public Date getF_inicial() {
+    public String getF_inicial() {
         return f_inicial;
     }
 
-    public void setF_inicial(Date f_inicial) {
+    public void setF_inicial(String f_inicial) {
         this.f_inicial = f_inicial;
     }
 
+    
+    
     public String getF_fin() {
         return f_fin;
     }

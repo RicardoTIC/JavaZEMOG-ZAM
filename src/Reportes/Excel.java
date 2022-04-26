@@ -23,16 +23,16 @@ import static Vista.Viajes.frmViajes.txtFechaFinal;
 import static Vista.Viajes.frmViajes.txtFechaInicio;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
+import javax.swing.JFileChooser;
 
 public class Excel extends Thread {
 
     fViajes func = new fViajes();
-    
+
     private String fechainiciales;
     private String fechafinales;
     private String buscar;
-    
-    
+
     @Override
     public void run() {
         func.cargarDB_Excel(fechainiciales, fechafinales, buscar);
@@ -61,10 +61,7 @@ public class Excel extends Thread {
     public void setBuscar(String buscar) {
         this.buscar = buscar;
     }
-    
-    
-    
-    
+
     public void crearExcel() {
 
         Workbook libro = new XSSFWorkbook();
@@ -72,29 +69,40 @@ public class Excel extends Thread {
         Ayudas help = new Ayudas();
         //Creamos la hoja
 
-        Sheet hoja = libro.createSheet("Detalle de viajes");
+        JFileChooser fc = new JFileChooser();
 
-        Sheet hoja2 = libro.createSheet("Indicador de viaje");
+        // Abrimos la ventana , guardamos la opcion seleccionada por el usuario
+        int selecciona = fc.showSaveDialog(fc);
+        
+        //si el usuario , pincha en aceptar
+        if (selecciona == JFileChooser.APPROVE_OPTION) {
+            
+            String nuevoArchivo = fc.getSelectedFile().getPath()+".xlsx";
+            
+            Sheet hoja = libro.createSheet("Detalle de viajes");
 
-        Row fila0 = hoja.createRow(0);
+            Sheet hoja2 = libro.createSheet("Indicador de viaje");
 
-        fila0.createCell(0).setCellValue("Nombre");
-        fila0.createCell(1).setCellValue("Apellido");
-        fila0.createCell(2).setCellValue("Edad");
-        fila0.createCell(3).setCellValue("Direccion");
+            Row fila0 = hoja.createRow(0);
 
-        try {
+            fila0.createCell(0).setCellValue("Nombre");
+            fila0.createCell(1).setCellValue("Apellido");
+            fila0.createCell(2).setCellValue("Edad");
+            fila0.createCell(3).setCellValue("Direccion");
 
-            FileOutputStream archivo = new FileOutputStream("Excel.xlsx");
-            libro.write(archivo);
-            archivo.close();
-            help.mensaje("Se creo correctamente el archivo", "Informativo");
+            try {
 
-        } catch (Exception e) {
-            help.mensaje("Hubo un error al crear el archivo de Excel", "Error" + e.getMessage());
+                FileOutputStream archivo = new FileOutputStream(nuevoArchivo);
+                libro.write(archivo);
+                archivo.close();
+                help.mensaje("Se creo correctamente el archivo", "Informativo");
+
+            } catch (Exception e) {
+                help.mensaje("Hubo un error al crear el archivo de Excel", "Error" + e.getMessage());
+
+            }
 
         }
-
     }
 
 }

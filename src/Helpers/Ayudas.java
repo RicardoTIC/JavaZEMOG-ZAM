@@ -23,6 +23,8 @@ public class Ayudas {
     }
 
     public void ocultar_tabla(JTable tabla) {
+        
+        
         tabla.getColumnModel().getColumn(0).setMaxWidth(0);
         tabla.getColumnModel().getColumn(0).setMinWidth(0);
         tabla.getColumnModel().getColumn(0).setPreferredWidth(0);
@@ -104,7 +106,7 @@ public class Ayudas {
 
     }
 
-    public void limpiardorCajas(JTextField[] cajas) {
+    public void limpiardorCajas(JTextField [] cajas) {
 
         for (int i = 0; i < cajas.length; i++) {
             cajas[i].setText("");
