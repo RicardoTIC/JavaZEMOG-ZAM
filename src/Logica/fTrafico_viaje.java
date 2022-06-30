@@ -67,7 +67,6 @@ public class fTrafico_viaje {
         }
 
     }
-
     public String updateStatusTraficoViaje(String estatus, int no_viaje, int codigoArea) {
 
         try {
@@ -87,4 +86,5 @@ public class fTrafico_viaje {
         }
 
     }
+    
 }

@@ -1,6 +1,7 @@
 
 package Vista;
 
+import Vista.ConcentradoDeUnidades.frmConcentradoDetalleUnidades;
 import Logica.fConcentradoDetalleUnidades;
 import java.text.SimpleDateFormat;
 
@@ -34,11 +35,15 @@ public class frmResumenFlota extends javax.swing.JInternalFrame {
         listaResumen = new javax.swing.JTable();
 
         setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
         setTitle("Resumen de undiades");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Resumen de unidades", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 18))); // NOI18N
 
+        listaResumen.setAutoCreateRowSorter(true);
         listaResumen.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -58,8 +63,8 @@ public class frmResumenFlota extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 385, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

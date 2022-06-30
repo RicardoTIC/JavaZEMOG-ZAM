@@ -18,6 +18,31 @@ public class Unidad {
     private String id_remolque2;
     private String id_dolly;
     private String mensajeError;
+    private String nombreSucursal;
+    
+    private String estatusUnidad;
+
+    public String getEstatusUnidad() {
+        return estatusUnidad;
+    }
+
+    public void setEstatusUnidad(String estatusUnidad) {
+        this.estatusUnidad = estatusUnidad;
+    }
+    
+
+    @Override
+    public String toString(){
+        return nombreSucursal;
+    }
+    
+    public String getNombreSucursal() {
+        return nombreSucursal;
+    }
+
+    public void setNombreSucursal(String nombreSucursal) {
+        this.nombreSucursal = nombreSucursal;
+    }
 
     public String getMensajeError() {
         return mensajeError;

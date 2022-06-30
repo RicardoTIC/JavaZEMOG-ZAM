@@ -5,6 +5,7 @@
  */
 package Vista;
 
+import Vista.ConcentradoDeUnidades.frmConcentradoDetalleUnidades;
 import Vista.Operadores.frmBonosOperadores;
 import Vista.Operadores.frmOperadores;
 import Vista.Rutas.frmRutas;
@@ -13,7 +14,9 @@ import Vista.Indicadores.ResumenKilometros;
 import Helpers.Ayudas;
 import Reportes.ImagenesFondo;
 import Vista.CartaPorte.frmCartaPorte;
+import Vista.Indicadores.frmResumenCapi;
 import Vista.Login.IniciarSesion;
+import Vista.ResumenUnidades.frmResumenIndicadores;
 import Vista.Viajes.frmBarraProgreso;
 import Vista.Viajes.frmCancelacionDeviaje;
 import Vista.Viajes.frmValidacionFacturas;
@@ -48,6 +51,8 @@ public class Principal extends javax.swing.JFrame {
         fileMenu = new javax.swing.JMenu();
         HistoricoDeViajes = new javax.swing.JMenuItem();
         ResumenDeKilometros = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
+        jMenuItem10 = new javax.swing.JMenuItem();
         exitMenuItem = new javax.swing.JMenuItem();
         Sucursal = new javax.swing.JMenu();
         Unidades = new javax.swing.JMenuItem();
@@ -57,12 +62,15 @@ public class Principal extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         BonoOperadores = new javax.swing.JMenuItem();
+        Openbook = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
+        jMenuItem9 = new javax.swing.JMenuItem();
+        jMenuItem11 = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         contentMenuItem = new javax.swing.JMenuItem();
         aboutMenuItem = new javax.swing.JMenuItem();
@@ -111,6 +119,26 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         fileMenu.add(ResumenDeKilometros);
+
+        jMenuItem8.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/outline_leaderboard_black_24dp.png"))); // NOI18N
+        jMenuItem8.setText("Capi General");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
+        fileMenu.add(jMenuItem8);
+
+        jMenuItem10.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/outline_directions_transit_black_24dp.png"))); // NOI18N
+        jMenuItem10.setText("Capi por unidad");
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
+        fileMenu.add(jMenuItem10);
 
         exitMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         exitMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/outline_close_black_24dp.png"))); // NOI18N
@@ -202,6 +230,16 @@ public class Principal extends javax.swing.JFrame {
         });
         Sucursal.add(BonoOperadores);
 
+        Openbook.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_BACK_SPACE, java.awt.event.InputEvent.CTRL_MASK));
+        Openbook.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/free.png"))); // NOI18N
+        Openbook.setText("Open Book");
+        Openbook.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OpenbookActionPerformed(evt);
+            }
+        });
+        Sucursal.add(Openbook);
+
         menuBar.add(Sucursal);
 
         jMenu1.setText("Vistas Avanzadas");
@@ -255,6 +293,26 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem7);
+
+        jMenuItem9.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/outline_directions_bus_filled_black_24dp.png"))); // NOI18N
+        jMenuItem9.setText("Kilometros Acumulados");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem9);
+
+        jMenuItem11.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/outline_calendar_month_black_24dp.png"))); // NOI18N
+        jMenuItem11.setText("Tarifa De Sucursales");
+        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem11ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem11);
 
         menuBar.add(jMenu1);
 
@@ -431,6 +489,50 @@ public class Principal extends javax.swing.JFrame {
                 
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
+    private void OpenbookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OpenbookActionPerformed
+        frmUnidadesOpenBook uni = new frmUnidadesOpenBook();
+        help.centrarPantalla(escritorio, uni);
+        escritorio.add(uni);
+        uni.show();
+    }//GEN-LAST:event_OpenbookActionPerformed
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+       
+        frmResumenCapi frm  = new frmResumenCapi();
+        
+        help.centrarPantalla(escritorio, frm);
+        escritorio.add(frm);
+        frm.show();
+        
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        frmAcumuladoResumenKm frm = new frmAcumuladoResumenKm();
+        
+        help.centrarPantalla(escritorio, frm);
+        escritorio.add(frm);
+        frm.show();
+        
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+        frmResumenIndicadores frm = new frmResumenIndicadores();
+        help.centrarPantalla(escritorio, frm);
+        escritorio.add(frm);
+        frm.show();
+        
+        
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
+
+    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
+
+        frmCatalogoDeCuotas frm = new frmCatalogoDeCuotas();
+        help.centrarPantalla(escritorio, frm);
+        escritorio.add(frm);
+        frm.show();
+        
+    }//GEN-LAST:event_jMenuItem11ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -470,6 +572,7 @@ public class Principal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem BonoOperadores;
     private javax.swing.JMenuItem HistoricoDeViajes;
+    private javax.swing.JMenuItem Openbook;
     private javax.swing.JMenuItem Operadores;
     private javax.swing.JMenuItem PowerZAM;
     private javax.swing.JMenuItem ResumenDeKilometros;
@@ -484,12 +587,16 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenu helpMenu;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem10;
+    private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JMenuBar menuBar;
     // End of variables declaration//GEN-END:variables
 

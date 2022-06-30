@@ -3,7 +3,10 @@ package Vista;
 import Vista.Viajes.frmViajes;
 import Helpers.Ayudas;
 import Logica.fUnidades;
+import Modelo.Sucursal;
+import Modelo.Unidad;
 import Vista.Indicadores.ResumenUnidades;
+import com.sun.glass.events.KeyEvent;
 import java.awt.BorderLayout;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
@@ -16,16 +19,25 @@ public class frmUnidades extends javax.swing.JInternalFrame {
     SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
     GregorianCalendar fechainicial = new GregorianCalendar();
     GregorianCalendar fechafinal = new GregorianCalendar(2021, 11, 1, 12, 59, 59);
+    Unidad obj = new Unidad();
     Ayudas help = new Ayudas();
 
     public frmUnidades() {
         initComponents();
         mostrar("");
+        help.popTable("Cerrar", "Maximizar", "Minimizar", this, jPopupMenu1, jPanel2);
+
     }
 
     void mostrar(String buscar) {
 
-        ListaUnidades.setModel(func.showdata(buscar));
+        try {
+
+            ListaUnidades.setModel(func.showdata(buscar));
+
+        } catch (Exception e) {
+            help.mensaje("Error" + e.getMessage(), "Error");
+        }
 
     }
 
@@ -33,24 +45,8 @@ public class frmUnidades extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        ListaUnidades = new javax.swing.JTable(){
-
-            @Override
-            public boolean isCellEditable(int fila , int columnas){
-                if(columnas == 1){
-                    return true;
-                }else{
-                    return false;
-                }
-            }
-
-        };
-        jLabel1 = new javax.swing.JLabel();
-        txtBuscardo = new javax.swing.JTextField();
-        btnEnviar = new javax.swing.JButton();
-        jLabel9 = new javax.swing.JLabel();
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        jScrollPane2 = new javax.swing.JScrollPane();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -68,6 +64,26 @@ public class frmUnidades extends javax.swing.JInternalFrame {
         txtTipoUnidad = new javax.swing.JTextField();
         CheckRemolque1 = new javax.swing.JCheckBox();
         CheckRemolque2 = new javax.swing.JCheckBox();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        ListaUnidades = new javax.swing.JTable(){
+
+            @Override
+            public boolean isCellEditable(int fila , int columnas){
+                if(columnas == 1){
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+
+        };
+        jLabel1 = new javax.swing.JLabel();
+        txtBuscardo = new javax.swing.JTextField();
+        jSeparator1 = new javax.swing.JSeparator();
+        btnActivacion = new javax.swing.JButton();
+        CheckActivar = new javax.swing.JCheckBox();
+        btnActualizar = new javax.swing.JButton();
+        lblCodigoArea = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setClosable(true);
@@ -76,9 +92,57 @@ public class frmUnidades extends javax.swing.JInternalFrame {
         setResizable(true);
         setTitle("Unidades");
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Listado de unidades"));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Listado de unidades", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 24))); // NOI18N
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel2.setText("Unidad :");
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel3.setText("Sucursal :");
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel4.setText("Numero de serie :");
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel5.setText("Modelo :");
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel6.setText("Placas :");
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel7.setText("Tarjeta Circulacion :");
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel8.setText("Tipo de unidad :");
+
+        txtUnidad.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtUnidadMouseClicked(evt);
+            }
+        });
+        txtUnidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtUnidadActionPerformed(evt);
+            }
+        });
+
+        txtSucursal.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtSucursalKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSucursalKeyReleased(evt);
+            }
+        });
+
+        CheckRemolque1.setBackground(new java.awt.Color(255, 255, 255));
+        CheckRemolque1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        CheckRemolque1.setText("Remolque 1");
+
+        CheckRemolque2.setBackground(new java.awt.Color(255, 255, 255));
+        CheckRemolque2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        CheckRemolque2.setText("Remolque 2");
 
         ListaUnidades.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -101,111 +165,167 @@ public class frmUnidades extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(ListaUnidades);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 77, 716, 215));
-
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel1.setText("Buscador");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 42, -1, -1));
 
         txtBuscardo.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtBuscardoKeyReleased(evt);
             }
         });
-        jPanel1.add(txtBuscardo, new org.netbeans.lib.awtextra.AbsoluteConstraints(78, 39, 222, -1));
 
-        btnEnviar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/outline_sync_alt_black_24dp.png"))); // NOI18N
-        btnEnviar.setText("Seleccionar");
-        btnEnviar.addActionListener(new java.awt.event.ActionListener() {
+        btnActivacion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/outline_file_download_done_black_24dp.png"))); // NOI18N
+        btnActivacion.setText("Activar Unidad");
+        btnActivacion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEnviarActionPerformed(evt);
+                btnActivacionActionPerformed(evt);
             }
         });
-        jPanel1.add(btnEnviar, new org.netbeans.lib.awtextra.AbsoluteConstraints(608, 304, 124, -1));
 
-        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel9.setText("Resumen:");
-        jLabel9.addMouseListener(new java.awt.event.MouseAdapter() {
+        CheckActivar.setBackground(new java.awt.Color(255, 255, 255));
+        CheckActivar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        CheckActivar.setText("Activar");
+        CheckActivar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel9MouseClicked(evt);
+                CheckActivarMouseClicked(evt);
             }
         });
-        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(572, 42, -1, -1));
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Listado de unidades", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 24))); // NOI18N
-        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        btnActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/outline_update_black_24dp.png"))); // NOI18N
+        btnActualizar.setText("Cambio Sucursal");
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel2.setText("Unidad :");
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(79, 51, -1, -1));
+        lblCodigoArea.setText("-");
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel3.setText("Sucursal :");
-        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 93, -1, -1));
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(73, 73, 73)
+                        .addComponent(jLabel2)
+                        .addGap(22, 22, 22)
+                        .addComponent(txtUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(136, 136, 136)
+                        .addComponent(jLabel5)
+                        .addGap(10, 10, 10)
+                        .addComponent(txtModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(64, 64, 64)
+                        .addComponent(jLabel3)
+                        .addGap(22, 22, 22)
+                        .addComponent(txtSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblCodigoArea, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(54, 54, 54)
+                        .addComponent(jLabel6)
+                        .addGap(15, 15, 15)
+                        .addComponent(txtPlacas, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel7)
+                        .addGap(25, 25, 25)
+                        .addComponent(txtTarjetaIAVE, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(92, 92, 92)
+                        .addComponent(jLabel8)
+                        .addGap(10, 10, 10)
+                        .addComponent(txtTipoUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addComponent(jLabel4)
+                        .addGap(25, 25, 25)
+                        .addComponent(txtNumeroSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(193, 193, 193)
+                        .addComponent(CheckRemolque1))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(545, 545, 545)
+                        .addComponent(CheckRemolque2)))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jSeparator1)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtBuscardo, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(btnActivacion)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnActualizar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(CheckActivar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 791, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtModelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel5))))
+                .addGap(22, 22, 22)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblCodigoArea))
+                    .addComponent(txtPlacas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel6))))
+                .addGap(25, 25, 25)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtTarjetaIAVE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTipoUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel8))))
+                .addGap(14, 14, 14)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(jLabel4))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(txtNumeroSerie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(CheckRemolque1))
+                .addComponent(CheckRemolque2)
+                .addGap(15, 15, 15)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(9, 9, 9)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(btnActivacion)
+                    .addComponent(txtBuscardo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnActualizar)
+                    .addComponent(CheckActivar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28))
+        );
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel4.setText("Numero de serie :");
-        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 173, -1, -1));
-
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel5.setText("Modelo :");
-        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(494, 51, -1, -1));
-
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel6.setText("Placas :");
-        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(494, 93, -1, -1));
-
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel7.setText("Tarjeta Circulacion :");
-        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 138, -1, -1));
-
-        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel8.setText("Tipo de unidad :");
-        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(453, 138, -1, -1));
-
-        txtUnidad.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txtUnidadMouseClicked(evt);
-            }
-        });
-        txtUnidad.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtUnidadActionPerformed(evt);
-            }
-        });
-        jPanel2.add(txtUnidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(146, 48, 212, -1));
-        jPanel2.add(txtSucursal, new org.netbeans.lib.awtextra.AbsoluteConstraints(146, 90, 212, -1));
-        jPanel2.add(txtTarjetaIAVE, new org.netbeans.lib.awtextra.AbsoluteConstraints(149, 135, 212, -1));
-        jPanel2.add(txtNumeroSerie, new org.netbeans.lib.awtextra.AbsoluteConstraints(146, 170, 212, -1));
-        jPanel2.add(txtModelo, new org.netbeans.lib.awtextra.AbsoluteConstraints(551, 48, 181, -1));
-        jPanel2.add(txtPlacas, new org.netbeans.lib.awtextra.AbsoluteConstraints(551, 90, 181, -1));
-        jPanel2.add(txtTipoUnidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(551, 135, 181, -1));
-
-        CheckRemolque1.setBackground(new java.awt.Color(255, 255, 255));
-        CheckRemolque1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        CheckRemolque1.setText("Remolque 1");
-        jPanel2.add(CheckRemolque1, new org.netbeans.lib.awtextra.AbsoluteConstraints(551, 169, -1, -1));
-
-        CheckRemolque2.setBackground(new java.awt.Color(255, 255, 255));
-        CheckRemolque2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        CheckRemolque2.setText("Remolque 2");
-        jPanel2.add(CheckRemolque2, new org.netbeans.lib.awtextra.AbsoluteConstraints(551, 192, -1, -1));
+        jScrollPane2.setViewportView(jPanel2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jScrollPane2)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 601, Short.MAX_VALUE)
         );
 
         pack();
@@ -228,71 +348,6 @@ public class frmUnidades extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_ListaUnidadesMouseClicked
 
-    private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
-
-        if (evt.getClickCount() == 2) {
-            ResumenUnidades RU = new ResumenUnidades();
-
-            Principal.escritorio.add(RU);
-            help.centrarPantalla(Principal.escritorio, RU);
-            RU.show();
-        }
-
-    }//GEN-LAST:event_jLabel9MouseClicked
-
-    private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarActionPerformed
-
-        String tipo = txtTipoUnidad.getText();
-
-        if (tipo.equalsIgnoreCase("Tractor")) {
-
-            frmViajes.txtUnidad.setText(txtUnidad.getText());
-            this.dispose();
-        }
-
-        if (tipo.equalsIgnoreCase("Dolly")) {
-            frmViajes.txtDolly.setText(txtUnidad.getText());
-            this.dispose();
-        }
-
-
-        if (CheckRemolque1.isSelected() && tipo.equalsIgnoreCase("Remolque")) {
-            frmViajes.txtRemolque1.setText(txtUnidad.getText());
-            this.dispose();
-        }
-
-        if (CheckRemolque2.isSelected() && tipo.equalsIgnoreCase("Remolque")) {
-            frmViajes.txtRemolque2.setText(txtUnidad.getText());
-            this.dispose();
-        }
-
-//        if (frmViajes.validacionEnvio == 1) {
-//            frmViajes.txtUnidad.setText(txtUnidad.getText());
-//            
-//            this.dispose();
-//        }
-//        
-//        if (frmViajes.validacionEnvio == 2) {
-//            frmViajes.txtRemolque1.setText(txtUnidad.getText());
-//            this.dispose();
-//            
-//        }
-//        
-//        if (frmViajes.validacionEnvio == 3) {
-//            
-//            frmViajes.txtRemolque2.setText(txtUnidad.getText());
-//            this.dispose();
-//        }
-//        
-//        if (frmViajes.validacionEnvio == 4) {
-//            frmViajes.txtDolly.setText(txtUnidad.getText());
-//            this.dispose();
-//            
-//        }
-        //frmPowerUnidades.txtUnidad.setText(txtUnidad.getText());
-
-    }//GEN-LAST:event_btnEnviarActionPerformed
-
     private void txtUnidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUnidadActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtUnidadActionPerformed
@@ -308,12 +363,86 @@ public class frmUnidades extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_txtUnidadMouseClicked
 
+    private void btnActivacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActivacionActionPerformed
+        String estatus = "";
+        try {
+
+            if (help.mensajeConfirmacion("Estas por activar una unidad deseas continuar con la activacion ? ") == 0) {
+
+                if (txtUnidad.getText().length() <= 0) {
+                    help.mensaje("Debes seleccionar una unidad", "Informativo");
+                    return;
+                }
+
+                if (CheckActivar.isSelected()) {
+                    obj.setEstatusUnidad("A");
+                } else {
+                    obj.setEstatusUnidad("B");
+                }
+
+                obj.setId_unidad(txtUnidad.getText());
+
+                if (func.update(obj)) {
+
+                    if (obj.getEstatusUnidad().equalsIgnoreCase("A")) {
+                        estatus = "Activo";
+                    } else {
+                        estatus = "Inactivo";
+                    }
+
+                    help.mensajeLateral("Actualizado", "Se actualizo correctamente  la unidad a estado " + estatus, "aceptado");
+                    mostrar(txtBuscardo.getText());
+                }
+            }
+
+        } catch (Exception e) {
+
+            help.mensaje("Error :  " + e.getMessage() + " - " + obj.getMensajeError(), "Error");
+
+        }
+
+
+    }//GEN-LAST:event_btnActivacionActionPerformed
+
+    private void CheckActivarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CheckActivarMouseClicked
+
+    }//GEN-LAST:event_CheckActivarMouseClicked
+
+    private void txtSucursalKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSucursalKeyReleased
+
+
+    }//GEN-LAST:event_txtSucursalKeyReleased
+
+    private void txtSucursalKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSucursalKeyPressed
+
+        
+
+        try {
+            
+            if (evt.getKeyCode() == KeyEvent.VK_ENTER ) {
+                
+                Sucursal uni = func.seleccionSucursal(txtSucursal.getText());
+                
+                
+                
+                help.mensaje("Sucursal : " + uni.getNombrecorto() + " Codigo Area  : " + uni.getId_area(), "Informativo");
+            }
+            
+        } catch (Exception e) {
+            help.mensaje("Error " + e.getMessage(), "Error");
+        }
+
+
+    }//GEN-LAST:event_txtSucursalKeyPressed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox CheckActivar;
     private javax.swing.JCheckBox CheckRemolque1;
     private javax.swing.JCheckBox CheckRemolque2;
     private javax.swing.JTable ListaUnidades;
-    private javax.swing.JButton btnEnviar;
+    private javax.swing.JButton btnActivacion;
+    private javax.swing.JButton btnActualizar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -322,10 +451,12 @@ public class frmUnidades extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lblCodigoArea;
     private javax.swing.JTextField txtBuscardo;
     private javax.swing.JTextField txtModelo;
     private javax.swing.JTextField txtNumeroSerie;

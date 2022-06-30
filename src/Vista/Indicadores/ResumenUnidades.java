@@ -9,6 +9,7 @@ import Helpers.Ayudas;
 import Logica.fUnidades;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
+import javax.swing.JPopupMenu;
 
 /**
  *
@@ -25,6 +26,7 @@ public class ResumenUnidades extends javax.swing.JInternalFrame {
     public ResumenUnidades() {
         initComponents();
         mostrar("");
+        help.popTable("Cerrar", "Maximizar", "Minizar", this, new JPopupMenu(), jPanel1);
     }
 
     void mostrar(String buscar){
@@ -46,10 +48,14 @@ public class ResumenUnidades extends javax.swing.JInternalFrame {
         lblTotalUnidades = new javax.swing.JLabel();
 
         setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
         setTitle("Resumen de Unidades");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
+        listaResumenUnidades.setAutoCreateRowSorter(true);
         listaResumenUnidades.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -63,6 +69,7 @@ public class ResumenUnidades extends javax.swing.JInternalFrame {
         ));
         jScrollPane1.setViewportView(listaResumenUnidades);
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel1.setText("Buscar");
 
         txtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -86,11 +93,11 @@ public class ResumenUnidades extends javax.swing.JInternalFrame {
                 .addGap(34, 34, 34)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblTotalUnidades)
-                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblTotalRegistros)
                     .addComponent(jLabel1)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(59, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1)
+                    .addComponent(txtBuscar))
+                .addGap(59, 59, 59))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

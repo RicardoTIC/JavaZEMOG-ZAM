@@ -3,7 +3,9 @@ package Vista;
 import Helpers.Ayudas;
 import Logica.fConveniosRutas;
 import Vista.Viajes.frmCambioRuta;
+import static Vista.Viajes.frmViajes.ListaDatos;
 import java.awt.BorderLayout;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
@@ -14,29 +16,52 @@ public class frmConveniosRutas extends javax.swing.JInternalFrame {
 
     public frmConveniosRutas() {
         initComponents();
-        mostrarConvenios("","COR");
-    
+        mostrarConvenios("", "COR");
+        tamano_columna();
+        aux.popTable("Cerrar", "Maximizar", "Minimizar", this, new JPopupMenu(), jPanel1);
     }
-    
-    /*
-        
-    */
 
-    void mostrarConvenios(String buscador,String sucursal) {
+    void tamano_columna() {
+
+        for (int i = 0; i < ListaConvenios.getColumnCount(); i++) {
+
+            if (i == 1 || i == 4 || i == 6 ) {
+                ListaConvenios.getColumnModel().getColumn(i).setMaxWidth(200);
+                ListaConvenios.getColumnModel().getColumn(i).setMinWidth(200);
+                ListaConvenios.getColumnModel().getColumn(i).setPreferredWidth(200);
+
+            } else if (i == 8) {
+                
+                ListaConvenios.getColumnModel().getColumn(i).setMaxWidth(400);
+                ListaConvenios.getColumnModel().getColumn(i).setMinWidth(400);
+                ListaConvenios.getColumnModel().getColumn(i).setPreferredWidth(400);
+                
+            } else {
+                ListaConvenios.getColumnModel().getColumn(i).setMaxWidth(165);
+                ListaConvenios.getColumnModel().getColumn(i).setMinWidth(165);
+                ListaConvenios.getColumnModel().getColumn(i).setPreferredWidth(165);
+            }
+
+        }
+
+    }
+
+    void mostrarConvenios(String buscador, String sucursal) {
         int totalRegistros = 0;
-        ListaConvenios.setModel(func.listaConveniosRutas(buscador,sucursal));
+        ListaConvenios.setModel(func.listaConveniosRutas(buscador, sucursal));
         ListaConvenios.changeSelection(0, 1, false, false);
         totalRegistros = ListaConvenios.getRowCount();
         lblTotalRegistros.setText(String.valueOf(totalRegistros));
-        
+
         seleccionar_fila();
+        tamano_columna();
     }
-    
+
     void seleccionar_fila() {
         int fila = ListaConvenios.getSelectedRow();
 
         try {
-            
+
             txtConvenio.setText(ListaConvenios.getValueAt(fila, 0).toString());
             txtNombreRuta.setText(ListaConvenios.getValueAt(fila, 1).toString());
             txtKmRuta.setText(ListaConvenios.getValueAt(fila, 2).toString());
@@ -49,7 +74,7 @@ public class frmConveniosRutas extends javax.swing.JInternalFrame {
             txtFactorMFull.setText(ListaConvenios.getValueAt(fila, 21).toString());
             txtFactorMSencillo.setText(ListaConvenios.getValueAt(fila, 20).toString());
             txtCliente.setText(ListaConvenios.getValueAt(fila, 8).toString());
-            txtIdRuta.setText(ListaConvenios.getValueAt(fila,13 ).toString());
+            txtIdRuta.setText(ListaConvenios.getValueAt(fila, 13).toString());
         } catch (Exception e) {
             aux.mensaje("Error " + getClass() + " | " + e.getMessage(), "Error");
         }
@@ -118,6 +143,7 @@ public class frmConveniosRutas extends javax.swing.JInternalFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Lista de convenios", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 18))); // NOI18N
 
+        ListaConvenios.setAutoCreateRowSorter(true);
         ListaConvenios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -415,7 +441,7 @@ public class frmConveniosRutas extends javax.swing.JInternalFrame {
         int fila = ListaConvenios.rowAtPoint(evt.getPoint());
 
         try {
-            
+
             txtConvenio.setText(ListaConvenios.getValueAt(fila, 0).toString());
             txtNombreRuta.setText(ListaConvenios.getValueAt(fila, 1).toString());
             txtKmRuta.setText(ListaConvenios.getValueAt(fila, 2).toString());
@@ -428,7 +454,7 @@ public class frmConveniosRutas extends javax.swing.JInternalFrame {
             txtFactorMFull.setText(ListaConvenios.getValueAt(fila, 21).toString());
             txtFactorMSencillo.setText(ListaConvenios.getValueAt(fila, 20).toString());
             txtCliente.setText(ListaConvenios.getValueAt(fila, 8).toString());
-            txtIdRuta.setText(ListaConvenios.getValueAt(fila,13 ).toString());
+            txtIdRuta.setText(ListaConvenios.getValueAt(fila, 13).toString());
         } catch (Exception e) {
             aux.mensaje("Error " + getClass() + " | " + e.getMessage(), "Error");
         }
@@ -437,11 +463,11 @@ public class frmConveniosRutas extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_ListaConveniosMouseClicked
 
     private void txtBuscadorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscadorKeyTyped
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_txtBuscadorKeyTyped
 
     private void txtBuscadorKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscadorKeyReleased
-       
+
     }//GEN-LAST:event_txtBuscadorKeyReleased
 
     private void txtBuscadorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtBuscadorMouseClicked
@@ -455,16 +481,16 @@ public class frmConveniosRutas extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtBuscadorMouseClicked
 
     private void btnBuscadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscadorActionPerformed
-        
-        mostrarConvenios(txtBuscador.getText().trim(),cboSucursal.getSelectedItem().toString());
-        
+
+        mostrarConvenios(txtBuscador.getText().trim(), cboSucursal.getSelectedItem().toString());
+
     }//GEN-LAST:event_btnBuscadorActionPerformed
 
     private void btnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarActionPerformed
-        
-       frmCambioRuta.txtNombreRutaActual.setText(txtNombreRuta.getText());
-       this.dispose();
-       
+
+        frmCambioRuta.txtNombreRutaActual.setText(txtNombreRuta.getText());
+        this.dispose();
+
     }//GEN-LAST:event_btnSeleccionarActionPerformed
 
 

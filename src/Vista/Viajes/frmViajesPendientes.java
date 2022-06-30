@@ -279,7 +279,6 @@ public class frmViajesPendientes extends javax.swing.JInternalFrame {
         lblAlertasPendientes.setText("Alertas Pendientes");
 
         lblImagenAlertas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/alerta.png"))); // NOI18N
-        lblImagenAlertas.setText("jLabel12");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -291,7 +290,7 @@ public class frmViajesPendientes extends javax.swing.JInternalFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(lblImagenAlertas, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblAlertasPendientes, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lblAlertasPendientes, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -529,7 +528,7 @@ public class frmViajesPendientes extends javax.swing.JInternalFrame {
 
             }
 
-        } else {
+        } /*else {
 
             if (numeroViaje != Integer.parseInt(lblNumeroViaje.getText()) || codigoArea != Integer.parseInt(lblCodigoArea.getText())) {
 
@@ -537,7 +536,7 @@ public class frmViajesPendientes extends javax.swing.JInternalFrame {
                 codigoArea = Integer.parseInt(lblCodigoArea.getText());
 
             }
-        }
+        }*/
 
         obj.setEstatusViajePendiente(cboEstatusPendientes.getSelectedItem().toString());
         obj.setNumeroViaje(numeroViaje);

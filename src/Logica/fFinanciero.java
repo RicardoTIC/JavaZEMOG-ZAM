@@ -1,7 +1,9 @@
 package Logica;
 
 import Helpers.Ayudas;
+import Modelo.Financiera;
 import Modelo.Sucursal;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,6 +20,7 @@ public class fFinanciero {
     private String formatoMoneda = "$ ###,###.###", formatoNumero = "###,###.###", formatoPorcenajte = "#.## %";
     private DecimalFormat formato = new DecimalFormat();
     private String sql = "";
+    private Financiera obj = new Financiera();
 
     public Vector comboSucursal() {
 
@@ -53,27 +56,21 @@ public class fFinanciero {
 
     }
 
-    public DefaultTableModel listaDatos() {
+    public DefaultTableModel listaDatos(String buscador) {
         int contador = 1;
         DefaultTableModel modelo;
 
-        String[] columnas = {"Sucursal", "Dia fin Mes", "Operacion", "Mes", "Fecha financiera",
-            "Kilometros", "Venta","Venta por Km" ,"Venta Diaria", "Kms Diarios"};
+        String[] columnas = {"id","Sucursal", "Dia fin Mes", "Operacion", "Mes", "Fecha financiera",
+            "Kilometros", "Venta", "Venta por Km", "Venta Diaria", "Kms Diarios"};
 
         String[] registros = new String[columnas.length];
 
         modelo = new DefaultTableModel(null, columnas);
-        
-        sql = "select a.nombrecorto,diafinMes,po.nombreCortoOperacion,DATENAME(month,pf.fecha_financiera) NombreMes, fecha_financiera,kilometros,\n"
-                + "venta,ventaXkm,ventaDiaria,kmsDiarios\n"
-                + "from powerPresupuestoFinanciero pf\n"
-                + "inner join general_area a on a.id_area = pf.id_area\n"
-                + "inner join powerOperacion po on po.id_operacion = a.id_operacion";
-        
+
         try {
 
-            PreparedStatement pst = con.prepareCall(sql);
-
+            CallableStatement pst = con.prepareCall("{call sp_ZEMOG_mostrarPresupuestofinanciero(?)}");
+            pst.setString(1, buscador);
             ResultSet rs = pst.executeQuery();
             formato.applyPattern(formatoNumero);
 
@@ -83,9 +80,9 @@ public class fFinanciero {
 
                     registros[i] = rs.getString(contador);
 
-                    if (i == 5 || i == 6 || i == 7 || i == 8) {
-                        registros[i] = formato.format(rs.getDouble(contador));
-                    }
+//                    if (i == 6 || i == 7 || i == 8 || i == ) {
+//                        registros[i] = formato.format(rs.getDouble(contador));
+//                    }
 
                     contador++;
                 }
@@ -97,6 +94,50 @@ public class fFinanciero {
 
         } catch (SQLException e) {
             return null;
+        }
+
+    }
+
+    public int extraccion_CodigoArea(String base) {
+        int codigo_area = 0;
+        try {
+
+            PreparedStatement pst = con.prepareCall("SELECT id_area FROM dbo.general_area WHERE nombrecorto = ?");
+            pst.setString(1, base);
+
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                codigo_area = rs.getInt(1);
+            }
+
+            return codigo_area;
+
+        } catch (SQLException e) {
+            return 0;
+        }
+
+    }
+
+    public int mantenimientoFinanciero(Financiera obj) {
+
+        try {
+
+            CallableStatement cst = con.prepareCall("{call sp_ZEMOG_mantenimiento_powerResumenKmSucursal(?,?,?,?,?,?)}");
+            cst.setString(1, obj.getAccion());
+            
+            cst.setInt(2, obj.getId_area());
+            cst.setString(3, obj.getFecha_financiera());
+            cst.setDouble(4, obj.getKilometros());
+            cst.setDouble(5, obj.getVenta());
+            cst.setInt(6, obj.getId());
+            
+            cst.execute();
+            return 1;
+
+        } catch (SQLException e) {
+            obj.setError("Error " + e.getMessage());
+            return 0;
         }
 
     }

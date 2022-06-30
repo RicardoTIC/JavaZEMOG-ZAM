@@ -26,7 +26,7 @@ public class fSucursal extends crud<Sucursal> {
     public DefaultTableModel showdata(String buscar) {
                DefaultTableModel modelo;
 
-        String[] columnas = {"id area","Nombre Sucursal","Nombre Corto","Operacion","Presupuesto","Numero de unidades","Costo por equipo"};
+        String[] columnas = {"id area","Nombre Sucursal","Corto","Operacion","Presupuesto","# de unidades","$ por equipo"};
 
         String[] registros = new String[columnas.length];
 
@@ -47,6 +47,7 @@ public class fSucursal extends crud<Sucursal> {
                 registros[3] = rs.getString(4);
                 registros[4] = rs.getString(5);
                 registros[5] = rs.getString(6);
+                registros[6] = rs.getString(7);
                 totalRegistros = totalRegistros + 1;
                 modelo.addRow(registros);
             }
@@ -101,7 +102,27 @@ public class fSucursal extends crud<Sucursal> {
 
     @Override
     public boolean update(Sucursal Obj) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       SQL = "Update general_area set presupuesto = ?,costoPorEquipo = ?, n_unidades = ? where id_area = ?";
+        try {
+            
+            PreparedStatement pst = con.prepareCall(SQL);
+            pst.setFloat(1, Obj.getPresupuesto());
+            pst.setInt(2, Obj.getCostoPorEquipo());
+            pst.setInt(3, Obj.getNumeroUnidades());
+            pst.setInt(4, Obj.getId_area());
+            
+            pst.execute();
+            
+            return true;
+            
+            
+            
+        } catch (SQLException e) {
+            Obj.setMensajeError("Error en "+e.getMessage());
+            return false;
+            
+        }
+        
     }
 
     @Override

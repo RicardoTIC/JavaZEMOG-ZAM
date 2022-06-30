@@ -305,6 +305,7 @@ public class frmCartasDeCobro extends javax.swing.JInternalFrame {
             obj.setCartaCobro(txtCartaCobro.getText());
             obj.setRemision(txtRemision.getText());
 
+            
             if (func.update(obj)) {
                 hp.mensajeLateral("Se cancelo correctamente la carta de cobro " + txtCartaCobro.getText(), "Cancelacion exitosa", "aceptado");
                 DefaultTableModel modelo =(DefaultTableModel)ListaCartaCobro.getModel();

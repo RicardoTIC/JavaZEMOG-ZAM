@@ -1,12 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Logica;
 
 import Helpers.Ayudas;
 import Helpers.crud;
+import Modelo.Sucursal;
 import Modelo.Unidad;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -16,10 +13,7 @@ import java.sql.SQLException;
 import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author Ricardo Herrera
- */
+
 public class fUnidades extends crud<Unidad> {
 
     private Conexion sqlServer = new Conexion();
@@ -49,7 +43,30 @@ public class fUnidades extends crud<Unidad> {
         }
         
     }
-
+    
+    public Sucursal seleccionSucursal(String sucursal){
+        Sucursal sc = new Sucursal();
+        try {
+            
+            PreparedStatement pst = con.prepareCall("SELECT id_area,nombrecorto FROM dbo.general_area where nombrecorto = ? ");
+            pst.setString(1, sucursal);
+            
+            ResultSet rs = pst.executeQuery();
+            
+            if (rs.next()) {
+                
+                sc.setId_area(rs.getInt(1));
+                sc.setNombrecorto(rs.getString(2));
+            }
+            
+            return sc;
+            
+        } catch (SQLException e) {
+            return sc;
+        }
+        
+    }
+    
     public int validacion_existente_unidad(String unidad) {
 
         try {
@@ -114,7 +131,7 @@ public class fUnidades extends crud<Unidad> {
         }
 
     }
-
+    
     @Override
     public DefaultTableModel resumenIndicador(String fechaInicio, String fechafinal) {
         return null;
@@ -187,7 +204,7 @@ public class fUnidades extends crud<Unidad> {
         }
 
     }
-
+    
     @Override
     public boolean insert(Unidad obj) {
         return true;
@@ -200,7 +217,24 @@ public class fUnidades extends crud<Unidad> {
 
     @Override
     public boolean update(Unidad Obj) {
-        return true;
+       String SQL = "UPDATE mtto_unidades SET estatus = ? where id_unidad = ?";
+        try {
+            
+            PreparedStatement pst = con.prepareCall(SQL);
+            pst.setString(1, Obj.getEstatusUnidad());
+            pst.setString(2, Obj.getId_unidad());
+
+            pst.execute();
+            
+            return true;
+            
+            
+        } catch (SQLException e) {
+            Obj.setMensajeError("Error no se pudo actualizar el estatus de la unidad "+e.getMessage() + " - " + e.getErrorCode());
+            return false; 
+        }
+
+        
     }
 
     @Override

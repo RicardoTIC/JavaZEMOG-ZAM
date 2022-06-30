@@ -81,7 +81,7 @@ public class fOperadores extends crud<Operador> {
 
             DefaultTableModel modelo;
 
-            String[] columnas = {"id", "Nombre", "Puesto", "Sucursal", "Telefono", "Tipo empleado", "Estado", "Estado L"};
+            String[] columnas = {"id", "Nombre", "Fecha Baja", "Descripcion", "Sucursal", "Tipo Empleado", "Estado"};
             String[] filas = new String[columnas.length];
 
             modelo = new DefaultTableModel(null, columnas);

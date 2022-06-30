@@ -11,8 +11,7 @@ import Reportes.BarraProgresoHilo;
 import Reportes.ConsultarViajes;
 import Reportes.Excel;
 import Reportes.Reloj;
-import Vista.Login.IniciarSesion;
-
+import Vista.Indicadores.frmResumenCapi;
 import Vista.Principal;
 import Vista.frmBuscadorFolios;
 import Vista.frmFacturas;
@@ -23,10 +22,9 @@ import Vista.frmViaticos;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
 import java.io.File;
@@ -36,23 +34,24 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimerTask;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
-import javax.swing.Timer;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-public class frmViajes extends javax.swing.JInternalFrame {
+public final class frmViajes extends javax.swing.JInternalFrame {
 
     fViajes func = new fViajes();
     fUnidades uni = new fUnidades();
@@ -61,8 +60,9 @@ public class frmViajes extends javax.swing.JInternalFrame {
     String[] columnas = {"Folio", "Numero de viaje", "Area", "Numero guia"};
     DefaultTableModel modeloTabla = new DefaultTableModel(null, columnas);
     SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    Calendar fecha = Calendar.getInstance();
     GregorianCalendar fechainicial = new GregorianCalendar();
-    GregorianCalendar fechafinal = new GregorianCalendar(2022, 0, 1, 12, 59, 59);
+    GregorianCalendar fechafinal = new GregorianCalendar(2022, fecha.get(Calendar.MONTH), 1, 12, 59, 59);
     Ayudas help = new Ayudas();
     public static int validacionEnvio = 0;
     public static boolean validacionformulario = false;
@@ -75,22 +75,22 @@ public class frmViajes extends javax.swing.JInternalFrame {
     public frmViajes() {
 
         initComponents();
-        
-         int width = t.getScreenSize().width;
-         int height = t.getScreenSize().height;
-        
-        if (width < 1920  && height < 1080) {
-            
-            try {
-                    
-                this.setMaximum(true);
-                
-            } catch (Exception ex) {
-                help.mensaje("Error al maximizar pantalla "+ex.getMessage(), "Error");
-            }
-            
-        }
-        
+//        txtBuscar.requestFocus();
+//        int width = t.getScreenSize().width;
+//        int height = t.getScreenSize().height;
+//
+//        if (width < 1920 && height < 1080) {
+//
+//            try {
+//
+//                this.setMaximum(true);
+//                
+//            } catch (PropertyVetoException ex) {
+//                help.mensaje("Error al maximizar pantalla " + ex.getMessage(), "Error");
+//            }
+//
+//        }
+
         txtFechaFinal.setDate(fechainicial.getTime());
         txtFechaInicio.setDate(fechafinal.getTime());
         lbltotalRegistros.setText("Total registro : ");
@@ -100,6 +100,8 @@ public class frmViajes extends javax.swing.JInternalFrame {
         timer.schedule(tiempo, 0, 1000);
         inhabilitar_cajas_busqueda_avazanda(false);
         btnSeguimientoFacturas.setEnabled(false);
+        
+        popTable();
 
     }
 
@@ -250,6 +252,9 @@ public class frmViajes extends javax.swing.JInternalFrame {
             }
 
             txtHoras.setText(ListaDatos.getValueAt(fila, 36).toString());
+            lblEstatusGuia.setText(ListaDatos.getValueAt(fila, 37).toString());
+
+            validacion_estatus();
 
         } catch (Exception e) {
             help.mensaje("Error en evento clic " + e.getMessage(), "error");
@@ -395,12 +400,44 @@ public class frmViajes extends javax.swing.JInternalFrame {
         }
     }
 
+    void popTable() {
+
+        //JMenuItem menu1 = new JMenuItem("Cerrar Pantalla", new ImageIcon(getClass().getResource("/Imagenes/cancel_77947.png")).getImage().getScaledInstance((int) MenuCierre, MenuCierre.getWidth(), Image.SCALE_SMOOTH));
+        JMenuItem menu1 = new JMenuItem("Cerrar Pantalla", new ImageIcon(getClass().getResource("/Imagenes/cancel_77947.png")));
+        JMenuItem menu2 = new JMenuItem("Maximar", new ImageIcon(getClass().getResource("/Imagenes/outline_text_snippet_black_24dp.png")));
+        JMenuItem menu3 = new JMenuItem("Minimizar", new ImageIcon(getClass().getResource("/Imagenes/outline_add_black_24dp.png")));
+        
+        menu1.addActionListener((ActionEvent ae) -> {
+            this.dispose();
+        });
+        
+        menu2.addActionListener((ActionEvent e) -> {
+            try {
+                this.setMaximum(true);
+            } catch (PropertyVetoException ex) {
+                Logger.getLogger(frmResumenCapi.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        
+        menu3.addActionListener((ActionEvent e) -> {
+            this.setIconifiable(true);
+        });
+
+        MenuCierre.add(menu1);
+        MenuCierre.add(menu2);
+        MenuCierre.add(menu3);
+
+        jPanel3.setComponentPopupMenu(MenuCierre);
+
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jMenuItem1 = new javax.swing.JMenuItem();
         Mensaje = new javax.swing.JPopupMenu();
+        MenuCierre = new javax.swing.JPopupMenu();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel3 = new javax.swing.JPanel();
         jLabel25 = new javax.swing.JLabel();
@@ -493,9 +530,9 @@ public class frmViajes extends javax.swing.JInternalFrame {
             }
         };
         CheckAvanzado = new javax.swing.JCheckBox();
-        barraMovimiento = new javax.swing.JPanel();
-        lblError = new javax.swing.JLabel();
         lblTotalKM = new javax.swing.JLabel();
+        lblError = new javax.swing.JLabel();
+        lblReloj = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         btnFacturaCancelada = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -509,7 +546,6 @@ public class frmViajes extends javax.swing.JInternalFrame {
         btnCancelacionViaje = new javax.swing.JButton();
         btnActualizarUnidad = new javax.swing.JButton();
         btnViajesCancelados = new javax.swing.JButton();
-        lblReloj = new javax.swing.JLabel();
         btnConsultarViajesAvanzados = new javax.swing.JButton();
         txtCodigoViaje = new javax.swing.JTextField();
         lblNumeroViaje = new javax.swing.JLabel();
@@ -521,6 +557,7 @@ public class frmViajes extends javax.swing.JInternalFrame {
         jLabel33 = new javax.swing.JLabel();
         lblModalidad = new javax.swing.JLabel();
         lblEstadoOperador = new javax.swing.JLabel();
+        barraMovimiento = new javax.swing.JPanel();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -740,12 +777,12 @@ public class frmViajes extends javax.swing.JInternalFrame {
         idrutas.setFont(new java.awt.Font("Tahoma", 1, 8)); // NOI18N
         idrutas.setText("idRuta");
         jPanel3.add(idrutas, new org.netbeans.lib.awtextra.AbsoluteConstraints(137, 283, -1, -1));
-        jPanel3.add(lblCiudadOrigen, new org.netbeans.lib.awtextra.AbsoluteConstraints(137, 299, 141, -1));
+        jPanel3.add(lblCiudadOrigen, new org.netbeans.lib.awtextra.AbsoluteConstraints(137, 299, 190, -1));
 
         lbl1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lbl1.setText("Origen :");
         jPanel3.add(lbl1, new org.netbeans.lib.awtextra.AbsoluteConstraints(88, 302, -1, -1));
-        jPanel3.add(lbCiudadlDestino1, new org.netbeans.lib.awtextra.AbsoluteConstraints(137, 330, 141, -1));
+        jPanel3.add(lbCiudadlDestino1, new org.netbeans.lib.awtextra.AbsoluteConstraints(137, 330, 190, -1));
 
         lbCiudadlDestino2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lbCiudadlDestino2.setText("Destino :");
@@ -753,11 +790,11 @@ public class frmViajes extends javax.swing.JInternalFrame {
 
         lblOrigen.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblOrigen.setText("Origen :");
-        jPanel3.add(lblOrigen, new org.netbeans.lib.awtextra.AbsoluteConstraints(311, 302, -1, -1));
+        jPanel3.add(lblOrigen, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 330, -1, 20));
 
         lblDestino.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblDestino.setText("Destino :");
-        jPanel3.add(lblDestino, new org.netbeans.lib.awtextra.AbsoluteConstraints(311, 333, -1, -1));
+        jPanel3.add(lblDestino, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 300, -1, 20));
 
         PanelLista.setBackground(new java.awt.Color(255, 255, 255));
         PanelLista.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Listado de datos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(51, 51, 51))); // NOI18N
@@ -816,6 +853,7 @@ public class frmViajes extends javax.swing.JInternalFrame {
         lblEncontrado.setText("Folios Encontrados :");
         PanelLista.add(lblEncontrado, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 74, -1, 20));
 
+        ListaDatos.setAutoCreateRowSorter(true);
         ListaDatos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -849,34 +887,14 @@ public class frmViajes extends javax.swing.JInternalFrame {
         });
         PanelLista.add(CheckAvanzado, new org.netbeans.lib.awtextra.AbsoluteConstraints(595, 44, -1, -1));
 
-        barraMovimiento.setBackground(new java.awt.Color(255, 255, 255));
-        barraMovimiento.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseDragged(java.awt.event.MouseEvent evt) {
-                barraMovimientoMouseDragged(evt);
-            }
-        });
-        barraMovimiento.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                barraMovimientoMousePressed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout barraMovimientoLayout = new javax.swing.GroupLayout(barraMovimiento);
-        barraMovimiento.setLayout(barraMovimientoLayout);
-        barraMovimientoLayout.setHorizontalGroup(
-            barraMovimientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1330, Short.MAX_VALUE)
-        );
-        barraMovimientoLayout.setVerticalGroup(
-            barraMovimientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 50, Short.MAX_VALUE)
-        );
-
-        PanelLista.add(barraMovimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 450, 1330, 50));
-        PanelLista.add(lblError, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 74, 700, 20));
-
         lblTotalKM.setText("jLabel34");
         PanelLista.add(lblTotalKM, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 420, 120, 20));
+        PanelLista.add(lblError, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 74, 700, 20));
+
+        lblReloj.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblReloj.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblReloj.setText("-");
+        PanelLista.add(lblReloj, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 430, 516, 45));
 
         jPanel3.add(PanelLista, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 387, 730, 502));
 
@@ -1014,11 +1032,6 @@ public class frmViajes extends javax.swing.JInternalFrame {
         });
         jPanel2.add(btnViajesCancelados, new org.netbeans.lib.awtextra.AbsoluteConstraints(57, 172, 281, -1));
 
-        lblReloj.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        lblReloj.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblReloj.setText("-");
-        jPanel2.add(lblReloj, new org.netbeans.lib.awtextra.AbsoluteConstraints(57, 450, 516, 45));
-
         btnConsultarViajesAvanzados.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnConsultarViajesAvanzados.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/outline_search_black_24dp.png"))); // NOI18N
         btnConsultarViajesAvanzados.setText("Consultar");
@@ -1069,8 +1082,35 @@ public class frmViajes extends javax.swing.JInternalFrame {
         jLabel33.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel33.setText("Modalidad del viaje :");
         jPanel3.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 362, -1, -1));
+
+        lblModalidad.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jPanel3.add(lblModalidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(137, 362, 141, 14));
         jPanel3.add(lblEstadoOperador, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 260, 160, 20));
+
+        barraMovimiento.setBackground(new java.awt.Color(255, 255, 255));
+        barraMovimiento.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                barraMovimientoMouseDragged(evt);
+            }
+        });
+        barraMovimiento.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                barraMovimientoMousePressed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout barraMovimientoLayout = new javax.swing.GroupLayout(barraMovimiento);
+        barraMovimiento.setLayout(barraMovimientoLayout);
+        barraMovimientoLayout.setHorizontalGroup(
+            barraMovimientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1060, Short.MAX_VALUE)
+        );
+        barraMovimientoLayout.setVerticalGroup(
+            barraMovimientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 60, Short.MAX_VALUE)
+        );
+
+        jPanel3.add(barraMovimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 340, 1060, -1));
 
         jScrollPane1.setViewportView(jPanel3);
 
@@ -1078,7 +1118,7 @@ public class frmViajes extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 872, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1325, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1108,19 +1148,19 @@ public class frmViajes extends javax.swing.JInternalFrame {
 
                         }
                         NumeroRegistrosPegados.setText("Total registros consultado " + String.valueOf(cadenaArreglo.length));
-                        lblEncontrado.setText("Total de registros encontrados " + String.valueOf(ListaDatos.getRowCount() - 2));
+                        lblEncontrado.setText("Total de registros encontrados " + String.valueOf(ListaDatos.getRowCount() - 1));
 
+                        //Validacion de viaje en transito y validacio de operador inactivo
+                        if (ListaDatos.getRowCount() >= 1) {
+                            Buscar_Operador_Inactivo();
+                            validacion_estatus();
+                        }
                     }
 
                     func.totalRegistros = 0;
                 } catch (Exception e) {
                     help.mensaje("Error " + e.getMessage(), "Error");
 
-                }
-
-                if (ListaDatos.getRowCount() >= 1) {
-                    Buscar_Operador_Inactivo();
-                    validacion_estatus();
                 }
 
             }
@@ -1148,9 +1188,10 @@ public class frmViajes extends javax.swing.JInternalFrame {
             progreso.start();
 
             validacion_estatus();
-            NumeroRegistrosPegados.setText("Total registros consultado " + String.valueOf(cadenaArreglo.length));
-            lblEncontrado.setText("Total de registros encontrados " + String.valueOf(ListaDatos.getRowCount() - 2));
+            NumeroRegistrosPegados.setText("Total registros consultado " + ListaDatos.getRowCount());
+            lblEncontrado.setText("Total de registros encontrados " + 0);
             func.totalRegistros = 0;
+            this.setMaximum(true);
 
         } catch (Exception e) {
             help.mensaje("Error", "Error");
@@ -1543,6 +1584,7 @@ public class frmViajes extends javax.swing.JInternalFrame {
         try {
 
             if (evt.getClickCount() == 2) {
+         
 
                 if (TablaFolio.getRowCount() <= 0) {
                     help.mensaje("Agregado", "Informativo");
@@ -1553,6 +1595,7 @@ public class frmViajes extends javax.swing.JInternalFrame {
                 lista.add(ListaDatos.getValueAt(fila, 16).toString());
                 modeloTabla.addRow(lista);
                 TablaFolio.setModel(modeloTabla);
+                
 
             }
 
@@ -1718,6 +1761,7 @@ public class frmViajes extends javax.swing.JInternalFrame {
     private javax.swing.JCheckBox CheckAvanzado;
     public static javax.swing.JTable ListaDatos;
     private javax.swing.JPopupMenu Mensaje;
+    private javax.swing.JPopupMenu MenuCierre;
     private javax.swing.JLabel NumeroRegistrosPegados;
     private javax.swing.JPanel PanelLista;
     public static javax.swing.JTable TablaFolio;

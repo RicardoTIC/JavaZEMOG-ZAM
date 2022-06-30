@@ -24,25 +24,27 @@ public class fConcentradoDetalleUnidades {
 
         try {
 
-            CallableStatement cst = con.prepareCall("{call sp_ZEMOG_Insertar_numero_de_unidades(?,?,?,?)}");
+            CallableStatement cst = con.prepareCall("{call sp_ZEMOG_Insertar_numero_de_unidades(?,?,?,?,?,?)}");
 
             cst.setString(1, obj.getFecha_unidades());
             cst.setDate(2, obj.getFecha_final());
             cst.setInt(3, obj.getId_area());
             cst.setInt(4, obj.getNumeroUnidades());
+            cst.setInt(5, obj.getNumeroUnidadesBackup());
+            cst.setInt(6, obj.getNumeroUnidadesDetenidasPorEstrategia());
 
             cst.execute();
 
             return "success";
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             obj.setMensajeError("No se puedo insertar ningun registro en la base de datos " + getClass().getName() + " Codigo de error " + e.getMessage());
             return obj.getMensajeError();
         }
 
     }
 
-    public DefaultTableModel ListaDeDatos() {
+    public DefaultTableModel ListaDeDatos(String fechainicio, String fechafinal, String buscar) {
         String valor = "";
         DefaultTableModel modelo;
         String[] columnas = {"Id", "Sucursal", "Numero de unidades", "Fecha Unidades"};
@@ -52,9 +54,10 @@ public class fConcentradoDetalleUnidades {
 
         try {
 
-            PreparedStatement pst = con.prepareCall("select pdu.id,a.nombrecorto,pdu.numeroUnidades,pdu.fecha_unidades from dbo.powerDetalleUnidades pdu\n"
-                    + "join dbo.general_area a on a.id_area = pdu.id_area");
-            //pst.setString(1, buscar);
+            CallableStatement pst = con.prepareCall("{call sp_ZEMOG_mostrar_resumen_unidades_capi(?,?,?)}");
+            pst.setString(1, fechainicio);
+            pst.setString(2, fechafinal);
+            pst.setString(3, buscar);
 
             ResultSet rs = pst.executeQuery();
 
@@ -101,6 +104,25 @@ public class fConcentradoDetalleUnidades {
 
     }
 
+    public String actualizarTodo(ConcentradoDetalleUnidades obj) {
+
+        try {
+
+            PreparedStatement pst = con.prepareCall("UPDATE powerDetalleUnidades SET numeroUnidades = ? where id_area = ? ");
+            pst.setInt(1, obj.getNumeroUnidades());
+            pst.setInt(2, obj.getId_area());
+
+            pst.execute();
+
+            return "success";
+
+        } catch (SQLException e) {
+            obj.setMensajeError("No se pudo actualizar el datos revisar " + getClass().getName() + " Error" + e.getMessage());
+            return obj.getMensajeError();
+        }
+
+    }
+
     public String actualizar(ConcentradoDetalleUnidades obj) {
 
         try {
@@ -127,10 +149,11 @@ public class fConcentradoDetalleUnidades {
         String[] registros = new String[columnas.length];
         modelo = new DefaultTableModel(null, columnas);
         int contador = 1;
-
+        
+        
         try {
 
-            PreparedStatement pst = con.prepareCall("select pdu.id,a.nombrecorto,pdu.numeroUnidades, pdu.fecha_unidades from dbo.powerDetalleUnidades pdu\n"
+            PreparedStatement pst = con.prepareCall("select pdu.id,a.nombrecorto,pdu.numeroUnidades, pdu.fecha_unidades,pdu. from dbo.powerDetalleUnidades pdu\n"
                     + "join dbo.general_area a on a.id_area = pdu.id_area where fecha_unidades >=? and fecha_unidades <= ?");
 
             pst.setString(1, fechaInicio);

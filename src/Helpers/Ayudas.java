@@ -1,14 +1,25 @@
 package Helpers;
 
+import Vista.Indicadores.frmResumenCapi;
+import com.toedter.calendar.JDateChooser;
 import ds.desktop.notify.DesktopNotify;
 import ds.desktop.notify.NotifyTheme;
 import java.awt.Container;
 import java.awt.Dimension;
-import javax.swing.JComponent;
+import java.awt.event.ActionEvent;
+import java.beans.PropertyVetoException;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
@@ -22,9 +33,41 @@ public class Ayudas {
 
     }
 
+    public void popTable(String BotonCerrarPantalla,String BotonMaximizarPantalla,String BotonNombreMinimizarPantalla, JInternalFrame frame, JPopupMenu MenuCierre,JPanel panel ){
+
+        //JMenuItem menu1 = new JMenuItem("Cerrar Pantalla", new ImageIcon(getClass().getResource("/Imagenes/cancel_77947.png")).getImage().getScaledInstance((int) MenuCierre, MenuCierre.getWidth(), Image.SCALE_SMOOTH));
+        JMenuItem menu1 = new JMenuItem(BotonCerrarPantalla, new ImageIcon(getClass().getResource("/Imagenes/cancel_77947.png")));
+        JMenuItem menu2 = new JMenuItem(BotonMaximizarPantalla, new ImageIcon(getClass().getResource("/Imagenes/outline_text_snippet_black_24dp.png")));
+        JMenuItem menu3 = new JMenuItem(BotonNombreMinimizarPantalla, new ImageIcon(getClass().getResource("/Imagenes/outline_add_black_24dp.png")));
+
+        
+        menu1.addActionListener((ActionEvent ae) -> {
+            frame.dispose();
+        });
+        
+        menu2.addActionListener((ActionEvent e) -> {
+            try {
+                frame.setMaximum(true);
+            } catch (PropertyVetoException ex) {
+                Logger.getLogger(frmResumenCapi.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        
+        
+        menu3.addActionListener((ActionEvent e) -> {
+            
+        });
+
+        MenuCierre.add(menu1);
+        MenuCierre.add(menu2);
+        MenuCierre.add(menu3);
+
+        panel.setComponentPopupMenu(MenuCierre);
+
+    }
+
     public void ocultar_tabla(JTable tabla) {
-        
-        
+
         tabla.getColumnModel().getColumn(0).setMaxWidth(0);
         tabla.getColumnModel().getColumn(0).setMinWidth(0);
         tabla.getColumnModel().getColumn(0).setPreferredWidth(0);
@@ -106,11 +149,16 @@ public class Ayudas {
 
     }
 
-    public void limpiardorCajas(JTextField [] cajas) {
+    public void limpiardorCajas(JTextComponent[] cajas, JComboBox []cbo, JDateChooser [] fechas) {
 
         for (int i = 0; i < cajas.length; i++) {
+            
             cajas[i].setText("");
+            cbo[i].setSelectedIndex(0);
+            fechas[i].setDate(new Date());
+            
         }
+        
 
     }
 

@@ -40,6 +40,27 @@ public class fCartaPorte {
         
     }
     
+    //Metodo para modificar solo la factura de un viaje
+    public boolean modificar_factura_carta_porte(String numeroGuia, String nuevaFactura){
+        
+        try {
+            
+            SQL = "update dbo.trafico_guia set num_guia_asignado = ? where num_guia =?";
+            PreparedStatement pst = con.prepareCall(SQL);
+            pst.setString(1,nuevaFactura);
+            pst.setString(2,numeroGuia);
+            
+            pst.execute();
+            
+            return true;
+            
+        } catch (SQLException e) {
+            
+            return false;
+        }
+        
+    }
+    
     public String liberacion_factura(String numero_guia){
     
         try {

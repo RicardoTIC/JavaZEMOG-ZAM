@@ -18,6 +18,25 @@ public class ConcentradoDetalleUnidades {
     private Date fecha_final;
     private int numeroUnidades;
     private String mensajeError;
+    private int numeroUnidadesBackup;
+    private int numeroUnidadesDetenidasPorEstrategia;
+
+    public int getNumeroUnidadesBackup() {
+        return numeroUnidadesBackup;
+    }
+
+    public void setNumeroUnidadesBackup(int numeroUnidadesBackup) {
+        this.numeroUnidadesBackup = numeroUnidadesBackup;
+    }
+
+    public int getNumeroUnidadesDetenidasPorEstrategia() {
+        return numeroUnidadesDetenidasPorEstrategia;
+    }
+
+    public void setNumeroUnidadesDetenidasPorEstrategia(int numeroUnidadesDetenidasPorEstrategia) {
+        this.numeroUnidadesDetenidasPorEstrategia = numeroUnidadesDetenidasPorEstrategia;
+    }
+    
 
     public Date getFecha_final() {
         return fecha_final;

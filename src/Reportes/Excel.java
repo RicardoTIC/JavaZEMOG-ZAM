@@ -21,6 +21,7 @@ import Vista.Viajes.frmViajes;
 import static Vista.Viajes.frmViajes.txtBuscar;
 import static Vista.Viajes.frmViajes.txtFechaFinal;
 import static Vista.Viajes.frmViajes.txtFechaInicio;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import javax.swing.JFileChooser;
@@ -97,7 +98,7 @@ public class Excel extends Thread {
                 archivo.close();
                 help.mensaje("Se creo correctamente el archivo", "Informativo");
 
-            } catch (Exception e) {
+            } catch (IOException e) {
                 help.mensaje("Hubo un error al crear el archivo de Excel", "Error" + e.getMessage());
 
             }

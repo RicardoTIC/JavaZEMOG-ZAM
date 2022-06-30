@@ -12,6 +12,7 @@ import Modelo.ListaProductos;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.DefaultListModel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
@@ -21,11 +22,13 @@ public class frmCartaPorte extends javax.swing.JInternalFrame {
     Helpers.Ayudas aux = new Ayudas();
     CartaPorte obj = new CartaPorte();
     ListaProductos ls = new ListaProductos();
-    
 
     public frmCartaPorte() {
         initComponents();
         inhabilitar();
+        aux.popTable("Cerrar", "Maximizar", "Minimizar", this, new JPopupMenu(), jPanel1);
+        txtCartaPorteEdiitable.setVisible(false);
+        lblEdicion.setVisible(false);
     }
 
     void inhabilitar() {
@@ -52,7 +55,20 @@ public class frmCartaPorte extends javax.swing.JInternalFrame {
 
             txtCodigoArea.setText(String.valueOf(listaDato.getId_area()));
             txtNum_guia.setText(String.valueOf(listaDato.getNum_guia()));
-            lblCartaPorte.setText(listaDato.getNum_guia_asignado());
+
+            if (checkModificacion.isSelected()) {
+
+                txtCartaPorteEdiitable.setText(listaDato.getNum_guia_asignado());
+                txtCartaPorteEdiitable.setVisible(true);
+                lblCartaPorte.setVisible(true);
+
+            } else {
+
+                lblCartaPorte.setText(listaDato.getNum_guia_asignado());
+                txtCartaPorteEdiitable.setVisible(false);
+                lblEdicion.setVisible(false);
+            }
+
             lblEstatus.setText(listaDato.getStatus_guia());
             txtNumeroPedido.setText(String.valueOf(listaDato.getNum_pedido()));
             txtFecha.setText(listaDato.getFecha_guia());
@@ -79,7 +95,6 @@ public class frmCartaPorte extends javax.swing.JInternalFrame {
 
         //ls.setNo_guia(Integer.parseInt(txtNum_guia.getText()));
         //ls.setId_area(Integer.parseInt(txtCodigoArea.getText()));
-
         mostrar(ls);
 
     }
@@ -113,8 +128,10 @@ public class frmCartaPorte extends javax.swing.JInternalFrame {
         jLabel37 = new javax.swing.JLabel();
         txtCodigoArea = new javax.swing.JTextField();
         lblCartaPorte = new javax.swing.JLabel();
-        jLabel39 = new javax.swing.JLabel();
+        lblEdicion = new javax.swing.JLabel();
         lblRemision = new javax.swing.JLabel();
+        txtCartaPorteEdiitable = new javax.swing.JTextField();
+        jLabel40 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         lblEstatus = new javax.swing.JLabel();
@@ -181,6 +198,7 @@ public class frmCartaPorte extends javax.swing.JInternalFrame {
         btnSalir = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         btnLiberarCartaPorte = new javax.swing.JButton();
+        checkModificacion = new javax.swing.JCheckBox();
         jPanel9 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         ListaProductos = new javax.swing.JTable(){
@@ -250,8 +268,17 @@ public class frmCartaPorte extends javax.swing.JInternalFrame {
 
         lblCartaPorte.setText("-");
 
-        jLabel39.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel39.setText("Carta Porte :");
+        lblEdicion.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblEdicion.setText("Edicion");
+
+        txtCartaPorteEdiitable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtCartaPorteEdiitableMouseClicked(evt);
+            }
+        });
+
+        jLabel40.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel40.setText("Carta Porte :");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -263,22 +290,25 @@ public class frmCartaPorte extends javax.swing.JInternalFrame {
                     .addComponent(jLabel37)
                     .addComponent(jLabel13)
                     .addComponent(jLabel12)
-                    .addComponent(jLabel39))
+                    .addComponent(lblEdicion)
+                    .addComponent(jLabel40))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtNumeroViaje, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
+                    .addComponent(txtNumeroViaje, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
                     .addComponent(txtCodigoArea)
                     .addComponent(lblCartaPorte, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblRemision, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblRemision, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtCartaPorteEdiitable))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblCartaPorte)
-                    .addComponent(jLabel39))
-                .addGap(12, 12, 12)
+                    .addComponent(jLabel40)
+                    .addComponent(lblCartaPorte))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
                     .addComponent(txtNumeroViaje, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -286,10 +316,14 @@ public class frmCartaPorte extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblRemision, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel37)
                     .addComponent(txtCodigoArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtCartaPorteEdiitable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblEdicion))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -752,6 +786,10 @@ public class frmCartaPorte extends javax.swing.JInternalFrame {
         btnLiberarCartaPorte.setText("Liberar carta porte");
         jPanel1.add(btnLiberarCartaPorte, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 610, 160, 30));
 
+        checkModificacion.setBackground(new java.awt.Color(255, 255, 255));
+        checkModificacion.setText("Modificar Factura Manual");
+        jPanel1.add(checkModificacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 613, -1, 30));
+
         jScrollPane6.setViewportView(jPanel1);
 
         jTabbedPane2.addTab("Guia carta porte", jScrollPane6);
@@ -954,13 +992,13 @@ public class frmCartaPorte extends javax.swing.JInternalFrame {
         for (int i = 0; i < arreglo.length; i++) {
             lista.addElement(arreglo[i].trim());
         }
-        
+
         ListaDePendientes.setModel(lista);
 
     }//GEN-LAST:event_txtCartaPorteMasivoKeyReleased
 
     private void txtOrigenRemitenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtOrigenRemitenteActionPerformed
-       
+
     }//GEN-LAST:event_txtOrigenRemitenteActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
@@ -989,7 +1027,7 @@ public class frmCartaPorte extends javax.swing.JInternalFrame {
 
     private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
         DefaultListModel lista = new DefaultListModel();
-        
+
         for (int i = 0; i < lista.getSize(); i++) {
 
             aux.mensaje((String) lista.getElementAt(i), "datos");
@@ -997,7 +1035,7 @@ public class frmCartaPorte extends javax.swing.JInternalFrame {
             if (func.liberacion_factura((String) lista.getElementAt(i)).equalsIgnoreCase("success")) {
                 aux.mensajeLateral("Registro actualizado !!!! ", "El registro se actualizado correctamente ", "aceptado");
                 //mostrar_detallado_informacion();
-                
+
             } else {
                 aux.mensajeLateral("Error", func.liberacion_factura(txtCartaPorte.getText()), "error");
             }
@@ -1005,12 +1043,44 @@ public class frmCartaPorte extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jLabel7MouseClicked
 
+    private void txtCartaPorteEdiitableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtCartaPorteEdiitableMouseClicked
+        
+        try {
+            
+        if (evt.getClickCount() >= 2) {
+
+            if (txtCartaPorteEdiitable.getText().length() <= 0) {
+                aux.mensaje("Debes de ingresar una carta porte", "Informativo");
+                txtCartaPorteEdiitable.requestFocus();
+                return;
+            }
+            String numeroGuia = lblCartaPorte.getText();
+            String nuevaFactura = txtCartaPorteEdiitable.getText();
+            if (func.modificar_factura_carta_porte(numeroGuia, nuevaFactura)) {
+
+                
+                mostrar_detallado_informacion();
+                validacion_viajes_en_transito();
+                aux.mensaje("Se actualizo correctamente  " + numeroGuia, "Informativo");
+            }
+
+        }            
+            
+            
+        } catch (Exception e) {
+            aux.mensaje("Error"+e.getMessage(), "Error");
+        }
+        
+
+    }//GEN-LAST:event_txtCartaPorteEdiitableMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList<String> ListaDePendientes;
     private javax.swing.JTable ListaProductos;
     private javax.swing.JButton btnLiberarCartaPorte;
     private javax.swing.JButton btnSalir;
+    private javax.swing.JCheckBox checkModificacion;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
@@ -1045,8 +1115,8 @@ public class frmCartaPorte extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
-    private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel40;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -1073,11 +1143,13 @@ public class frmCartaPorte extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jTextField20;
     private javax.swing.JTextField jTextField21;
     private javax.swing.JLabel lblCartaPorte;
+    private javax.swing.JLabel lblEdicion;
     private javax.swing.JLabel lblError;
     private javax.swing.JLabel lblEstatus;
     private javax.swing.JLabel lblRemision;
     private javax.swing.JTextField txtAutopista;
     private javax.swing.JTextField txtCartaPorte;
+    private javax.swing.JTextField txtCartaPorteEdiitable;
     private javax.swing.JTextField txtCartaPorteMasivo;
     private javax.swing.JTextField txtClientePagaII;
     private javax.swing.JTextField txtCodigoArea;

@@ -329,7 +329,10 @@ public class frmMenuReactivacionViaje extends javax.swing.JInternalFrame {
         } else {
             estatus_Prestamo = "A";
         }
-
+        
+        
+        
+        
         if (numeroViaje != 0 && codigoArea != 0 && !numero_guia.equalsIgnoreCase("")) {
             System.out.println("Numero de viaje " + numeroViaje + " Codigo Area " + codigoArea + " Numero de guia " + numero_guia + " Accion a ejecutar " + accion);
 

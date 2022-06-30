@@ -288,6 +288,7 @@
           <SubComponents>
             <Component class="javax.swing.JTable" name="ListaConvenios">
               <Properties>
+                <Property name="autoCreateRowSorter" type="boolean" value="true"/>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor" postCode="ListaConvenios.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);&#xa;&#xa;JScrollPane pane = new JScrollPane(ListaConvenios);&#xa;add(pane, BorderLayout.CENTER);">
                   <Table columnCount="0" rowCount="4"/>
                 </Property>

@@ -52,10 +52,10 @@ public class fViajes {
     public float totalVentaGEPP = 0;
     public float totalKmConsulta = 0;
     public float totalkmModeloEspecializado = 0, totalkmModeloDedicado = 0, totalkmArca = 0, totalkmGEPP = 0;
-    public int [] no_guia;
-    public int [] codigoArea;
-    
-    
+    public int[] no_guia;
+    public int[] codigoArea;
+    public float totalkmZacatecasTemporal = 0;
+
     Ruta ruta = new Ruta();
     frmBarraProgreso progreso = new frmBarraProgreso();
 
@@ -78,7 +78,7 @@ public class fViajes {
 
         try {
 
-            CallableStatement cst = con.prepareCall("{call sp_ZEMOG_mostrarviajesZemog(?) }");
+            CallableStatement cst = con.prepareCall("{call sp_ZEMOG_mostrarviajesZemog(?)}");
             cst.setString(1, buscar);
 
             ResultSet rs = cst.executeQuery();
@@ -235,9 +235,179 @@ public class fViajes {
                 while (rs.next()) {
 
                     for (int j = 0; j < registros.length; j++) {
-                        
+
                         registros[j] = rs.getString(contador);
-                       
+
+                        if (contador == 10 && rs.getString(10).equalsIgnoreCase("Activo")) {
+                            totalActivos += 1;
+                            lista.add(rs.getString(9));
+                            lista.add(rs.getString(10));
+                            lista.add(rs.getString(11));
+                        }
+                        if (contador == 10 && rs.getString(10).equalsIgnoreCase("Inactivo")) {
+                            totalInactivos += 1;
+                        }
+
+                        contador++;
+                    }
+                    modelo.addRow(registros);
+
+                }
+                contador = 1;
+            }
+            return modelo;
+
+        } catch (SQLException e) {
+            return null;
+        }
+
+    }
+
+    public DefaultTableModel showOpeActive(String[] buscar, boolean estado, boolean remsion) {
+        int contador = 0;
+
+        String[] columnas = {
+            "Numero Guia",
+            "Carta de cobro",
+            "Fecha de cancelacion",
+            "Numero Remision",
+            "Flete",
+            "Iva flete",
+            "Usuario Alta",
+            "Codigo Operador",
+            "Nombre Operador",
+            "Estado",
+            "Fecha Baja",
+            "Numero Economico",
+            "Estatus de unidad",
+            "Factura",
+            "Fecha de timbrado",
+            "Estatus viaje",
+            "Estatus factura",
+            "Sucursal",
+            "No Guia",
+            "Codigo area"
+        };
+
+        String[] registros = new String[columnas.length];
+        String[] remisiones = new String[buscar.length];
+
+        DefaultTableModel modelo = new DefaultTableModel(null, columnas);
+
+        SQL = "select no_remision from dbo.trafico_guia where num_guia = ?";
+
+        if (remsion) {
+
+            try {
+
+                for (int i = 0; i < buscar.length; i++) {
+                    PreparedStatement pst1 = con.prepareCall(SQL);
+                    pst1.setString(1, buscar[i]);
+
+                    ResultSet rs1 = pst1.executeQuery();
+
+                    while (rs1.next()) {
+                        remisiones[contador] = rs1.getString(1);
+                        contador++;
+                    }
+
+                    
+
+                }
+
+            } catch (SQLException e) {
+
+            }
+
+        }
+        contador = 1;
+        if (estado) {
+
+            SQL = "SELECT tg.num_guia 'Numero Guia',\n"
+                    + "isnull(no_carta ,'S/n carta de cobro') 'Carta de cobro',\n"
+                    + "isnull(tg.fecha_cancelacion, 0)  'Fecha de cancelacion',\n"
+                    + "no_remision 'Numero Remision',\n"
+                    + "flete 'Flete', \n"
+                    + "iva_guia 'Iva flete',\n"
+                    + "tg.id_modifico 'Usuario Alta',\n"
+                    + "tg.id_personal 'Codigo Operador', \n"
+                    + "tg.personalnombre 'Nombre Operador', \n"
+                    + "case when p.estado = 'A' then 'Activo' else 'Inactivo' END 'Estado',\n"
+                    + "isnull(p.fecha_baja,0) 'Fecha Baja' ,\n"
+                    + "mu.id_unidad 'Numero Economico', \n"
+                    + "case when mu.estatus = 'A' THEN  'Unidad Activa' else 'Unidad Inactiva' END as 'Estatus de unidad', \n"
+                    + "isnull(tg.num_guia_asignado,'Sin factura') 'Factura',\n"
+                    + "isnull(tfe.fecha_timbrado,0) 'Fecha de timbrado',\n"
+                    + "case when tg.status_guia = 'C' THEN 'Confirmado'\n"
+                    + "when tg.status_guia = 'R' THEN 'Regreso'\n"
+                    + "when tg.status_guia = 'A' THEN 'Pediente'\n"
+                    + "when tg.status_guia = 'C' THEN 'Confirmado'\n"
+                    + "when tg.status_guia = 'T' THEN 'Transito'\n"
+                    + "when tg.status_guia = 'B' THEN 'Cancelado'\n"
+                    + "END  'Estatus viaje', \n"
+                    + "isnull(tfe.status,0) 'Estatus factura',\n"
+                    + "a.nombrecorto 'Sucursal',tg.no_guia,a.id_area\n"
+                    + "\n"
+                    + "from dbo.trafico_guia tg\n"
+                    + "join dbo.personal_personal p on p.id_personal = tg.id_personal \n"
+                    + "join dbo.mtto_unidades mu on mu.id_unidad = tg.id_unidad\n"
+                    + "join dbo.general_area a on a.id_area = tg.id_area\n"
+                    + "left join dbo.trafico_factura_electronica tfe on tfe.num_guia_original = tg.num_guia_asignado\n"
+                    + "where tg.no_remision = ? and no_carta is not null";
+        } else {
+            SQL = "SELECT tg.num_guia 'Numero Guia', \n"
+                    + "isnull(no_carta ,'S/n carta de cobro') 'Carta de cobro',  \n"
+                    + "isnull(tg.fecha_cancelacion, 0)  'Fecha de cancelacion',\n"
+                    + "no_remision 'Numero Remision',\n"
+                    + "flete 'Flete', \n"
+                    + "iva_guia 'Iva flete',\n"
+                    + "tg.id_modifico 'Usuario Alta',\n"
+                    + "tg.id_personal 'Codigo Operador', \n"
+                    + "tg.personalnombre 'Nombre Operador', \n"
+                    + "case when p.estado = 'A' then 'Activo' else 'Inactivo' END 'Estado', \n"
+                    + "isnull(p.fecha_baja,0) 'Fecha Baja' ,\n"
+                    + "mu.id_unidad 'Numero Economico', \n"
+                    + "case when mu.estatus = 'A' THEN  'Unidad Activa' else 'Unidad Inactiva' END as 'Estatus de unidad', \n"
+                    + "isnull(tg.num_guia_asignado,'Sin factura') 'Factura',\n"
+                    + "isnull(tfe.fecha_timbrado,0) 'Fecha de timbrado',\n"
+                    + "case when tg.status_guia = 'C' THEN 'Confirmado' \n"
+                    + "when tg.status_guia = 'R' THEN 'Regreso'\n"
+                    + "when tg.status_guia = 'A' THEN 'Pediente'\n"
+                    + "when tg.status_guia = 'C' THEN 'Confirmado'\n"
+                    + "when tg.status_guia = 'T' THEN 'Transito'\n"
+                    + "when tg.status_guia = 'B' THEN 'Cancelado'\n"
+                    + "END  'Estatus viaje',  \n"
+                    + "isnull(tfe.status,0) 'Estatus factura',\n"
+                    + "a.nombrecorto 'Sucursal',tg.no_guia,a.id_area\n"
+                    + "\n"
+                    + "from dbo.trafico_guia tg\n"
+                    + "join dbo.personal_personal p on p.id_personal = tg.id_personal \n"
+                    + "join dbo.mtto_unidades mu on mu.id_unidad = tg.id_unidad\n"
+                    + "join dbo.general_area a on a.id_area = tg.id_area\n"
+                    + "left join dbo.trafico_factura_electronica tfe on tfe.num_guia_original = tg.num_guia_asignado\n"
+                    + "where tg.num_guia =? and p.estado <> 'A'";
+
+        }
+
+        try {
+
+            for (int i = 0; i < buscar.length; i++) {
+
+                PreparedStatement pst = con.prepareCall(SQL);
+
+                if (remsion) {
+                    pst.setString(1, remisiones[i]);
+                } else {
+                    pst.setString(1, buscar[i]);
+                }
+
+                ResultSet rs = pst.executeQuery();
+
+                while (rs.next()) {
+
+                    for (int j = 0; j < registros.length; j++) {
+
+                        registros[j] = rs.getString(contador);
 
                         if (contador == 10 && rs.getString(10).equalsIgnoreCase("Activo")) {
                             totalActivos += 1;
@@ -270,19 +440,72 @@ public class fViajes {
         SQL = "UPDATE dbo.trafico_guia set prestamo='P',status_guia='A' WHERE no_guia = ? and id_area = ? ";
         String error = "";
         try {
-            
+
+            PreparedStatement pst = con.prepareCall(SQL);
+
             for (int i = 0; i < no_guia.length; i++) {
-                PreparedStatement pst = con.prepareCall(SQL);
-                pst.setInt(1,no_guia[i]);
+
+                pst.setInt(1, no_guia[i]);
                 pst.setInt(2, codigoArea[i]);
-                
                 pst.execute();
-                
             }
-            
+
             return "success";
+
         } catch (SQLException e) {
-            error = "No se puedo liberar las carta porte revisa el codigo para solucionar "+e.getMessage();
+            error = "No se puedo liberar la carta porte ";
+            return error;
+        }
+
+    }
+
+    // Metod para liberar de facturas 
+    public String liberacionFacturas(String[] numero_guia) {
+        SQL = "UPDATE dbo.trafico_guia set num_guia_asignado = null WHERE num_guia = ?";
+
+        String error = "";
+
+        try {
+
+            PreparedStatement pst = con.prepareCall(SQL);
+
+            for (int i = 0; i < numero_guia.length; i++) {
+
+                pst.setString(1, numero_guia[i]);
+                pst.execute();
+            }
+
+            return "success";
+
+        } catch (SQLException e) {
+            error = "No se puedo liberar la carta porte ";
+            return error;
+        }
+    }
+
+    //Metodo para liberar todas las cartas cobro.\
+    public String liberacionCartaDeCobro(int[] no_guia, int[] codigoArea) {
+
+        //SQL = "UPDATE dbo.trafico_guia set prestamo='P',status_guia='A' WHERE no_guia = ? and id_area = ? ";
+        SQL = "UPDATE trafico_guia SET no_carta = null ,fecha_vencimiento = null WHERE no_guia= ?  and id_area=?";
+
+        String error = "";
+
+        try {
+
+            PreparedStatement pst = con.prepareCall(SQL);
+
+            for (int i = 0; i < no_guia.length; i++) {
+
+                pst.setInt(1, no_guia[i]);
+                pst.setInt(2, codigoArea[i]);
+                pst.execute();
+            }
+
+            return "success";
+
+        } catch (SQLException e) {
+            error = "No se puedo liberar la carta porte ";
             return error;
         }
 
@@ -403,6 +626,10 @@ public class fViajes {
                     totalVentaModeloDedicado = totalVentaModeloDedicado + rs.getFloat(2);
                 } else if (rs.getString(2).equalsIgnoreCase("Arca")) {
                     totalVentaArca = totalVentaArca + rs.getFloat(2);
+                } else if (rs.getString(1).equalsIgnoreCase("CCZD") || rs.getString(1).equalsIgnoreCase("CCZ")) {
+
+                    totalkmZacatecasTemporal += rs.getFloat(2);
+
                 } else {
                     totalVentaGEPP = totalVentaGEPP + rs.getFloat(2);
                 }
@@ -466,8 +693,13 @@ public class fViajes {
                     totalkmGEPP += rs.getFloat(4);
                 }
 
+                if (rs.getString(1).equalsIgnoreCase("CCZD") || rs.getString(1).equalsIgnoreCase("CCZ")) {
+
+                    totalkmZacatecasTemporal += rs.getFloat(4);
+                }
+
                 registros[0] = rs.getString(1); // Sucursal
-                registros[1] = rs.getString(2); // Sucursal
+                registros[1] = rs.getString(2); // Operacion
                 registros[2] = rs.getString(3); // Dia
                 registros[3] = obj.format(rs.getInt(4)); // Km
                 registros[4] = rs.getString(5); // numeroViajes
@@ -654,23 +886,27 @@ public class fViajes {
 
     }
 
-    public boolean cancelacion_Carta_Porte(int codigoArea, int numeroViaje, String estatusGuia, String prestamo, String comentarios, String estatusAnticipo, int estatusPedido, int estatusAsignacion, String cartaPorte, String accion) {
+    public boolean cancelacion_Carta_Porte(int[] codigoArea, int[] numeroViaje, String estatusGuia,
+            String prestamo, String comentarios, String estatusAnticipo, int estatusPedido, int estatusAsignacion, String[] cartaPorte, String accion) {
 
         try {
 
-            CallableStatement cst = con.prepareCall("{call sp_ZEMOG_Cancelar_Carta_Porte(?,?,?,?,?,?,?,?,?,?)}");
-            cst.setInt(1, codigoArea);
-            cst.setInt(2, numeroViaje);
-            cst.setString(3, estatusGuia);
-            cst.setString(4, prestamo);
-            cst.setString(5, comentarios);
-            cst.setString(6, estatusAnticipo);
-            cst.setInt(7, estatusPedido);
-            cst.setInt(8, estatusAsignacion);
-            cst.setString(9, cartaPorte);
-            cst.setString(10, accion);
+            for (int i = 0; i < codigoArea.length; i++) {
 
-            cst.executeUpdate();
+                CallableStatement cst = con.prepareCall("{call sp_ZEMOG_Cancelar_Carta_Porte(?,?,?,?,?,?,?,?,?,?)}");
+                cst.setInt(1, codigoArea[i]);
+                cst.setInt(2, numeroViaje[i]);
+                cst.setString(3, estatusGuia);
+                cst.setString(4, prestamo);
+                cst.setString(5, comentarios);
+                cst.setString(6, estatusAnticipo);
+                cst.setInt(7, estatusPedido);
+                cst.setInt(8, estatusAsignacion);
+                cst.setString(9, cartaPorte[i]);
+                cst.setString(10, accion);
+
+                cst.executeUpdate();
+            }
 
             return true;
 
@@ -680,6 +916,37 @@ public class fViajes {
 
     }
 
+        public boolean cancelacion_Carta_Porte(int codigoArea,int  numeroViaje, String estatusGuia,
+            String prestamo, String comentarios, String estatusAnticipo, int estatusPedido, int estatusAsignacion, String cartaPorte, String accion) {
+
+        try {
+
+
+                CallableStatement cst = con.prepareCall("{call sp_ZEMOG_Cancelar_Carta_Porte(?,?,?,?,?,?,?,?,?,?)}");
+                cst.setInt(1, codigoArea);
+                cst.setInt(2, numeroViaje);
+                cst.setString(3, estatusGuia);
+                cst.setString(4, prestamo);
+                cst.setString(5, comentarios);
+                cst.setString(6, estatusAnticipo);
+                cst.setInt(7, estatusPedido);
+                cst.setInt(8, estatusAsignacion);
+                cst.setString(9, cartaPorte);
+                cst.setString(10, accion);
+
+                cst.executeUpdate();
+
+
+            return true;
+
+        } catch (SQLException e) {
+            return false;
+        }
+
+    }
+
+    
+    
     public List<Ruta> rutas(Ruta rut) {
 
         try {

@@ -80,8 +80,7 @@ public class fCartaCobro extends crud<Carta_de_Cobro> {
         
         try {
             
-            System.out.println("Carta de cobro "+Obj.getCartaCobro()+" Fecha vencimiento "+Obj.getFecha_vencimiento()+" Numero Guia "+Obj.getNo_guia()+" CodigoArea "+Obj.getId_area());
-            
+
             CallableStatement cst = con.prepareCall("{call sp_ZEMOG_cancelar_carta_cobro(?,?)}");
             cst.setString(1, Obj.getNo_guia());
             cst.setInt(2, Obj.getId_area());

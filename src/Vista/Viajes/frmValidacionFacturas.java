@@ -15,26 +15,53 @@ public class frmValidacionFacturas extends javax.swing.JInternalFrame {
 
     public frmValidacionFacturas() {
         initComponents();
+        checkEstado.setSelected(true);
     }
 
     void numeroOperadoresActivos() {
 
         aux.mensajeLateral("Total de operadores", "Operadores Activos " + func.totalActivos + "\nOperadores Inactivos " + func.totalInactivos, "aceptado");
-                
+
         func.totalActivos = 0;
         func.totalInactivos = 0;
     }
 
+    void mostrar(String[] buscardor, boolean estado, boolean remision) {
+        int numeroFilas = 0;
+
+        try {
+
+            if (CheckRemision.isSelected()) {
+
+                ListaDeviajes.setModel(func.showOpeActive(buscardor, estado,remision));
+                numeroFilas = ListaDeviajes.getRowCount();
+                numeroOperadoresActivos();
+                totalRegistros.setText(String.valueOf(numeroFilas));
+
+            } else {
+                ListaDeviajes.setModel(func.showOpeActive(buscardor, estado));
+                numeroFilas = ListaDeviajes.getRowCount();
+                numeroOperadoresActivos();
+                totalRegistros.setText(String.valueOf(numeroFilas));
+
+            }
+
+        } catch (Exception e) {
+            aux.mensaje("Eror " + e.getMessage() + " : " + getClass().getName(), e.getLocalizedMessage());
+        }
+
+    }
+    
     void mostrar(String[] buscardor, boolean estado) {
         int numeroFilas = 0;
-        
+
         try {
-            
-            ListaDeviajes.setModel(func.showOpeActive(buscardor,estado));
+
+            ListaDeviajes.setModel(func.showOpeActive(buscardor, estado));
             numeroFilas = ListaDeviajes.getRowCount();
             numeroOperadoresActivos();
             totalRegistros.setText(String.valueOf(numeroFilas));
-            
+
         } catch (Exception e) {
             aux.mensaje("Eror " + e.getMessage() + " : " + getClass().getName(), e.getLocalizedMessage());
         }
@@ -84,13 +111,20 @@ public class frmValidacionFacturas extends javax.swing.JInternalFrame {
         checkEstado = new javax.swing.JCheckBox();
         jLabel11 = new javax.swing.JLabel();
         txtFechaBaja = new javax.swing.JTextField();
+        jButton4 = new javax.swing.JButton();
+        CheckRemision = new javax.swing.JCheckBox();
 
+        setClosable(true);
         setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
         setTitle("Validacion de viajes");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Validacion de viajes", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 24))); // NOI18N
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        ListaDeviajes.setAutoCreateRowSorter(true);
         ListaDeviajes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -116,56 +150,83 @@ public class frmValidacionFacturas extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(ListaDeviajes);
 
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 83, 626, 382));
+
         jTextField1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTextField1MouseClicked(evt);
             }
         });
+        jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(65, 50, 308, -1));
 
         jLabel1.setText("Buscar :");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 53, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel2.setText("Numero de guia :");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(676, 47, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel3.setText("Carta de cobro :");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(682, 87, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel4.setText("Fecha de cancelacion :");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(646, 127, -1, -1));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel5.setText("Remision :");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(713, 165, -1, -1));
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel6.setText("Flete :");
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(737, 203, -1, -1));
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel7.setText("Nombre Operador :");
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(665, 241, -1, -1));
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel8.setText("Estatus :");
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(723, 279, -1, -1));
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel9.setText("Estatus viaje :");
+        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(692, 355, -1, -1));
+        jPanel1.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(781, 44, 267, -1));
+        jPanel1.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(781, 84, 267, -1));
+        jPanel1.add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(781, 124, 267, -1));
+        jPanel1.add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(781, 162, 267, -1));
+        jPanel1.add(jTextField6, new org.netbeans.lib.awtextra.AbsoluteConstraints(781, 200, 267, -1));
+        jPanel1.add(jTextField7, new org.netbeans.lib.awtextra.AbsoluteConstraints(783, 238, 265, -1));
+        jPanel1.add(jTextField8, new org.netbeans.lib.awtextra.AbsoluteConstraints(785, 276, 263, -1));
 
         jTextField9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField9ActionPerformed(evt);
             }
         });
+        jPanel1.add(jTextField9, new org.netbeans.lib.awtextra.AbsoluteConstraints(785, 349, 261, -1));
 
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/alerta.png"))); // NOI18N
-        jButton1.setText("Activar");
+        jButton1.setText("Liberar Guia");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(692, 427, 160, -1));
 
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/free.png"))); // NOI18N
-        jButton2.setText("Liberar");
+        jButton2.setText("Free carta cobro");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 427, 166, -1));
 
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cancel_77947.png"))); // NOI18N
@@ -175,11 +236,14 @@ public class frmValidacionFacturas extends javax.swing.JInternalFrame {
                 jButton3ActionPerformed(evt);
             }
         });
+        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 474, 166, -1));
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel10.setText("Total Registros :");
+        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 486, -1, -1));
 
         totalRegistros.setText("-");
+        jPanel1.add(totalRegistros, new org.netbeans.lib.awtextra.AbsoluteConstraints(118, 486, 142, -1));
 
         btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/outline_travel_explore_black_24dp.png"))); // NOI18N
         btnBuscar.setText("Buscar");
@@ -188,138 +252,30 @@ public class frmValidacionFacturas extends javax.swing.JInternalFrame {
                 btnBuscarActionPerformed(evt);
             }
         });
+        jPanel1.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(379, 44, -1, -1));
 
         checkEstado.setBackground(new java.awt.Color(255, 255, 255));
         checkEstado.setText("Activo");
+        jPanel1.add(checkEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 49, 89, -1));
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel11.setText("Fecha de baja :");
+        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(687, 317, -1, -1));
+        jPanel1.add(txtFechaBaja, new org.netbeans.lib.awtextra.AbsoluteConstraints(785, 314, 261, -1));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(totalRegistros, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnBuscar)
-                                .addGap(18, 18, 18)
-                                .addComponent(checkEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 58, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(4, 4, 4)
-                                .addComponent(jScrollPane1)))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel3)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addGap(30, 30, 30)
-                                    .addComponent(jLabel2))
-                                .addComponent(jLabel4)
-                                .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING))
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel11))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addGap(36, 36, 36)
-                                    .addComponent(jButton2)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jTextField7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jTextField6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jTextField4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                .addComponent(txtFechaBaja, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
-                                                .addComponent(jTextField9, javax.swing.GroupLayout.Alignment.LEADING))))))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
-                    .addComponent(btnBuscar)
-                    .addComponent(checkEstado))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(20, 20, 20)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(20, 20, 20)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
-                            .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel11)
-                            .addComponent(txtFechaBaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(15, 15, 15)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel9)
-                            .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1)
-                            .addComponent(jButton2)
-                            .addComponent(jButton3)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10)
-                    .addComponent(totalRegistros))
-                .addContainerGap())
-        );
+        jButton4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/outline_calendar_month_black_24dp.png"))); // NOI18N
+        jButton4.setText("Liberar Factura");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(692, 478, 160, 37));
+
+        CheckRemision.setBackground(new java.awt.Color(255, 255, 255));
+        CheckRemision.setText("Remision");
+        jPanel1.add(CheckRemision, new org.netbeans.lib.awtextra.AbsoluteConstraints(579, 49, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -343,8 +299,12 @@ public class frmValidacionFacturas extends javax.swing.JInternalFrame {
 
         String[] cartaGuias = jTextField1.getText().trim().split(" ");
         boolean estado = checkEstado.isSelected();
-        
-        mostrar(cartaGuias,estado);
+
+        if (CheckRemision.isSelected()) {
+            mostrar(cartaGuias, estado,true);
+        } else {
+            mostrar(cartaGuias, estado);
+        }
 
 
     }//GEN-LAST:event_btnBuscarActionPerformed
@@ -372,7 +332,7 @@ public class frmValidacionFacturas extends javax.swing.JInternalFrame {
             jTextField6.setText(ListaDeviajes.getValueAt(fila, 4).toString()); // Flete
             jTextField7.setText(ListaDeviajes.getValueAt(fila, 8).toString()); // Nombre Operador
             jTextField8.setText(ListaDeviajes.getValueAt(fila, 9).toString()); // Estatus operador
-            txtFechaBaja.setText(ListaDeviajes.getValueAt(fila,10 ).toString()); // Fecha Baja
+            txtFechaBaja.setText(ListaDeviajes.getValueAt(fila, 10).toString()); // Fecha Baja
             jTextField9.setText(ListaDeviajes.getValueAt(fila, 15).toString()); // Estatus viaje
 
         } catch (Exception e) {
@@ -383,54 +343,121 @@ public class frmValidacionFacturas extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_ListaDeviajesMouseClicked
 
     private void ListaDeviajesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ListaDeviajesMouseEntered
-        
+
     }//GEN-LAST:event_ListaDeviajesMouseEntered
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
-        int [] codigoArea = new int[ListaDeviajes.getRowCount()];
-        int [] no_guia = new int[ListaDeviajes.getRowCount()];
-        int fila = ListaDeviajes.getSelectedRow();
-        
-        
+        int[] no_guia = new int[ListaDeviajes.getRowCount()];
+        int[] codigoArea = new int[ListaDeviajes.getRowCount()];
+
         try {
-            
-        
-        for (int i = 0; i < ListaDeviajes.getRowCount(); i++) {
-            
-            codigoArea [i] = Integer.parseInt(ListaDeviajes.getValueAt(fila, 19).toString());
-            no_guia [i] = Integer.parseInt(ListaDeviajes.getValueAt(fila, 18).toString());
-            
-        }
-        
-        for (int guia : no_guia) {
-            System.out.println("Numero de guia "+ guia);
-        }
-        
-        for (int suc : codigoArea) {
-             System.out.println("Codigo de area " + suc);
-        }
-        
-            
-            
-        } catch (NumberFormatException e) {
-            aux.mensaje("Error " +e.getMessage(), "error");
+
+            if (aux.mensajeConfirmacion("Deseas liberar " + ListaDeviajes.getRowCount() + " Carta porte") == 0) {
+
+                for (int i = 0; i < ListaDeviajes.getRowCount(); i++) {
+                    no_guia[i] = Integer.parseInt(ListaDeviajes.getValueAt(i, 18).toString());
+                    codigoArea[i] = Integer.parseInt(ListaDeviajes.getValueAt(i, 19).toString());
+
+                }
+
+                if (func.liberacionCartaPorteMasivo(no_guia, codigoArea).equalsIgnoreCase("success")) {
+                    aux.mensaje("Se liberaron correctamente las " + ListaDeviajes.getRowCount() + " Carta Porte ", "informativo");
+
+                    String[] cartaGuias = jTextField1.getText().trim().split(" ");
+                    boolean estado = checkEstado.isSelected();
+
+                    mostrar(cartaGuias, estado);
+                } else {
+                    aux.mensaje("No se liberaron las " + ListaDeviajes.getRowCount() + " Carta Porte ", "informativo");
+                }
+
+            }
+
+        } catch (Exception e) {
+            aux.mensaje("Error " + e.getMessage(), "informativo");
         }
 
-        
-        
-        
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+
+        String[] numero_guia = new String[ListaDeviajes.getRowCount()];
+
+        try {
+
+            if (aux.mensajeConfirmacion("Deseas liberar  " + ListaDeviajes.getRowCount() + " Facturas") == 0) {
+
+                for (int i = 0; i < ListaDeviajes.getRowCount(); i++) {
+                    numero_guia[i] = ListaDeviajes.getValueAt(i, 0).toString();
+                }
+
+                if (func.liberacionFacturas(numero_guia).equalsIgnoreCase("success")) {
+
+                    aux.mensaje("Se liberaron correctamente las " + ListaDeviajes.getRowCount() + " Las facturas ", "informativo");
+
+                    String[] cartaGuias = jTextField1.getText().trim().split(" ");
+                    boolean estado = checkEstado.isSelected();
+                    mostrar(cartaGuias, estado);
+
+                } else {
+                    aux.mensaje("No se liberaron las " + ListaDeviajes.getRowCount() + " Carta Porte ", "informativo");
+                }
+
+            }
+
+        } catch (Exception e) {
+
+            aux.mensaje("Error " + e.getMessage(), "informativo");
+        }
+
+
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        int[] no_guia = new int[ListaDeviajes.getRowCount()];
+        int[] codigoArea = new int[ListaDeviajes.getRowCount()];
+        try {
+            //UPDATE trafico_guia SET no_carta = @no_carta ,fecha_vencimiento = @fecha_vencimiento WHERE no_guia=@no_guia  and id_area=@id_area
+
+            if (aux.mensajeConfirmacion("Deseas liberar " + ListaDeviajes.getRowCount() + " Cartas de cobro ") == 0) {
+                
+                for (int i = 0; i < ListaDeviajes.getRowCount(); i++) {
+                    no_guia[i] = Integer.parseInt(ListaDeviajes.getValueAt(i, 18).toString());
+                    codigoArea[i] = Integer.parseInt(ListaDeviajes.getValueAt(i, 19).toString());
+
+                }
+
+                if (func.liberacionCartaDeCobro(no_guia, codigoArea).equalsIgnoreCase("success")) {
+
+                    aux.mensaje("Se liberaron correctamente las " + ListaDeviajes.getRowCount() + " Cartas de cobro ", "informativo");
+
+                    String[] cartaGuias = jTextField1.getText().trim().split(" ");
+                    boolean estado = checkEstado.isSelected();
+                    mostrar(cartaGuias, estado,true);
+
+                } else {
+                    aux.mensaje("No se liberaron las " + ListaDeviajes.getRowCount() + " Carta Porte ", "informativo");
+                }
+
+            }
+
+        } catch (Exception e) {
+            aux.mensaje("Error " + e.getMessage(), "informativo");
+        }
+
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox CheckRemision;
     private javax.swing.JTable ListaDeviajes;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JCheckBox checkEstado;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

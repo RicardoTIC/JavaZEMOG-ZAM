@@ -29,7 +29,7 @@ public class frmGeneradorSQLServer extends javax.swing.JInternalFrame {
         lblError.setVisible(false);
         txtCodigoRuta.setVisible(false);
         lblCodigoRuta.setVisible(false);
-        
+
     }
 
     @SuppressWarnings("unchecked")
@@ -205,7 +205,7 @@ public class frmGeneradorSQLServer extends javax.swing.JInternalFrame {
                 int codigoRuta = Integer.parseInt(lblCodigoRuta.getText());
                 for (int i = 0; i < folios.length; i++) {
 
-                    nuevoCadenaSql[i] = "update dbo.trafico_guia set prestamo = 'P', status_guia = 'A' where no_guia in (" + folios[i] + ") and id_area = "+ codigoRuta +"";
+                    nuevoCadenaSql[i] = "update dbo.trafico_guia set prestamo = 'P', status_guia = 'A' where no_guia in (" + folios[i] + ") and id_area = " + codigoRuta + "";
                 }
                 txtConsulta.append("BEGIN TRANSACTION \n");
                 for (int i = 0; i <= nuevoCadenaSql.length - 1; i++) {
@@ -214,14 +214,14 @@ public class frmGeneradorSQLServer extends javax.swing.JInternalFrame {
 
                 }
 
-            } else {
+            } else if (cboAcciones.getSelectedItem().toString().equalsIgnoreCase("Libreacion de factura")) {
 
                 for (int i = 0; i < folios.length; i++) {
-                    nuevoCadenaSql[i] = "update dbo.trafico_guia set prestamo = 'P' , status_guia = 'A' where num_guia in('" + folios[i] + "')";
+                    nuevoCadenaSql[i] = "update dbo.trafico_guia set num_guia_asignado = null where num_guia in('" + folios[i] + "')";
                 }
-
+                txtConsulta.append("BEGIN TRANSACTION \n");
                 for (int i = 0; i <= nuevoCadenaSql.length - 1; i++) {
-                    txtConsulta.append("BEGIN TRANSACTION \n");
+
                     txtConsulta.append(nuevoCadenaSql[i] + "\n");
                     txtConsulta.append("" + "\n");
 
@@ -229,7 +229,8 @@ public class frmGeneradorSQLServer extends javax.swing.JInternalFrame {
 
             }
 
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
+            
             lblError.setVisible(true);
             lblError.setText("Error " + e.getMessage() + " Clase" + getClass().getName());
             lblError.setOpaque(false);
@@ -254,34 +255,29 @@ public class frmGeneradorSQLServer extends javax.swing.JInternalFrame {
             aux.mensaje("Recuerda que debes de ingresar las guias para poder liberar la carta porte", "Informativo");
 
         }
-        
+
         if (cboAcciones.getSelectedItem().toString().equalsIgnoreCase("Liberacion carta porte")) {
-              txtCodigoRuta.setVisible(true);
-              lblCodigoRuta.setVisible(true);
-              
-              aux.mensaje("Debes de ingresar un codigo de ruta y numero de guia", "Informativo");
-              
-              
+            txtCodigoRuta.setVisible(true);
+            lblCodigoRuta.setVisible(true);
+
+            aux.mensaje("Debes de ingresar un codigo de ruta y numero de guia", "Informativo");
+
         }
-        
+
 
     }//GEN-LAST:event_cboAccionesActionPerformed
 
     private void txtCodigoRutaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtCodigoRutaMouseClicked
-       
-        
+
+
     }//GEN-LAST:event_txtCodigoRutaMouseClicked
 
     private void txtCodigoRutaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoRutaKeyReleased
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER ) {
-             
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
             Sucursal suc = funcSucursal.datosSucursal(txtCodigoRuta.getText());
             lblCodigoRuta.setText(String.valueOf(suc.getId_area()));
-            
-            
-            
-            
-            
+
         }
     }//GEN-LAST:event_txtCodigoRutaKeyReleased
 
